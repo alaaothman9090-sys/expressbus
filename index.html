@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e1a">
+<title>EXPRESSBUS | اكسبريس باص — منصة الكول سنتر</title>
+<meta name="description" content="منصة متكاملة لخدمة عملاء شركة اكسبريس باص EXPRESSBUS — الشكاوى المتوقعة والردود الاحترافية، وسياسات العمل المعتمدة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e1a; --bg-2:#0f1525; --surface:#141b2e; --surface-2:#1a2238;
+    --card:#1e2740; --border:#2a3556; --border-soft:#222c47;
+    --primary:#e63946; --primary-dark:#c1121f; --primary-soft:#2a1620;
+    --accent:#ffb703; --accent-2:#fb8500; --green:#06d6a0;
+    --text:#f1f5f9; --text-2:#cbd5e1; --text-3:#8b97b3; --text-4:#5e6a87;
+    --radius:16px; --shadow:0 10px 40px -10px rgba(0,0,0,.5);
+    --transition:.25s cubic-bezier(.4,0,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:'Tajawal','Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(230,57,70,.12),transparent),radial-gradient(ellipse 60% 50% at 90% 10%,rgba(255,135,0,.07),transparent),radial-gradient(ellipse 50% 40% at 0% 30%,rgba(255,183,3,.05),transparent)}
+  ::selection{background:var(--primary);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-track{background:var(--bg-2)}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;border:2px solid var(--bg-2)}
+  ::-webkit-scrollbar-thumb:hover{background:var(--primary)}
+
+  .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,14,26,.78);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid var(--border-soft);transition:var(--transition)}
+  .nav-inner{max-width:1280px;margin:0 auto;padding:.65rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--text)}
+  .brand-logo{width:40px;height:40px;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(230,57,70,.4))}
+  .brand-text{display:flex;flex-direction:column;line-height:1.1}
+  .brand-name{font-family:'Cairo',sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:.5px;background:linear-gradient(135deg,#fff 0%,#ffb703 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .brand-sub{font-size:.68rem;color:var(--text-3);font-weight:600;letter-spacing:1px}
+  .nav-links{display:flex;align-items:center;gap:.2rem;list-style:none}
+  .nav-links a{color:var(--text-2);text-decoration:none;font-weight:600;font-size:.9rem;padding:.5rem .8rem;border-radius:10px;transition:var(--transition)}
+  .nav-links a:hover{color:#fff;background:var(--surface-2)}
+  .nav-cta{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff!important;padding:.6rem 1.2rem!important;border-radius:30px!important;box-shadow:0 4px 15px rgba(230,57,70,.4);font-weight:700!important}
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(230,57,70,.55)!important}
+  .menu-toggle{display:none;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:1.3rem;cursor:pointer;padding:.4rem .6rem;border-radius:10px;line-height:1}
+
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:6.5rem 1.1rem 3rem;overflow:hidden}
+  .hero-grid{max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:center;position:relative;z-index:2}
+  .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--primary-soft);border:1px solid rgba(230,57,70,.3);color:var(--primary);padding:.4rem 1rem;border-radius:30px;font-size:.8rem;font-weight:700;margin-bottom:1.3rem}
+  .hero-badge .dot{width:8px;height:8px;background:var(--primary);border-radius:50%;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+  .hero h1{font-family:'Cairo',sans-serif;font-weight:900;font-size:clamp(2rem,5.5vw,3.8rem);line-height:1.18;margin-bottom:1.2rem}
+  .hero h1 .grad{background:linear-gradient(135deg,var(--primary) 0%,var(--accent-2) 50%,var(--accent) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero h1 .line2{display:block;color:var(--text);font-size:.62em;margin-top:.3rem;font-weight:800}
+  .hero p{font-size:1.08rem;color:var(--text-2);margin-bottom:1.8rem;max-width:560px}
+  .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.2rem}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;padding:.9rem 1.6rem;border-radius:12px;font-weight:700;font-size:1rem;transition:var(--transition);cursor:pointer;border:none;font-family:inherit}
+  .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 8px 25px -8px rgba(230,57,70,.6)}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 35px -8px rgba(230,57,70,.75)}
+  .btn-ghost{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+  .btn-ghost:hover{background:var(--surface-2);border-color:var(--primary);transform:translateY(-3px)}
+  .hero-stats{display:flex;gap:1.8rem;flex-wrap:wrap}
+  .stat-num{font-family:'Cairo',sans-serif;font-size:1.8rem;font-weight:900;color:var(--accent);line-height:1;display:block}
+  .stat-label{font-size:.8rem;color:var(--text-3);margin-top:.3rem;font-weight:600}
+
+  .hero-visual{position:relative;display:flex;align-items:center;justify-content:center;min-height:400px}
+  .logo-blob{position:absolute;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,rgba(230,57,70,.25),transparent 60%);filter:blur(30px);animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+  .logo-big{width:280px;height:280px;position:relative;z-index:2;filter:drop-shadow(0 20px 50px rgba(230,57,70,.4))}
+  .ring{position:absolute;border:1px solid var(--border);border-radius:50%;animation:spin 30s linear infinite}
+  .ring.r1{width:350px;height:350px;border-color:rgba(230,57,70,.15)}
+  .ring.r2{width:430px;height:430px;border-color:rgba(255,183,3,.1);animation-direction:reverse;animation-duration:45s}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .float-card{position:absolute;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.75rem 1rem;display:flex;align-items:center;gap:.55rem;box-shadow:var(--shadow);z-index:3;backdrop-filter:blur(10px);font-size:.82rem;font-weight:700;animation:floatY 5s ease-in-out infinite}
+  .float-card .ico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+  .fc-1{top:8%;left:-5%}.fc-2{bottom:15%;right:-3%;animation-delay:1.5s}.fc-3{top:45%;right:-8%;animation-delay:3s}
+  @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+
+  section{padding:4.5rem 1.1rem;position:relative}
+  .container{max-width:1280px;margin:0 auto}
+  .section-head{text-align:center;max-width:760px;margin:0 auto 3rem}
+  .section-tag{display:inline-flex;align-items:center;gap:.5rem;color:var(--primary);font-weight:800;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:.9rem}
+  .section-tag::before,.section-tag::after{content:'';width:26px;height:2px;background:linear-gradient(90deg,transparent,var(--primary))}
+  .section-tag::after{background:linear-gradient(90deg,var(--primary),transparent)}
+  .section-title{font-family:'Cairo',sans-serif;font-size:clamp(1.7rem,3.8vw,2.5rem);font-weight:900;margin-bottom:.9rem;line-height:1.25}
+  .section-title .grad{background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .section-desc{color:var(--text-2);font-size:1.02rem}
+  .alt-bg{background:var(--bg-2);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+
+  .stats-band{padding:2.5rem 1.1rem;background:linear-gradient(135deg,var(--primary-dark),var(--bg-2))}
+  .stats-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+  .stat-card{text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:1.5rem .8rem;backdrop-filter:blur(10px)}
+  .stat-card .ico{font-size:1.8rem;margin-bottom:.4rem}
+  .stat-card .num{font-family:'Cairo',sans-serif;font-size:2.1rem;font-weight:900;color:#fff;line-height:1}
+  .stat-card .lbl{color:rgba(255,255,255,.75);font-size:.85rem;margin-top:.3rem;font-weight:600}
+
+  .toolbar{position:sticky;top:60px;z-index:50;background:rgba(15,21,37,.92);backdrop-filter:blur(15px);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem;display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+  .search-box{flex:1;min-width:200px;position:relative}
+  .search-box input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.8rem 2.7rem .8rem 1rem;border-radius:12px;font-size:16px;font-family:inherit;transition:var(--transition)}
+  .search-box input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(230,57,70,.15)}
+  .search-box input::placeholder{color:var(--text-4)}
+  .search-box .search-ico{position:absolute;right:1rem;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:1.05rem;pointer-events:none}
+  .search-count{color:var(--text-3);font-size:.82rem;font-weight:600;white-space:nowrap}
+  .search-count b{color:var(--accent)}
+
+  .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+  .chip{background:var(--surface);border:1px solid var(--border);color:var(--text-2);padding:.5rem 1rem;border-radius:30px;font-size:.82rem;font-weight:700;cursor:pointer;transition:var(--transition);font-family:inherit;-webkit-tap-highlight-color:transparent}
+  .chip:hover{border-color:var(--primary);color:#fff}
+  .chip.active{background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-color:transparent;color:#fff;box-shadow:0 4px 15px rgba(230,57,70,.35)}
+
+  .complaints-list{display:flex;flex-direction:column;gap:.9rem}
+  .complaint{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:var(--transition)}
+  .complaint:hover{border-color:var(--primary)}
+  .complaint-head{display:flex;align-items:flex-start;gap:.9rem;padding:1.1rem 1.2rem;cursor:pointer;-webkit-tap-highlight-color:transparent;min-height:56px}
+  .complaint-num{width:36px;height:36px;border-radius:10px;flex-shrink:0;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:900;font-family:'Cairo',sans-serif;font-size:.95rem;border:1px solid rgba(230,57,70,.3)}
+  .complaint-q{flex:1;font-weight:700;color:var(--text);font-size:1rem;line-height:1.65}
+  .complaint-toggle{width:30px;height:30px;flex-shrink:0;border-radius:8px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-3);transition:var(--transition);font-size:.9rem}
+  .complaint.open .complaint-toggle{background:var(--primary);color:#fff;transform:rotate(180deg)}
+  .complaint-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+  .complaint.open .complaint-body{max-height:700px}
+  .complaint-answer{padding:1.1rem 1.2rem 1.3rem;border-top:1px solid var(--border-soft);color:var(--text-2);line-height:1.9;display:flex;gap:.75rem;margin-top:.1rem}
+  .complaint-answer .ans-tag{flex-shrink:0;width:32px;height:32px;border-radius:8px;background:rgba(6,214,160,.12);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:1rem}
+
+  .cat-block{margin-bottom:2.5rem}
+  .cat-title{font-family:'Cairo',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:1.2rem;display:flex;align-items:center;gap:.65rem;color:var(--text);padding-bottom:.7rem;border-bottom:2px solid var(--border)}
+  .cat-title .cat-ico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+  .cat-title .count{margin-right:auto;font-size:.82rem;color:var(--text-3);font-weight:600;background:var(--surface);padding:.25rem .8rem;border-radius:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem}
+  .item-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;transition:var(--transition);position:relative;overflow:hidden}
+  .item-card::before{content:'';position:absolute;top:0;right:0;width:4px;height:0;background:linear-gradient(180deg,var(--primary),var(--accent));transition:height .35s ease}
+  .item-card:hover{border-color:var(--primary);transform:translateY(-4px);box-shadow:0 12px 30px -10px rgba(0,0,0,.5)}
+  .item-card:hover::before{height:100%}
+  .item-head{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.55rem}
+  .item-num{width:30px;height:30px;border-radius:8px;flex-shrink:0;background:var(--surface-2);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;font-family:'Cairo',sans-serif}
+  .item-title{font-weight:800;color:var(--text);font-size:1rem;line-height:1.5}
+  .item-desc{color:var(--text-2);font-size:.92rem;line-height:1.75;padding-right:2.5rem}
+
+  .no-results{text-align:center;padding:3rem 1rem;color:var(--text-3);display:none}
+  .no-results.show{display:block}
+  .no-results .ico{font-size:2.8rem;margin-bottom:.8rem;opacity:.5}
+
+  .cta-section{padding:3.5rem 1.1rem}
+  .cta-box{max-width:1000px;margin:0 auto;text-align:center;background:linear-gradient(135deg,var(--primary-dark),#7a1020);border-radius:24px;padding:3rem 1.8rem;position:relative;overflow:hidden}
+  .cta-box::before{content:'';position:absolute;top:-50%;right:-20%;width:540px;height:540px;background:radial-gradient(circle,rgba(255,183,3,.15),transparent 60%);filter:blur(20px)}
+  .cta-box h2{font-family:'Cairo',sans-serif;font-size:clamp(1.5rem,4vw,2.3rem);font-weight:900;margin-bottom:.9rem;position:relative}
+  .cta-box p{color:rgba(255,255,255,.85);font-size:1.05rem;margin-bottom:1.8rem;max-width:560px;margin-inline:auto;position:relative}
+
+  footer{background:var(--bg-2);border-top:1px solid var(--border-soft);padding:2.5rem 1.1rem 1.8rem}
+  .footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:2rem}
+  .footer-brand .brand{margin-bottom:.9rem}
+  .footer-brand p{color:var(--text-3);font-size:.88rem;line-height:1.8}
+  .footer-col h5{font-family:'Cairo',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.9rem;color:var(--text)}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+  .footer-col a{color:var(--text-3);text-decoration:none;font-size:.88rem;transition:var(--transition)}
+  .footer-col a:hover{color:var(--primary);padding-right:5px}
+  .footer-bottom{max-width:1280px;margin:2rem auto 0;padding-top:1.4rem;border-top:1px solid var(--border-soft);text-align:center;color:var(--text-4);font-size:.82rem}
+
+  .mobile-nav{position:fixed;top:0;right:-100%;width:82%;max-width:320px;height:100vh;z-index:1100;background:var(--bg-2);border-left:1px solid var(--border);padding:4.5rem 1.4rem 2rem;transition:right .35s ease;overflow-y:auto}
+  .mobile-nav.open{right:0}
+  .mobile-nav ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+  .mobile-nav a{color:var(--text-2);text-decoration:none;padding:.85rem 1rem;border-radius:10px;font-weight:600;display:block;transition:var(--transition);font-size:1rem}
+  .mobile-nav a:hover{background:var(--surface);color:#fff}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1050;opacity:0;visibility:hidden;transition:var(--transition)}
+  .overlay.show{opacity:1;visibility:visible}
+  .close-mobile{position:absolute;top:1rem;left:1rem;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:1.4rem;cursor:pointer;border-radius:10px;width:40px;height:40px;line-height:1}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  .to-top{position:fixed;bottom:1.4rem;left:1.4rem;width:46px;height:46px;border-radius:50%;z-index:900;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;opacity:0;visibility:hidden;transition:var(--transition);box-shadow:0 8px 25px rgba(230,57,70,.4)}
+  .to-top.show{opacity:1;visibility:visible}
+  .to-top:hover{transform:translateY(-4px)}
+
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr;gap:2rem;text-align:center}
+    .hero p,.hero-actions,.hero-stats,.hero-badge{margin-inline:auto;justify-content:center}
+    .hero-visual{min-height:330px;order:-1}
+    .logo-big{width:200px;height:200px}
+    .ring.r1{width:270px;height:270px}.ring.r2{width:330px;height:330px}
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .footer-inner{grid-template-columns:1fr 1fr;gap:1.8rem}
+    .nav-links{display:none}
+    .menu-toggle{display:block}
+  }
+  @media(max-width:600px){
+    .nav-inner{padding:.55rem .9rem}
+    .brand-logo{width:36px;height:36px}
+    .brand-name{font-size:1rem}.brand-sub{font-size:.62rem}
+    section{padding:3.5rem 1rem}
+    .hero{padding-top:5.5rem;min-height:auto;padding-bottom:2.5rem}
+    .hero-visual{min-height:260px}
+    .logo-big{width:170px;height:170px}
+    .ring.r1{width:230px;height:230px}.ring.r2{width:290px;height:290px}
+    .logo-blob{width:300px;height:300px}
+    .float-card{display:none}
+    .grid{grid-template-columns:1fr}
+    .stats-grid{grid-template-columns:1fr 1fr;gap:.8rem}
+    .stat-card{padding:1.2rem .6rem}
+    .stat-card .num{font-size:1.7rem}
+    .footer-inner{grid-template-columns:1fr;gap:1.5rem}
+    .toolbar{top:56px;padding:.7rem;gap:.6rem}
+    .chips{margin-bottom:1rem}
+    .chip{padding:.45rem .85rem;font-size:.78rem}
+    .complaint-head{padding:1rem 1rem;gap:.7rem}
+    .complaint-num{width:32px;height:32px;font-size:.85rem}
+    .complaint-q{font-size:.95rem}
+    .complaint-answer{padding:1rem 1rem 1.2rem;gap:.6rem}
+    .cta-box{padding:2.2rem 1.4rem}
+    .btn{width:100%;padding:.95rem 1.4rem}
+    .to-top{bottom:1rem;left:1rem;width:42px;height:42px}
+  }
+  @media(max-width:380px){
+    .stat-card .num{font-size:1.4rem}
+    .complaint-toggle{width:26px;height:26px;font-size:.8rem}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e63946"/><stop offset="55%" stop-color="#fb8500"/><stop offset="100%" stop-color="#ffb703"/>
+    </linearGradient>
+    <linearGradient id="logoGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0a0e1a"/><stop offset="100%" stop-color="#1e2740"/>
+    </linearGradient>
+  </defs>
+  <symbol id="eb-logo" viewBox="0 0 100 100">
+    <path d="M50 4 L88 22 V52 C88 74 72 90 50 96 C28 90 12 74 12 52 V22 Z" fill="url(#logoGrad2)" stroke="url(#logoGrad)" stroke-width="2.5"/>
+    <path d="M70 38 C64 34 56 33 48 36 L30 42 C37 36 44 33 52 33 C58 33 64 35 70 38 Z" fill="url(#logoGrad)"/>
+    <path d="M72 44 C66 41 58 40 50 42 L28 50 C36 45 44 43 52 43 C59 43 66 44 72 44 Z" fill="url(#logoGrad)" opacity=".92"/>
+    <path d="M34 50 L52 48 L44 54 L34 50 Z" fill="#ffb703"/>
+    <rect x="28" y="60" width="30" height="2.5" rx="1.2" fill="url(#logoGrad)"/>
+    <rect x="34" y="66" width="22" height="2.5" rx="1.2" fill="url(#logoGrad)" opacity=".7"/>
+    <rect x="40" y="72" width="14" height="2.5" rx="1.2" fill="url(#logoGrad)" opacity=".45"/>
+  </symbol>
+</svg>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="brand">
+      <svg class="brand-logo"><use href="#eb-logo"/></svg>
+      <span class="brand-text"><span class="brand-name">EXPRESSBUS</span><span class="brand-sub">اكسبريس باص</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#complaints">الشكاوى</a></li>
+      <li><a href="#policies">السياسات</a></li>
+      <li><a href="#complaints" class="nav-cta">ابدأ الآن</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="القائمة">☰</button>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay"></div>
+<aside class="mobile-nav" id="mobileNav">
+  <button class="close-mobile" id="closeMobile">✕</button>
+  <ul>
+    <li><a href="#home">الرئيسية</a></li>
+    <li><a href="#complaints">الشكاوى المتوقعة والردود</a></li>
+    <li><a href="#policies">سياسات الموظف</a></li>
+  </ul>
+</aside>
+
+<header class="hero" id="home">
+  <div class="hero-grid">
+    <div class="hero-content reveal">
+      <span class="hero-badge"><span class="dot"></span> منصة خدمة العملاء</span>
+      <h1>منظومة <span class="grad">الكول سنتر</span><span class="line2">شركة اكسبريس باص — EXPRESSBUS</span></h1>
+      <p>منصة احترافية تضم الشكاوى المتوقعة والردود الاحترافية بالعامية المصرية، وسياسات العمل المعتمدة — لرفع كفاءة موظفي خدمة العملاء وتحسين تجربة الركاب.</p>
+      <div class="hero-actions">
+        <a href="#complaints" class="btn btn-primary">تصفح الشكاوى والردود ←</a>
+        <a href="#policies" class="btn btn-ghost">سياسات العمل</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">40</span><span class="stat-label">شكوى ورد احترافي</span></div>
+        <div class="stat"><span class="stat-num">60</span><span class="stat-label">سياسة عمل معتمدة</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="logo-blob"></div>
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <svg class="logo-big"><use href="#eb-logo"/></svg>
+      <div class="float-card fc-1"><span class="ico" style="background:rgba(230,57,70,.15);color:#e63946">📞</span> رد فوري</div>
+      <div class="float-card fc-2"><span class="ico" style="background:rgba(255,183,3,.15);color:#ffb703">⭐</span> تجربة مميزة</div>
+      <div class="float-card fc-3"><span class="ico" style="background:rgba(6,214,160,.15);color:#06d6a0">✓</span> حلول احترافية</div>
+    </div>
+  </div>
+</header>
+
+<div class="stats-band">
+  <div class="stats-grid">
+    <div class="stat-card"><div class="ico">🎫</div><div class="num">40</div><div class="lbl">شكوى متوقعة</div></div>
+    <div class="stat-card"><div class="ico">📋</div><div class="num">60</div><div class="lbl">سياسة عمل</div></div>
+    <div class="stat-card"><div class="ico">📞</div><div class="num">24/7</div><div class="lbl">دعم متواصل</div></div>
+    <div class="stat-card"><div class="ico">🚍</div><div class="num">100%</div><div class="lbl">هوية EXPRESSBUS</div></div>
+  </div>
+</div>
+
+<section id="complaints">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">القسم الأول</span>
+      <h2 class="section-title">الشكاوى المتوقعة <span class="grad">والردود الاحترافية</span></h2>
+      <p class="section-desc">40 شكوى شائعة قد يواجهها موظفو الكول سنتر مع الردود الاحترافية المقترحة بالعامية المصرية لامتصاص غضب العملاء وتقديم حلول فعّالة. اضغط على أي شكوى لعرض الرد.</p>
+    </div>
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" id="complaintSearch" placeholder="ابحث... (فودافون كاش، تأخير، إلغاء)">
+        <span class="search-ico">🔍</span>
+      </div>
+      <span class="search-count">النتائج: <b id="complaintCount">40</b></span>
+    </div>
+    <div class="chips" id="complaintChips"></div>
+    <div class="complaints-list" id="complaintsList"></div>
+    <div class="no-results" id="noComplaints"><div class="ico">🔍</div><p>لا توجد نتائج مطابقة لبحثك</p></div>
+  </div>
+</section>
+
+<section id="policies" class="alt-bg">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">القسم الثاني</span>
+      <h2 class="section-title">سياسات <span class="grad">موظف الكول سنتر</span></h2>
+      <p class="section-desc">سياسات عمل واضحة وموحدة لتوجيه موظفي الكول سنتر لتقديم خدمة عملاء ممتازة وضمان الكفاءة والاحترافية في جميع التعاملات.</p>
+    </div>
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" id="policySearch" placeholder="ابحث في السياسات...">
+        <span class="search-ico">🔍</span>
+      </div>
+      <span class="search-count">النتائج: <b id="policyCount">60</b></span>
+    </div>
+    <div class="chips" id="policyChips"></div>
+    <div id="policiesWrap"></div>
+    <div class="no-results" id="noPolicies"><div class="ico">🔍</div><p>لا توجد نتائج مطابقة لبحثك</p></div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-box reveal">
+    <h2>جاهزون لخدمة عملائنا؟</h2>
+    <p>منصة EXPRESSBUS توفر كل ما يحتاجه فريق الكول سنتر لتقديم تجربة استثنائية للركاب — من الردود الاحترافية إلى السياسات الواضحة.</p>
+    <a href="#home" class="btn btn-ghost" style="background:#fff;color:#0a0e1a">العودة للأعلى ↑</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#home" class="brand">
+        <svg class="brand-logo"><use href="#eb-logo"/></svg>
+        <span class="brand-text"><span class="brand-name">EXPRESSBUS</span><span class="brand-sub">اكسبريس باص</span></span>
+      </a>
+      <p>منصة متكاملة لإدارة وتطوير منظومة خدمة العملاء — شكاوى وردود احترافية، وسياسات عمل معتمدة لفريق الكول سنتر.</p>
+    </div>
+    <div class="footer-col">
+      <h5>الأقسام</h5>
+      <ul>
+        <li><a href="#complaints">الشكاوى المتوقعة</a></li>
+        <li><a href="#policies">سياسات الموظف</a></li>
+        <li><a href="#home">الرئيسية</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>تواصل معنا</h5>
+      <ul>
+        <li><a href="#">📞 خدمة العملاء</a></li>
+        <li><a href="#">🌐 الموقع الإلكتروني</a></li>
+        <li><a href="#">📱 تطبيق الموبايل</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 EXPRESSBUS | اكسبريس باص — جميع الحقوق محفوظة.</div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="للأعلى">↑</button>
+
+<script>
+const complaints = [
+  {cat:"تضارب الحجوزات",q:"يا فندم أنا حجزت ودفعت الفلوس، ودلوقتي بتقولي الكرسي مش متاح؟ ده كلام مش مظبوط خالص! أنا كده اتعطلت وممكن أروح عليا ميعاد مهم.",a:"يا فندم حقك عليا جداً وأنا مقدر موقفك وغضبك تماماً، السيستم حدث فيه ضغط حجوزات في نفس الثانية من فرع تاني. لكن عشان راحتك تهمنا أنا هعمل لسيادتك ترقية فورية (Upgrade) على باص الـ VIP في الميعاد التالي مباشرة بدون أي فروق مالية، أو هشوف لسيادتك أقرب كرسي مميز متاح حالياً.. احنا هنا عشان نريحك."},
+  {cat:"تضارب الحجوزات",q:"ليه السيستم بتاعكم مش بيقفل الكراسي لما أجي أحجز؟ أنا ضيعت وقتي على الفاضي، وكنت فاكر إني خلاص حجزت.",a:"أنا آسف جداً للإزعاج اللي حصل يا فندم. إحنا بنشتغل على تطوير السيستم حالياً عشان يضمن لحضرتك حجز مؤقت للكرسي بمجرد اختياره، وده هيمنع أي تضارب في المستقبل. حالياً، خليني أساعدك نلاقي أفضل بديل متاح يناسبك."},
+  {cat:"مدفوعات فودافون كاش",q:"أنا حولت الفلوس من فودافون كاش بقالي ساعة ومحدش أكد الحجز بتاعي، هو في إيه؟",a:"بعتذر جداً على التأخير يا فندم. في بعض الأحيان، عملية تأكيد الدفع اليدوية بتاخد وقت أطول. لكن ما تقلقش، أنا بتأكد دلوقتي من التحويل وهأكد لحضرتك الحجز فوراً. إحنا بنشتغل على ربط آلي لمدفوعات فودافون كاش عشان العملية تتم بشكل أسرع في المستقبل."},
+  {cat:"مدفوعات فودافون كاش",q:"أنا عايز أرجع فلوس تذكرة دفعتها فودافون كاش، والموظف بيقولي الموضوع هياخد أيام. هو مفيش طريقة أسرع؟",a:"أنا متفهم تماماً رغبتك في سرعة استرداد المبلغ يا فندم. حالياً، الإجراءات بتاخد بعض الوقت، لكن إحنا بنطور السيستم عشان نوفر ميزة استرجاع المبلغ بضغطة زر واحدة في أقرب وقت ممكن. خليني أتابع مع قسم الحسابات عشان نسرع لحضرتك عملية الاسترداد قدر الإمكان."},
+  {cat:"إلغاء العودة المفتوحة",q:"أنا عايز ألغي تذكرة العودة المفتوحة بتاعتي، والموظف بيقولي لازم أعمل حجز وهمي الأول. إيه التعقيد ده؟",a:"أنا آسف جداً على الإجراءات المعقدة دي يا فندم. إحنا عارفين إنها مش مريحة، وبنشتغل حالياً على تبسيطها في السيستم الجديد بحيث تقدر تلغي تذكرة العودة المفتوحة بخطوة واحدة بس. خليني أساعدك في إتمام الإلغاء بالطريقة المتاحة حالياً وأضمن لحضرتك إن كل حاجة هتكون مظبوطة."},
+  {cat:"سياسة الترحيل",q:"أنا عايز أرحل رحلتي بعد ساعتين، والموظف بيقولي فيه رسوم. ليه أدفع رسوم وأنا بغير الميعاد بس؟",a:"يا فندم، سياسة الترحيل بتنص على فرض رسوم إدارية بسيطة (25 جنيه) لو الترحيل قبل الرحلة بأقل من 4 ساعات وحتى ساعة واحدة، وده عشان بنكون حجزنا مكانك وممكن نكون رفضنا حجوزات تانية. لكن لو الترحيل قبل 4 ساعات بيكون مجاني تماماً. خليني أساعدك في إجراء الترحيل وأوضح لحضرتك كل التفاصيل."},
+  {cat:"سياسة الترحيل",q:"أنا عايز أرحل من تذكرة VIP لتذكرة بريميوم، والموظف بيقولي مش هيرجعلي فرق السعر كاش. ليه؟",a:"يا فندم، في حالة الترحيل من VIP لبريميوم، السياسة المتبعة هي إن فرق السعر بيتحول لرصيد في محفظتك بالشركة تقدر تستخدمه في رحلاتك الجاية، وده عشان نضمن لحضرتك الاستفادة الكاملة من المبلغ. الترحيل نفسه بيكون مجاني في الحالة دي. هل تحب أساعدك في إجراء الترحيل وتوضيح رصيدك المتاح؟"},
+  {cat:"سياسة الإلغاء والاسترداد",q:"أنا عايز ألغي رحلتي قبلها بـ 3 ساعات، والموظف بيقولي مش هينفع أسترد أي حاجة. ده ظلم!",a:"أنا متفهم شعورك يا فندم، لكن سياسة الإلغاء بتنص على عدم إمكانية استرداد المبلغ لو الإلغاء قبل الرحلة بأقل من 4 ساعات، وده بسبب إن المقعد بيكون خلاص اتخصص لحضرتك وصعب بيعه في وقت قصير كده. السياسة دي معمول بيها عشان نحافظ على كفاءة التشغيل. هل ممكن أساعدك في أي استفسار تاني؟"},
+  {cat:"سياسة الإلغاء والاسترداد",q:"أنا ألغيت رحلتي قبلها بـ 10 ساعات، والموظف خصم مني 20%. ليه الخصم ده؟",a:"يا فندم، سياسة الإلغاء بتنص على خصم 20% من قيمة التذكرة كرسوم إدارية لو الإلغاء تم قبل الرحلة بـ 12 ساعة وحتى 4 ساعات. ده بيعوض جزء من فرصة البيع اللي فقدناها بسبب الإلغاء في وقت قريب من ميعاد الرحلة. أنا تحت أمرك لو محتاج أي توضيح إضافي."},
+  {cat:"الرحلات الخاصة",q:"أنا عايز أحجز باص كامل لرحلة خاصة، والموظف بيقولي هحولك لمدير التشغيل. ليه ما تقدرش تديني سعر دلوقتي؟",a:"يا فندم، الرحلات الخاصة ليها ترتيبات خاصة عشان نضمن لحضرتك أفضل خدمة وسعر. موظف الكول سنتر بيجمع كل بياناتك (الاسم، الوجهة، التاريخ، عدد الأفراد) في نموذج مخصص، وبعد كده مدير التشغيل بيتواصل مع حضرتك مباشرة عشان يحدد السعر المناسب ويجاوب على كل استفساراتك. ده بيضمن لحضرتك أفضل عرض ممكن."},
+  {cat:"السياسات العامة",q:"أنا عايز أسافر ومعايا الكلب بتاعي، والموظف بيقولي ممنوع. ليه ممنوع؟ ده حيوان أليف!",a:"يا فندم، إحنا بنقدر حبك لحيوانك الأليف، لكن سياسة الشركة بتمنع اصطحاب أي نوع من الحيوانات الأليفة داخل الباص نهائياً. وده عشان نحافظ على راحة وسلامة كل الركاب، خاصة اللي ممكن يكون عندهم حساسية أو خوف. نتمنى تتفهم موقفنا."},
+  {cat:"السياسات العامة",q:"أنا عايز أشحن طرد، والموظف بيقولي لازم أروح الفرع. ليه ما ينفعش أحجز الشحن بالتليفون؟",a:"يا فندم، دور الكول سنتر في شحن البضائع هو إبلاغ حضرتك بالأسعار الاسترشادية وتوجيهك لأقرب فرع. لازم تروح الفرع عشان يتم إصدار بوليصة شحن رسمية للطرد، وده بيضمن حقوقك وسلامة الشحنة. هل تحب أقولك أقرب فرع ليك؟"},
+  {cat:"السائقين وموظفي الفروع",q:"السواق كان بيتعامل معايا بطريقة مش كويسة خالص، وصوته عالي. أنا متضايق جداً من المعاملة دي!",a:"أنا بعتذر لسيادتك جداً بالنيابة عن الشركة، الأسلوب ده لا يمثلنا تماماً واحنا بنهتم بكرامة وراحة كل عميل. أنا سجلت شكوى رسمية برقم (....) ضد السائق وهتترفع فوراً للإدارة القانونية وإدارة التشغيل، وهيتم التواصل مع سيادتك لإبلاغك بالإجراء اللي تم.. يهمنا تخرج من المكالمة وأنت راضي."},
+  {cat:"السائقين وموظفي الفروع",q:"الموظف في الفرع كان غير متعاون وماردش على استفساراتي كويس. أنا مش فاهم ليه المعاملة دي؟",a:"أنا آسف جداً لسوء المعاملة اللي تلقيتها يا فندم. ده مش المستوى اللي بنسعى ليه في خدمة عملائنا. أنا سجلت شكوى رسمية برقم (....) ضد الموظف وهتترفع للإدارة المختصة للتحقيق واتخاذ اللازم. إحنا بنسعى دايماً لتحسين مستوى الخدمة."},
+  {cat:"ضياع الأمتعة",q:"شنطتي ضاعت في الباص! أنا مش لاقيها، إيه اللي هيحصل دلوقتي؟",a:"ولا تقلق يا فندم، اهدى خالص وحقك علينا. أنا هاخذ من سيادتك رقم بوليصة الشنطة أو رقم الكرسي، وهتواصل فوراً مع مشرف محطة الوصول لمراجعة كاميرات المحطة والتأكد من مَنيْفِست الركاب اللي نزلوا في نفس محطتك، وهكلم سيادتك خلال نص ساعة بالظبط نكون حددنا مكانها.. شنطتك في أمان."},
+  {cat:"ضياع الأمتعة",q:"ليه مفيش نظام واضح للشنط؟ كل مرة بقلق على شنطتي.",a:"يا فندم، إحنا بنشتغل حالياً على تطبيق نظام (Luggage Tags) أو ملصقات الأمتعة المرقومة، بحيث كل شنطة هيكون ليها رقم خاص بيها، وده هيسهل تتبعها ويضمن إنها توصل بأمان. النظام ده هيوفر لحضرتك راحة بال أكبر في رحلاتك الجاية."},
+  {cat:"استفسارات عامة",q:"مواعيد الرحلات بتاعتكم مش واضحة على الموقع، كل شوية بلاقيها بتتغير.",a:"أنا آسف جداً على أي لخبطة في المواعيد يا فندم. إحنا بنحدث المواعيد باستمرار عشان تكون دقيقة. ممكن حضرتك تقولي إيه الميعاد اللي بتسأل عنه بالظبط وأنا أأكدهولك، وكمان هبلغ القسم المختص بملاحظتك عشان نحسن من وضوح المواعيد على الموقع."},
+  {cat:"استفسارات عامة",q:"الأسعار بتاعتكم غالية مقارنة بالشركات التانية، ليه؟",a:"يا فندم، إحنا بنقدم خدمة مميزة وباصات مريحة جداً، خاصة فئة الـ VIP اللي فيها مميزات كتير زي المقاعد الواسعة والشاشات والثلاجة. إحنا بنحرص على تقديم أفضل قيمة مقابل السعر، وبنراجع أسعارنا باستمرار عشان تكون تنافسية. ممكن أساعدك في اختيار الفئة المناسبة لاحتياجاتك؟"},
+  {cat:"استفسارات عامة",q:"أنا عايز أعرف إيه المميزات اللي في باص الـ VIP بالظبط؟",a:"باص الـ VIP بيتميز بمقاعد أوسع ومريحة جداً، ومدخل USB خاص لكل كرسي عشان تشحن موبايلك، وفيه ثلاجة داخلية لحفظ الأدوية أو المشروبات، وكمان شاشات عرض ترفيهية عشان تستمتع برحلتك. هي تجربة سفر مريحة ومميزة جداً."},
+  {cat:"استفسارات عامة",q:"هل فيه خصومات معينة متاحة حالياً؟",a:"أهلاً بحضرتك يا فندم. إحنا دايماً بنقدم عروض وخصومات مميزة. حالياً، عندنا خصم خاص لمرضى الأورام (السرطان) بنسبة 100% للمريض والمرافق. هل حضرتك بتسأل عن خصومات معينة أو ممكن أساعدك في معرفة تفاصيل الخصم ده؟"},
+  {cat:"استفسارات عامة",q:"أنا مريض أورام وعايز أستفيد من الخصم، إيه الأوراق المطلوبة؟",a:"ربنا يشفيك ويعافيك يا فندم. عشان تستفيد من الخصم، محتاجين صورة من سجل الكشف الطبي وبطاقتك الشخصية. بمجرد ما تبعتهم، بنصدر لحضرتك كود خصم خاص تقدر تستخدمه للحجز المجاني ذهاب وعودة ليك وللمرافق. ممكن أقولك إزاي تبعت الأوراق؟"},
+  {cat:"استفسارات عامة",q:"إيه طرق الدفع المتاحة عندكم؟",a:"عندنا طرق دفع متنوعة عشان نسهل عليك يا فندم. ممكن تدفع رقمي عن طريق InstaPay أو فودافون كاش. أو عن طريق الموقع الإلكتروني أو التطبيق باستخدام الفيزا. وكمان ممكن تدفع نقداً أو بكارت بنكي (فيزا) في أي فرع من فروعنا عن طريق ماكينات الـ POS."},
+  {cat:"استفسارات عامة",q:"أنا عايز أغير ميعاد رحلتي، هل فيه رسوم؟",a:"يا فندم، لو هتغير ميعاد رحلتك قبلها بأكثر من 4 ساعات، الترحيل بيكون مجاني تماماً. لو قبلها بأقل من 4 ساعات وحتى ساعة واحدة، بيكون فيه رسوم إدارية بسيطة 25 جنيه. ممكن أساعدك في تغيير الميعاد؟"},
+  {cat:"استفسارات عامة",q:"أنا عايز ألغي رحلتي، إيه سياسة الإلغاء؟",a:"سياسة الإلغاء بتعتمد على ميعاد الإلغاء يا فندم. لو ألغيت قبل الرحلة بـ 24 ساعة، بتسترد المبلغ بالكامل. لو قبلها بـ 12 ساعة وحتى 4 ساعات، بيتم خصم 20% من قيمة التذكرة. ولو قبلها بأقل من 4 ساعات، للأسف لا يمكن الإلغاء أو الاسترداد. هل تحب أساعدك في الإلغاء؟"},
+  {cat:"استفسارات عامة",q:"أنا عندي اقتراح لتطوير الخدمة، لمين أقوله؟",a:"يا فندم، إحنا بنرحب جداً بأي اقتراحات لتطوير الخدمة. ممكن حضرتك تقول الاقتراح دلوقتي وأنا هسجله وهرفعه للإدارة المختصة، أو ممكن تبعتهولنا على الإيميل المخصص للاقتراحات. شكراً لاهتمامك بمساعدتنا على التحسين."},
+  {cat:"جودة الخدمة داخل الباص",q:"الإنترنت في الباص كان ضعيف جداً أو مش شغال.",a:"أنا آسف جداً على مشكلة الإنترنت يا فندم. ده مش المفروض يحصل، وإحنا بنراجع أداء الشبكة في الباصات باستمرار. ممكن حضرتك تقولي رقم الباص أو ميعاد الرحلة عشان أبلغ قسم التشغيل يراجع المشكلة دي فوراً؟"},
+  {cat:"جودة الخدمة داخل الباص",q:"المقاعد مش مريحة زي ما كنت متوقع.",a:"أنا آسف لو المقاعد ما كانتش على مستوى توقعاتك يا فندم. إحنا بنوفر فئتين، البريميوم والـ VIP اللي بتتميز بمقاعد أوسع وأكثر راحة. ممكن حضرتك تقولي إيه الفئة اللي كنت حاجزها عشان أقدر أفهم المشكلة بشكل أفضل وأبلغ بيها؟"},
+  {cat:"جودة الخدمة داخل الباص",q:"التكييف في الباص كان مش مظبوط، يا إما ساقع جداً يا إما حر.",a:"بعتذر جداً على مشكلة التكييف يا فندم. راحة عملائنا أولويتنا. ممكن حضرتك تقولي رقم الباص وميعاد الرحلة عشان أبلغ قسم الصيانة يراجع التكييف في الباص ده فوراً ويتأكد من ضبطه؟"},
+  {cat:"جودة الخدمة داخل الباص",q:"الباص اتأخر عن ميعاده كتير بدون أي إبلاغ.",a:"أنا آسف جداً على التأخير اللي حصل يا فندم، وأنا متفهم تماماً إن ده بيسبب إزعاج. المفروض إننا بنبلغ العملاء بأي تأخير. ممكن حضرتك تقولي رقم الرحلة وميعادها عشان أراجع سبب التأخير وأتأكد إن ده ما يتكررش تاني؟"},
+  {cat:"جودة الخدمة داخل الباص",q:"السواق كان بيسوق بسرعة أو بتهور.",a:"أنا آسف جداً لسماع ده يا فندم. سلامة عملائنا أهم حاجة عندنا. أنا سجلت شكوى رسمية ضد السائق ده برقم (....) وهتترفع فوراً للإدارة المختصة للتحقيق واتخاذ الإجراءات اللازمة. شكراً لاهتمامك بإبلاغنا."},
+  {cat:"جودة الخدمة داخل الباص",q:"النظافة في الباص ما كانتش كويسة.",a:"أنا آسف جداً على أي تقصير في النظافة يا فندم. إحنا بنحرص على نظافة باصاتنا بشكل مستمر. ممكن حضرتك تقولي رقم الباص وميعاد الرحلة عشان أبلغ قسم النظافة يراجع الباص ده ويتأكد من نظافته بشكل أفضل؟"},
+  {cat:"جودة الخدمة داخل الباص",q:"كان فيه إزعاج أو دوشة كتير من الركاب التانيين ومحدش تدخل.",a:"أنا آسف جداً على الإزعاج اللي حصل يا فندم. المفروض إن السائق أو المشرف بيتدخل في حالات الإزعاج. ممكن حضرتك تقولي رقم الباص وميعاد الرحلة عشان أبلغ الإدارة المختصة تراجع الموضوع ده وتتأكد من توفير بيئة هادية ومريحة للركاب؟"},
+  {cat:"المحطات والمرافق",q:"المحطة ما كانتش مجهزة كويس أو مفيش مكان للانتظار.",a:"أنا آسف جداً على أي إزعاج في المحطة يا فندم. إحنا بنسعى دايماً لتحسين محطاتنا. ممكن حضرتك تقولي إيه المحطة اللي بتتكلم عنها بالظبط عشان أبلغ الإدارة المختصة تراجع وضعها وتعمل على تطويرها؟"},
+  {cat:"التقنية والدفع",q:"واجهت صعوبة في استخدام الموقع الإلكتروني أو التطبيق للحجز.",a:"أنا آسف جداً على أي صعوبة واجهتها في استخدام الموقع أو التطبيق يا فندم. إحنا بنشتغل دايماً على تحسين تجربة المستخدم. ممكن حضرتك تقولي إيه المشكلة اللي واجهتك بالظبط عشان أبلغ بيها القسم التقني ويتم حلها؟"},
+  {cat:"التقنية والدفع",q:"خدمة العملاء كانت بطيئة في الرد على استفساراتي.",a:"أنا آسف جداً على أي تأخير في الرد يا فندم. إحنا بنسعى دايماً لتقديم خدمة سريعة وفعالة. ممكن حضرتك تقولي إيه الاستفسار اللي كنت بتسأل عنه عشان أساعدك فيه دلوقتي وأتأكد إن ده ما يتكررش تاني؟"},
+  {cat:"التقنية والدفع",q:"حاولت أتواصل معاكم على الفيسبوك أو الواتساب ومحدش رد.",a:"أنا آسف جداً على عدم الرد يا فندم. إحنا بنحاول نرد على كل الرسائل في أسرع وقت ممكن. ممكن حضرتك تقولي إيه الرسالة اللي بعتها أو إيه استفسارك عشان أساعدك فيه دلوقتي؟"},
+  {cat:"جودة الخدمة داخل الباص",q:"المشروبات أو الوجبات اللي في الباص ما كانتش كويسة (لو كانت متاحة).",a:"أنا آسف جداً لو المشروبات أو الوجبات ما كانتش على مستوى توقعاتك يا فندم. إحنا بنحرص على تقديم أفضل جودة. ممكن حضرتك تقولي إيه المشكلة اللي واجهتك بالظبط عشان أبلغ بيها القسم المختص ويتم مراجعة الموردين؟"},
+  {cat:"المحطات والمرافق",q:"المقاعد المخصصة لذوي الاحتياجات الخاصة ما كانتش متاحة أو مجهزة.",a:"أنا آسف جداً على أي تقصير في توفير المقاعد المخصصة لذوي الاحتياجات الخاصة يا فندم. ده أمر مهم جداً بالنسبة لنا. ممكن حضرتك تقولي رقم الرحلة وميعادها عشان أبلغ الإدارة المختصة تراجع الموضوع ده وتتأكد من توفير كل التسهيلات اللازمة؟"},
+  {cat:"التقنية والدفع",q:"واجهت مشكلة في الدفع بالفيزا في الفرع.",a:"أنا آسف جداً على مشكلة الدفع بالفيزا يا فندم. ممكن حضرتك تقولي إيه المشكلة اللي واجهتك بالظبط (مثلاً الماكينة مش شغالة، أو الفيزا مرفوضة) عشان أبلغ بيها القسم المختص ويتم حلها؟"},
+  {cat:"استفسارات عامة",q:"أنا عايز أغير بيانات الحجز بتاعتي (زي الاسم أو رقم التليفون).",a:"أهلاً بحضرتك يا فندم. ممكن أساعدك في تغيير بيانات الحجز. ممكن تقولي إيه البيانات اللي محتاج تعدلها ورقم الحجز بتاعك؟"}
+];
+
+const policyCategories = [
+  {name:"التعامل مع العملاء",ico:"🤝",color:"#4361ee",items:[
+    "الترحيب بالعميل: يجب على الموظف البدء بتحية العميل بابتسامة (حتى عبر الهاتف) وتقديم نفسه واسم الشركة بوضوح.",
+    "الاستماع الفعال: يجب على الموظف الاستماع جيداً للعميل دون مقاطعة، وفهم مشكلته أو استفساره بشكل كامل.",
+    "التعاطف مع العميل: يجب على الموظف إظهار التعاطف مع مشاعر العميل، خاصة في حالات الشكاوى أو الغضب.",
+    "الاحترافية في الحديث: يجب على الموظف استخدام لغة مهذبة ومحترمة، وتجنب العامية المبالغ فيها أو المصطلحات غير المفهومة.",
+    "وضوح الصوت: يجب على الموظف التحدث بصوت واضح ومسموع، وبنبرة هادئة وواثقة.",
+    "تقديم الحلول: يجب على الموظف تقديم حلول واضحة ومباشرة لمشكلة العميل، أو توجيهه للجهة المختصة إذا لزم الأمر.",
+    "تأكيد الفهم: يجب على الموظف التأكد من أن العميل قد فهم الحل أو الإجراءات المطلوبة منه.",
+    "إنهاء المكالمة باحترافية: يجب على الموظف إنهاء المكالمة بشكر العميل والتأكد من رضاه قبل إغلاق الخط.",
+    "عدم الجدال مع العميل: يجب على الموظف تجنب الدخول في جدال مع العميل، والتركيز على حل المشكلة.",
+    "التعامل مع الغضب: في حالات غضب العميل الشديد، يجب على الموظف امتصاص الغضب أولاً ثم محاولة تهدئة العميل وتقديم المساعدة."
+  ]},
+  {name:"الحجز وتعديلاته",ico:"🎫",color:"#e63946",items:[
+    "دقة إدخال البيانات: يجب على الموظف التأكد من دقة جميع البيانات المدخلة عند الحجز (الاسم، رقم الهاتف، الوجهة، الميعاد، فئة الباص).",
+    "تأكيد الحجز: يجب على الموظف تأكيد تفاصيل الحجز مع العميل قبل إتمامه، وإبلاغه برقم الحجز.",
+    "سياسة الحجز المؤقت: يجب على الموظف إبلاغ العميل بسياسة الحجز المؤقت للمقعد (10-15 دقيقة) وضرورة إتمام الدفع خلال هذه الفترة.",
+    "تعديل الحجز (الترحيل): يجب على الموظف شرح سياسة الترحيل بوضوح للعميل، بما في ذلك الرسوم المطبقة والفروقات بين الفئات.",
+    "فروقات الأسعار: في حالة الترحيل من فئة أعلى لأقل، يجب إبلاغ العميل بأن فرق السعر يضاف كرصيد في محفظته بالشركة.",
+    "إلغاء الحجز: يجب على الموظف شرح سياسة الإلغاء والاسترداد بوضوح، مع توضيح نسب الخصم المطبقة حسب توقيت الإلغاء.",
+    "إلغاء العودة المفتوحة: يجب على الموظف اتباع الإجراءات المعتمدة لإلغاء تذكرة العودة المفتوحة، والتأكد من تسجيلها بشكل صحيح.",
+    "تحديث معلومات العميل: يجب على الموظف تحديث أي تغييرات في بيانات العميل (مثل رقم الهاتف) في نظام الحجز.",
+    "التعامل مع تضارب الحجوزات: في حالة تضارب الحجوزات، يجب على الموظف تطبيق الرد الاحترافي المعتمد وتقديم حلول بديلة للعميل (ترقية، مقعد مميز).",
+    "عدم حجز مقاعد وهمية: يمنع منعاً باتاً حجز مقاعد وهمية أو غير مؤكدة للعملاء."
+  ]},
+  {name:"الدفع والاسترداد",ico:"💳",color:"#06d6a0",items:[
+    "توضيح طرق الدفع: يجب على الموظف توضيح جميع طرق الدفع المتاحة للعميل (InstaPay، فودافون كاش، الموقع/التطبيق، الفروع).",
+    "تأكيد استلام الدفع: يجب على الموظف التأكد من استلام الدفع وتأكيد الحجز للعميل فوراً.",
+    "متابعة مدفوعات فودافون كاش: في حالة الدفع بفودافون كاش، يجب على الموظف متابعة تأكيد الدفع وإبلاغ العميل بحالة الحجز.",
+    "إجراءات الاسترداد: يجب على الموظف شرح إجراءات استرداد المبلغ للعميل، والمدة المتوقعة لذلك.",
+    "عدم وعد العميل بمواعيد استرداد غير واقعية: يجب على الموظف إعطاء العميل توقعات واقعية بشأن مدة الاسترداد.",
+    "تسجيل تفاصيل الدفع: يجب على الموظف تسجيل جميع تفاصيل الدفع في النظام بشكل دقيق.",
+    "التعامل مع مشاكل الدفع: في حالة وجود مشكلة في عملية الدفع، يجب على الموظف محاولة حلها أو توجيه العميل للجهة المختصة."
+  ]},
+  {name:"التعامل مع الشكاوى",ico:"⚠️",color:"#fb8500",items:[
+    "تسجيل الشكوى: يجب على الموظف تسجيل جميع الشكاوى في نظام الشكاوى المخصص، مع إعطاء العميل رقم مرجعي للشكوى.",
+    "عدم الدفاع عن المخطئ: في حالة شكوى العميل من موظف أو سائق، يجب على الموظف عدم الدفاع عن المخطئ والتركيز على امتصاص غضب العميل.",
+    "الرد الاحترافي على شكاوى السائقين/الموظفين: يجب على الموظف استخدام الرد الاحترافي المعتمد في حالات شكاوى السائقين أو موظفي الفروع.",
+    "تصعيد الشكاوى: يجب على الموظف تصعيد الشكاوى التي لا يستطيع حلها إلى المشرف أو الإدارة المختصة فوراً.",
+    "متابعة الشكاوى: يجب على الموظف متابعة حالة الشكوى مع العميل حتى يتم حلها وإبلاغه بالإجراءات المتخذة.",
+    "التعامل مع شكاوى الأمتعة: في حالة ضياع الأمتعة، يجب على الموظف اتباع آلية الرد المعتمدة وتقديم المساعدة للعميل في تتبعها.",
+    "عدم إعطاء وعود كاذبة: يجب على الموظف عدم إعطاء العميل وعوداً كاذبة بشأن حل الشكوى أو استرداد الأمتعة.",
+    "التعامل مع الشكاوى المتكررة: يجب على الموظف ملاحظة الشكاوى المتكررة وإبلاغ المشرف بها لتحليلها وإيجاد حلول جذرية."
+  ]},
+  {name:"المعلومات العامة والخاصة",ico:"📚",color:"#00b4d8",items:[
+    "معرفة معلومات الشركة: يجب على الموظف الإلمام الكامل بجميع معلومات الشركة (خطوط السير، المحطات، المواعيد، فئات الباصات، الأسعار، الخصومات).",
+    "سياسة مرضى الأورام: يجب على الموظف شرح سياسة خصم مرضى الأورام بوضوح، وتوضيح المستندات المطلوبة.",
+    "سياسة الحيوانات الأليفة: يجب على الموظف إبلاغ العملاء بمنع اصطحاب الحيوانات الأليفة داخل الباصات.",
+    "سياسة شحن البضائع: يجب على الموظف توجيه العملاء لأقرب فرع لإصدار بوليصة شحن رسمية، وعدم حجز الطرود هاتفياً.",
+    "الرحلات الخاصة: يجب على الموظف جمع بيانات العميل للرحلات الخاصة وتحويلها لمدير التشغيل، وعدم إعطاء أسعار تقديرية.",
+    "سرية معلومات العميل: يجب على الموظف الحفاظ على سرية معلومات العملاء وعدم الإفصاح عنها لأي طرف غير مصرح له.",
+    "تحديث المعلومات: يجب على الموظف متابعة أي تحديثات في سياسات الشركة أو معلوماتها لتقديم معلومات دقيقة للعملاء.",
+    "عدم إعطاء معلومات خاطئة: يمنع منعاً باتاً إعطاء معلومات خاطئة للعملاء، حتى لو كان ذلك بقصد المساعدة."
+  ]},
+  {name:"الأداء والالتزام",ico:"🎯",color:"#ffb703",items:[
+    "الالتزام بمواعيد العمل: يجب على الموظف الالتزام التام بمواعيد الورديات المحددة.",
+    "الالتزام بالزي الرسمي: يجب على الموظف الالتزام بالزي الرسمي للشركة (إن وجد).",
+    "التعاون مع الزملاء: يجب على الموظف التعاون مع زملائه في الفريق لضمان سير العمل بسلاسة.",
+    "الالتزام بالتدريبات: يجب على الموظف حضور جميع الدورات التدريبية المخصصة له وتطبيق ما يتعلمه.",
+    "استخدام أدوات العمل: يجب على الموظف استخدام جميع أدوات العمل المتاحة (السيستم، الهاتف، برامج التواصل) بكفاءة.",
+    "تقارير الأداء: يجب على الموظف مراجعة تقارير أدائه الدورية والعمل على تحسين النقاط الضعيفة.",
+    "طلب المساعدة: يجب على الموظف طلب المساعدة من المشرف أو الزملاء عند مواجهة صعوبة في حل مشكلة.",
+    "الحفاظ على بيئة العمل: يجب على الموظف الحفاظ على بيئة عمل إيجابية ومنظمة.",
+    "عدم استخدام الهاتف الشخصي: يمنع استخدام الهاتف الشخصي لأغراض غير متعلقة بالعمل أثناء ساعات العمل.",
+    "التعامل مع الضغط: يجب على الموظف القدرة على التعامل مع ضغط العمل والحفاظ على هدوئه.",
+    "المرونة: يجب على الموظف التحلي بالمرونة في التعامل مع التغييرات في السياسات أو الإجراءات.",
+    "المبادرة: يجب على الموظف التحلي بروح المبادرة في تقديم الاقتراحات لتحسين العمل.",
+    "التعلم المستمر: يجب على الموظف السعي للتعلم المستمر وتطوير مهاراته.",
+    "التعامل مع حالات الطوارئ: يجب على الموظف معرفة إجراءات التعامل مع حالات الطوارئ (مثل تعطل الباص).",
+    "الإبلاغ عن المشاكل التقنية: يجب على الموظف الإبلاغ عن أي مشاكل تقنية تواجهه في السيستم أو الأدوات فوراً.",
+    "الحفاظ على ممتلكات الشركة: يجب على الموظف الحفاظ على ممتلكات الشركة (أجهزة الكمبيوتر، الهواتف) واستخدامها بشكل صحيح.",
+    "التمثيل الجيد للشركة: يجب على الموظف أن يكون خير ممثل للشركة في جميع تعاملاته مع العملاء والجمهور."
+  ]}
+];
+
+function splitTitle(text){const i=text.indexOf(':');return i===-1?{text:text,desc:''}:{text:text.slice(0,i).trim(),desc:text.slice(i+1).trim()}}
+
+function renderComplaints(term, activeCat){
+  const f=(term||'').trim().toLowerCase();
+  let shown=0, html="";
+  complaints.forEach((c,i)=>{
+    const mc = activeCat==="all" || c.cat===activeCat;
+    const mt = !f || c.q.toLowerCase().includes(f) || c.a.toLowerCase().includes(f) || c.cat.toLowerCase().includes(f);
+    if(mc && mt){
+      shown++;
+      html+=`<div class="complaint"><div class="complaint-head" onclick="this.parentElement.classList.toggle('open')"><div class="complaint-num">${i+1}</div><div class="complaint-q">${c.q}</div><div class="complaint-toggle">▼</div></div><div class="complaint-body"><div class="complaint-answer"><div class="ans-tag">💬</div><div>${c.a}</div></div></div></div>`;
+    }
+  });
+  document.getElementById('complaintsList').innerHTML=html;
+  document.getElementById('complaintCount').textContent=shown;
+  document.getElementById('noComplaints').classList.toggle('show',shown===0);
+}
+
+function renderPolicies(term, activeCat){
+  const f=(term||'').trim().toLowerCase();
+  let total=0, h="";
+  policyCategories.forEach(cat=>{
+    if(activeCat!=="all" && cat.name!==activeCat) return;
+    const matched = cat.items.filter(it=> !f || it.toLowerCase().includes(f) || cat.name.toLowerCase().includes(f));
+    if(matched.length===0) return;
+    total+=matched.length;
+    h+=`<div class="cat-block"><h3 class="cat-title"><span class="cat-ico" style="background:${cat.color}22;color:${cat.color}">${cat.ico}</span><span>${cat.name}</span><span class="count">${matched.length} بند</span></h3><div class="grid">`;
+    matched.forEach(item=>{
+      const oi=cat.items.indexOf(item); const p=splitTitle(item);
+      h+=`<div class="item-card"><div class="item-head"><div class="item-num" style="color:${cat.color}">${oi+1}</div><div class="item-title">${p.text}</div></div>${p.desc?`<div class="item-desc">${p.desc}</div>`:''}</div>`;
+    });
+    h+=`</div></div>`;
+  });
+  document.getElementById('policiesWrap').innerHTML=h;
+  document.getElementById('policyCount').textContent=total;
+  document.getElementById('noPolicies').classList.toggle('show',total===0);
+}
+
+function setupSection(chipsId, searchId, renderFn, catsFn){
+  const cont=document.getElementById(chipsId);
+  let html=`<button class="chip active" data-f="all">الكل</button>`;
+  const cats = catsFn();
+  cats.forEach(c=>{html+=`<button class="chip" data-f="${c.name}">${c.name} (${c.count})</button>`});
+  cont.innerHTML=html;
+  let active="all";
+  cont.querySelectorAll('.chip').forEach(ch=>{
+    ch.onclick=()=>{cont.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));ch.classList.add('active');active=ch.dataset.f;renderFn(document.getElementById(searchId).value,active);};
+  });
+  document.getElementById(searchId).addEventListener('input',()=>renderFn(document.getElementById(searchId).value,active));
+  renderFn("",active);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  setupSection('complaintChips','complaintSearch',renderComplaints,()=>{const m={};complaints.forEach(c=>{m[c.cat]=(m[c.cat]||0)+1});return Object.keys(m).map(k=>({name:k,count:m[k]}));});
+  setupSection('policyChips','policySearch',renderPolicies,()=>policyCategories.map(c=>({name:c.name,count:c.items.length})));
+
+  const mn=document.getElementById('mobileNav'),ov=document.getElementById('overlay');
+  document.getElementById('menuToggle').onclick=()=>{mn.classList.add('open');ov.classList.add('show')};
+  document.getElementById('closeMobile').onclick=cm; ov.onclick=cm;
+  function cm(){mn.classList.remove('open');ov.classList.remove('show')}
+  mn.querySelectorAll('a').forEach(a=>a.onclick=cm);
+
+  const tt=document.getElementById('toTop');
+  window.addEventListener('scroll',()=>tt.classList.toggle('show',window.scrollY>500));
+  tt.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+});
+</script>
+</body>
+</html>
