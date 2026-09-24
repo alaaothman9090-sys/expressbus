@@ -1,0 +1,1038 @@
+<title>رحلة العميل داخل وصلي</title>
+<meta name="description" content="محاكي تفاعلي بالعامية المصرية لرحلة طلب في وصلي — للتعلم فقط">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Lalezar&display=swap">
+<style>
+:root{
+  --bg:#F2F6F5; --surface:#FFFFFF; --surface-2:#E8F0EF; --paper:#FFFDF6;
+  --ink:#12252A; --muted:#55696E; --line:#D0DCDB; --line-strong:#A9BEBE;
+  --primary:#0B5563; --primary-ink:#FFFFFF; --primary-soft:#DCECEE;
+  --accent:#C4621A; --accent-soft:#FBE8D6;
+  --danger:#B42318; --danger-soft:#FBE1DE;
+  --ok:#1E6B34; --ok-soft:#DDF1E3;
+  --st-current-fg:#1F3A52; --st-current-bg:#E3EBF2;
+  --st-system-fg:#145A2A; --st-system-bg:#DDF1E3;
+  --st-proposed-fg:#0F5D52; --st-proposed-bg:#D6EFEA;
+  --st-notbuilt-fg:#8A3F06; --st-notbuilt-bg:#FCE6D2;
+  --st-blocked-fg:#9B1C1C; --st-blocked-bg:#FBDEDE;
+  --st-decision-fg:#FFFFFF; --st-decision-bg:#2B3440;
+  --st-example-fg:#5B2A86; --st-example-bg:#EFE5FA;
+  --shadow:0 1px 2px rgba(18,37,42,.06),0 6px 18px rgba(18,37,42,.06);
+  --f-body:'IBM Plex Sans Arabic','Noto Sans Arabic','Segoe UI',Tahoma,sans-serif;
+  --f-display:'Lalezar','IBM Plex Sans Arabic','Noto Sans Arabic',Tahoma,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1618; --surface:#142226; --surface-2:#1A2C31; --paper:#1A2729;
+    --ink:#E2EDED; --muted:#9BB1B4; --line:#27403F; --line-strong:#3E5A5C;
+    --primary:#56B7C4; --primary-ink:#062A30; --primary-soft:#173A40;
+    --accent:#EE9E55; --accent-soft:#3B2A1B;
+    --danger:#F08A80; --danger-soft:#3C1D1A;
+    --ok:#8FD6A6; --ok-soft:#173424;
+    --st-current-fg:#C4D6E8; --st-current-bg:#1D2E3D;
+    --st-system-fg:#9EE0B3; --st-system-bg:#173524;
+    --st-proposed-fg:#9CDCD0; --st-proposed-bg:#123833;
+    --st-notbuilt-fg:#F6BF93; --st-notbuilt-bg:#3D2616;
+    --st-blocked-fg:#F5A9A9; --st-blocked-bg:#3E1B1B;
+    --st-decision-fg:#111827; --st-decision-bg:#D5DBE3;
+    --st-example-fg:#D7BCF4; --st-example-bg:#2E2140;
+    --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 22px rgba(0,0,0,.28);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1618; --surface:#142226; --surface-2:#1A2C31; --paper:#1A2729;
+  --ink:#E2EDED; --muted:#9BB1B4; --line:#27403F; --line-strong:#3E5A5C;
+  --primary:#56B7C4; --primary-ink:#062A30; --primary-soft:#173A40;
+  --accent:#EE9E55; --accent-soft:#3B2A1B;
+  --danger:#F08A80; --danger-soft:#3C1D1A;
+  --ok:#8FD6A6; --ok-soft:#173424;
+  --st-current-fg:#C4D6E8; --st-current-bg:#1D2E3D;
+  --st-system-fg:#9EE0B3; --st-system-bg:#173524;
+  --st-proposed-fg:#9CDCD0; --st-proposed-bg:#123833;
+  --st-notbuilt-fg:#F6BF93; --st-notbuilt-bg:#3D2616;
+  --st-blocked-fg:#F5A9A9; --st-blocked-bg:#3E1B1B;
+  --st-decision-fg:#111827; --st-decision-bg:#D5DBE3;
+  --st-example-fg:#D7BCF4; --st-example-bg:#2E2140;
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 22px rgba(0,0,0,.28);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.75}
+.app{direction:rtl}
+.wrap{max-width:1200px;margin-inline:auto;padding-inline:16px;padding-block:18px 56px}
+h1,h2,h3{text-wrap:balance}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.mono,.num,.code,.amt{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;padding-block:6px 14px}
+.brand{display:flex;flex-direction:column;gap:2px}
+.brand .mark{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,6vw,50px);line-height:1;color:var(--primary);margin:0}
+.brand .sub{margin:0;font-size:clamp(17px,2.4vw,21px);font-weight:600}
+.brand .loc{margin:0;color:var(--muted);font-size:13.5px}
+.draft{display:flex;flex-direction:column;gap:6px;align-items:flex-start;max-width:420px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-strong);background:var(--surface);border-radius:999px;padding:3px 12px;font-size:13px;font-weight:600}
+.pill.warn{border-color:transparent;background:var(--st-blocked-bg);color:var(--st-blocked-fg)}
+.draft p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+
+/* tabs */
+.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);margin-block:6px 18px;scrollbar-width:thin}
+.tab{flex:0 0 auto;border:0;background:transparent;padding:10px 14px 9px;border-bottom:3px solid transparent;cursor:pointer;font-weight:600;color:var(--muted);white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab .n{font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-inline-start:4px}
+
+/* status chips */
+.st{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:1px 9px;font-size:12.5px;font-weight:600;white-space:nowrap;line-height:1.7}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.85}
+.st-current{color:var(--st-current-fg);background:var(--st-current-bg)}
+.st-system{color:var(--st-system-fg);background:var(--st-system-bg)}
+.st-proposed{color:var(--st-proposed-fg);background:var(--st-proposed-bg)}
+.st-notbuilt{color:var(--st-notbuilt-fg);background:var(--st-notbuilt-bg)}
+.st-blocked{color:var(--st-blocked-fg);background:var(--st-blocked-bg)}
+.st-decision{color:var(--st-decision-fg);background:var(--st-decision-bg)}
+.st-example{color:var(--st-example-fg);background:var(--st-example-bg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:13px;color:var(--muted)}
+
+.code{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:1px 8px;font-size:12.5px;direction:ltr;unicode-bidi:isolate}
+.pcode{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:4px 10px;font-size:13.5px}
+.pcode b{font-family:var(--f-mono);font-weight:600;font-size:12.5px;color:var(--primary);direction:ltr;unicode-bidi:isolate}
+
+/* generic cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.muted{color:var(--muted)}
+.note{font-size:13px;color:var(--muted)}
+.sel{display:flex;gap:8px;overflow-x:auto;padding-block:2px 8px;scrollbar-width:thin}
+.chipbtn{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-strong);background:var(--surface);border-radius:999px;padding:7px 14px;cursor:pointer;font-weight:600;white-space:nowrap}
+.chipbtn:hover{border-color:var(--primary)}
+.chipbtn[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.chipbtn .tag{font-size:11.5px;font-weight:600;border-radius:999px;padding:0 7px;background:var(--st-blocked-bg);color:var(--st-blocked-fg)}
+.chipbtn[aria-pressed="true"] .tag{background:rgba(255,255,255,.18);color:inherit}
+
+/* journey */
+.jhead{display:grid;grid-template-columns:1fr auto;gap:12px 20px;align-items:start;padding:14px 16px;margin-block:10px 16px}
+.jhead h2{margin:0;font-size:19px}
+.jhead .persona{margin:2px 0 0;font-weight:600}
+.jhead .order{margin:0;font-size:14px;font-variant-numeric:tabular-nums}
+.jhead .jnote{margin:6px 0 0;color:var(--muted);font-size:13.5px}
+.counts{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:420px}
+.banner{border-radius:var(--r);padding:12px 14px;margin-block:0 16px;font-size:14px;line-height:1.7}
+.banner.blocked{background:var(--st-blocked-bg);color:var(--st-blocked-fg)}
+.banner.learn{background:var(--surface);border:1px dashed var(--line-strong)}
+.banner b{font-weight:700}
+.jgrid{display:grid;grid-template-columns:290px minmax(0,1fr);gap:18px;align-items:start}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);list-style:none;margin:0;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.rail li{margin:0}
+.stepbtn{width:100%;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;align-items:center;text-align:start;border:0;background:transparent;border-radius:9px;padding:5px 6px;cursor:pointer}
+.stepbtn:hover{background:var(--surface-2)}
+.stepbtn[aria-current="step"]{background:var(--primary-soft)}
+.stepbtn .num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;border:1px solid var(--line-strong);background:var(--surface)}
+.stepbtn[aria-current="step"] .num{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.stepbtn .nm{font-size:14px;font-weight:500;line-height:1.35}
+.dots{display:flex;gap:3px}
+.dot{width:8px;height:8px;border-radius:50%}
+.dot.current{background:var(--st-current-fg)}.dot.system{background:var(--st-system-fg)}.dot.proposed{background:var(--st-proposed-fg)}.dot.notbuilt{background:var(--st-notbuilt-fg)}.dot.blocked{background:var(--st-blocked-fg)}.dot.decision{background:var(--ink)}.dot.example{background:var(--st-example-fg)}
+.flag{width:8px;height:8px;border-radius:2px;background:var(--danger);transform:rotate(45deg)}
+.detail{padding:16px 18px 18px}
+.dtop{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}
+.dtop .k{font-size:13px;color:var(--muted)}
+.dtop h2{margin:0;font-size:22px;line-height:1.3}
+.nav{display:flex;gap:6px}
+.navbtn{border:1px solid var(--line-strong);background:var(--surface);border-radius:9px;padding:6px 12px;cursor:pointer;font-weight:600;font-size:14px}
+.navbtn:disabled{opacity:.45;cursor:default}
+.secs{display:grid;gap:14px}
+.sec h3{margin:0 0 4px;font-size:13.5px;font-weight:700;color:var(--muted)}
+.sec p{margin:0}
+.sec ul{margin:0;padding-inline-start:20px}
+.sec li{margin-block:2px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.sees{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.see{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg)}
+.see .who{font-size:12.5px;font-weight:700;color:var(--primary)}
+.see p{margin:2px 0 0;font-size:14px;line-height:1.55}
+.money{border:1.5px dashed var(--line-strong);border-radius:10px;background:var(--paper);padding:10px 12px}
+.money .lbl{font-size:12.5px;font-weight:700;color:var(--accent)}
+.money p{margin:2px 0 0}
+.story{border-radius:10px;background:var(--surface-2);padding:10px 12px}
+.story .lbl{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin-bottom:2px}
+.decide{border-radius:10px;border:1px solid var(--st-decision-bg);padding:10px 12px}
+.decide .lbl{font-size:12.5px;font-weight:700}
+.golink{border:0;background:transparent;color:var(--primary);font-weight:700;cursor:pointer;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+.golinks{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:6px}
+
+/* problems */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:8px;margin-bottom:16px}
+.pbtn{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:start;border:1px solid var(--line);background:var(--surface);border-radius:11px;padding:10px 12px;cursor:pointer}
+.pbtn:hover{border-color:var(--primary)}
+.pbtn[aria-pressed="true"]{border-color:var(--danger);box-shadow:inset 0 0 0 1px var(--danger);background:var(--danger-soft)}
+.pbtn .t{font-weight:700;line-height:1.35}
+.pbtn .m{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--muted)}
+.set{font-size:11.5px;font-weight:700;border-radius:999px;padding:0 8px}
+.set.yes{background:var(--ok-soft);color:var(--ok)}
+.set.partial{background:var(--accent-soft);color:var(--accent)}
+.set.no{background:var(--st-blocked-bg);color:var(--st-blocked-fg)}
+.pview{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;align-items:start}
+.flowcard{padding:14px 16px}
+.flowcard h3,.explain h3{margin:0 0 8px;font-size:15px}
+.flow{list-style:none;margin:0;padding:0;position:relative}
+.flow::before{content:"";position:absolute;inset-block:10px;inset-inline-start:10px;width:2px;background:var(--line)}
+.flow li{position:relative;padding-inline-start:34px;margin-block:0 10px}
+.flow li::before{content:"";position:absolute;inset-inline-start:4px;top:7px;width:14px;height:14px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1.5px var(--line-strong);background:var(--surface-2)}
+.flow .box{border-radius:10px;padding:7px 11px;font-size:14px;line-height:1.55;border:1px solid var(--line);background:var(--surface)}
+.flow .normal .box{border-style:dashed;color:var(--muted);background:transparent}
+.flow .problem::before{background:var(--danger);box-shadow:0 0 0 1.5px var(--danger)}
+.flow .problem .box{background:var(--danger-soft);border-color:transparent;color:var(--st-blocked-fg);font-weight:700}
+.flow .action::before{background:var(--primary);box-shadow:0 0 0 1.5px var(--primary)}
+.flow .decision::before{border-radius:3px;transform:rotate(45deg);background:var(--ink);box-shadow:none}
+.flow .decision .box{border-color:var(--ink);font-weight:600}
+.flow .undecided::before{border-radius:3px;transform:rotate(45deg);background:var(--st-blocked-fg);box-shadow:none}
+.flow .undecided .box{border:1.5px dashed var(--st-blocked-fg)}
+.flow .undecided .box .u{display:inline-block;margin-inline-start:6px;font-size:11.5px;font-weight:700;color:var(--st-blocked-fg)}
+.flow .outcome::before{background:var(--ok);box-shadow:0 0 0 1.5px var(--ok)}
+.flow .outcome .box{background:var(--ok-soft);border-color:transparent}
+.explain{padding:14px 16px}
+.explain .secs{gap:12px}
+.bubble{position:relative;background:var(--surface-2);border-radius:14px 14px 14px 4px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.bubble .code{margin-bottom:4px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px}
+.kv dt{font-weight:700;color:var(--muted)}
+.kv dd{margin:0}
+ol.steps{margin:0;padding-inline-start:22px}
+ol.steps li{margin-block:3px}
+.dont li{color:var(--st-blocked-fg)}
+
+/* money */
+.mgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:18px;align-items:start}
+.moments{display:flex;gap:0;border:1px solid var(--line-strong);border-radius:11px;overflow:hidden;margin-bottom:12px;flex-wrap:wrap}
+.moment{flex:1 1 auto;border:0;background:var(--surface);padding:8px 12px;cursor:pointer;font-weight:600;font-size:14px;border-inline-end:1px solid var(--line)}
+.moment:last-child{border-inline-end:0}
+.moment[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.parties{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.party{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.party .pn{font-weight:700;font-size:14px;color:var(--muted)}
+.party .amt{font-size:26px;font-weight:600;line-height:1.25;direction:ltr;text-align:end;unicode-bidi:isolate}
+.party .amt small{font-size:13px;color:var(--muted);font-weight:500;margin-inline-start:4px}
+.party .owed{font-size:13px;color:var(--accent);font-weight:700}
+.party p{margin:0;font-size:13.5px;line-height:1.55}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-top:14px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{padding:8px 10px;text-align:start;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--surface-2);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700}
+.receipt{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px 16px 18px;box-shadow:var(--shadow);font-size:14px;position:relative}
+.receipt::after{content:"";position:absolute;inset-inline:0;bottom:-7px;height:8px;background:radial-gradient(circle at 6px -2px,transparent 6px,var(--paper) 6.5px) repeat-x;background-size:12px 8px}
+.receipt h3{margin:0;text-align:center;font-size:16px}
+.receipt .rsub{margin:0 0 8px;text-align:center;color:var(--muted);font-size:12.5px}
+.rline{display:flex;justify-content:space-between;gap:12px;padding-block:3px}
+.rline .v{font-family:var(--f-mono);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.rsep{border-top:1.5px dashed var(--line-strong);margin-block:8px}
+.rtotal{font-weight:700;font-size:16px}
+.rfoot{margin:8px 0 0;font-size:12.5px;color:var(--muted);line-height:1.6}
+.stamp{display:inline-block;margin-top:10px;border:2px solid var(--accent);color:var(--accent);border-radius:6px;padding:0 10px;font-weight:700;font-size:13px;transform:rotate(-3deg)}
+
+/* founder */
+.dfilters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.dgrid{display:grid;gap:12px}
+.dcard{padding:14px 16px}
+.dhead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 14px;align-items:start}
+.dnum{font-family:var(--f-display);font-size:34px;line-height:1;color:var(--primary);min-width:34px;text-align:center}
+.dtitle h3{margin:0;font-size:17px;line-height:1.4}
+.dmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px;font-size:12.5px;color:var(--muted)}
+.urg{font-size:12px;font-weight:700;border-radius:999px;padding:0 9px}
+.urg.now{background:var(--danger);color:#fff}
+.urg.pilot{background:var(--accent-soft);color:var(--accent)}
+.urg.launch{background:var(--st-current-bg);color:var(--st-current-fg)}
+.dtoggle{border:1px solid var(--line-strong);background:var(--surface);border-radius:9px;padding:5px 12px;cursor:pointer;font-weight:600;font-size:13.5px;white-space:nowrap}
+.dsum{margin:10px 0 0;font-size:14.5px}
+.dbody{margin-top:12px;border-top:1px solid var(--line);padding-top:12px;display:grid;gap:12px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.optbtn{border:1px solid var(--line-strong);background:var(--surface);border-radius:10px;padding:6px 12px;cursor:pointer;font-weight:600;font-size:14px;text-align:start}
+.optbtn[aria-pressed="true"]{background:var(--primary-soft);border-color:var(--primary)}
+.optbtn .k{font-family:var(--f-display);font-weight:400;font-size:17px;margin-inline-end:6px;color:var(--primary)}
+.optgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.opti{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg)}
+.opti .h{font-size:12.5px;font-weight:700;color:var(--muted)}
+.opti p{margin:2px 0 0;font-size:14px;line-height:1.55}
+.rec{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rec .box{border-radius:10px;padding:10px 12px}
+.rec .file{background:var(--surface-2)}
+.rec .mine{border:1.5px dashed var(--st-proposed-fg)}
+.rec .h{font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rec p{margin:4px 0 0}
+
+footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1.7;display:grid;gap:8px}
+footer p{margin:0}
+
+@media (max-width: 900px){
+  .jgrid{grid-template-columns:1fr}
+  .rail{position:static;display:flex;gap:6px;overflow-x:auto;padding:6px}
+  .rail li{flex:0 0 auto}
+  .stepbtn{grid-template-columns:26px auto;gap:6px;padding:5px 10px 5px 8px;border:1px solid var(--line)}
+  .stepbtn .dots{display:none}
+  .stepbtn .nm{white-space:nowrap;font-size:13.5px}
+  .pview,.mgrid{grid-template-columns:1fr}
+  .optgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width: 620px){
+  body{font-size:14.5px}
+  .jhead{grid-template-columns:1fr}
+  .counts{justify-content:flex-start}
+  .two,.rec{grid-template-columns:1fr}
+  .dhead{grid-template-columns:auto minmax(0,1fr)}
+  .dhead .dtoggle{grid-column:1 / -1;justify-self:start}
+  .party .amt{font-size:22px}
+}
+@media (max-width: 380px){ .parties{grid-template-columns:1fr} .optgrid{grid-template-columns:1fr} }
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important;scroll-behavior:auto!important} }
+</style>
+
+<div class="app" dir="rtl" lang="ar">
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <p class="mark">وصّلي</p>
+      <h1 class="sub">رحلة العميل داخل وصلي</h1>
+      <p class="loc">سمالوط — المنيا · محاكي للتعلم مبني على الدليل الموحد v0.9 (مسودة)</p>
+    </div>
+    <div class="draft">
+      <span class="pill warn">للتعلم والمحاكاة بس — مش سياسة معتمدة</span>
+      <p>الأسماء والأرقام أمثلة افتراضية. أي ضغطة هنا للفهم، ومفيش فيها ولا قرار. القرار بيكون مكتوب وموقّع منك برّه الصفحة دي.</p>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="أقسام المحاكي">
+    <button class="tab" role="tab" id="t-journey" aria-controls="p-journey" data-tab="journey">الرحلة <span class="n">18 خطوة</span></button>
+    <button class="tab" role="tab" id="t-problems" aria-controls="p-problems" data-tab="problems">حصلت مشكلة <span class="n">12</span></button>
+    <button class="tab" role="tab" id="t-money" aria-controls="p-money" data-tab="money">الفلوس راحت فين؟</button>
+    <button class="tab" role="tab" id="t-founder" aria-controls="p-founder" data-tab="founder">أنا كمؤسس محتاج أقرر إيه؟ <span class="n">12</span></button>
+  </nav>
+
+  <section id="p-journey" role="tabpanel" aria-labelledby="t-journey"></section>
+  <section id="p-problems" role="tabpanel" aria-labelledby="t-problems" hidden></section>
+  <section id="p-money" role="tabpanel" aria-labelledby="t-money" hidden></section>
+  <section id="p-founder" role="tabpanel" aria-labelledby="t-founder" hidden></section>
+
+  <footer>
+    <div class="legend" id="legend"></div>
+    <p>المصدر: «الدليل الموحد للسياسات واللوائح والإجراءات التشغيلية» لوصلي — الإصدار v0.9 — مسودة للمراجعة (22 سبتمبر 2026). كل سياسة فيه حالتها «مسودة»، ومفيش ولا قرار مؤسس معتمد (صفر من 12).</p>
+    <p>«مين شايف إيه» في كل خطوة مبني على دورة حياة الطلب وقواعد الخصوصية في الملف — شكل الشاشات الفعلي مش موصوف في الملف. ووجود حاجة في الكود مش معناه إنها معتمدة.</p>
+    <p>الصفحة دي ما بتقولش إن وصلي متوافقة قانونيًا — ده ادعاء ما يملكوش غير محامي بعد فحص.</p>
+  </footer>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+try{document.documentElement.setAttribute('dir','rtl');document.documentElement.setAttribute('lang','ar');}catch(e){}
+
+/* ------------------------------------------------------------------ data */
+var STATUS={
+  current:{label:'حالي',cls:'st-current'},
+  system:{label:'موجود في النظام',cls:'st-system'},
+  proposed:{label:'مقترح',cls:'st-proposed'},
+  notbuilt:{label:'غير مبني',cls:'st-notbuilt'},
+  blocked:{label:'محجوب',cls:'st-blocked'},
+  decision:{label:'قرار مطلوب',cls:'st-decision'},
+  example:{label:'مثال افتراضي',cls:'st-example'}
+};
+var POL={
+  CUSTOMER_001:'حقوق العميل والمستلم ومسؤولياتهما',CUSTOMER_002:'إلغاء الطلب',CUSTOMER_003:'رفض الاستلام وعدم توفّر العميل',CUSTOMER_004:'الاسترداد والاستبدال وإعادة التسليم',CUSTOMER_005:'التعويض وحسن النية',CUSTOMER_006:'إساءة الاستخدام وقيود الحساب',CUSTOMER_007:'المشتري البعيد والمستلم',CUSTOMER_008:'التواصل مع العميل',
+  MERCHANT_001:'ضمّ التاجر والتحقق منه',MERCHANT_002:'التوفّر ووضع الانشغال',MERCHANT_003:'التزام التاجر واستثناءات الرفض',MERCHANT_004:'التحضير والتسليم للكابتن',MERCHANT_005:'تأخر التاجر وإخفاقه',MERCHANT_006:'جودة المنتج وسلامة الغذاء',MERCHANT_007:'التسوية والخصومات والنزاعات',MERCHANT_008:'الإنفاذ والتظلّم للتاجر',
+  CAPTAIN_001:'نماذج العلاقة مع الكابتن',CAPTAIN_002:'ضمّ الكابتن والتحقق منه',CAPTAIN_003:'التوفّر وقبول العروض ورفضها',CAPTAIN_004:'الإلغاء بعد القبول',CAPTAIN_005:'الاستلام والتسليم وإثباتهما',CAPTAIN_006:'النقد والعهدة والتسوية',CAPTAIN_007:'السلوك والسلامة',CAPTAIN_008:'القوة القاهرة',CAPTAIN_009:'الأداء والحوافز والأرباح',CAPTAIN_010:'الإنفاذ والتظلّم للكابتن',
+  OPS_001:'دورة حياة الطلب',OPS_002:'فشل التسليم',OPS_003:'الطلب متعدد المتاجر',OPS_004:'الطلب المجدول والمناسبات',OPS_005:'إدارة الاستثناءات',OPS_006:'استمرارية الخدمة',OPS_007:'إدارة الحوادث',
+  FIN_001:'ضبط الدفع عند الاستلام والنقدية',FIN_002:'الضبط المالي للاسترداد',FIN_003:'تسوية التاجر',FIN_004:'تسوية الكابتن',FIN_006:'المطابقة والتسويات الدورية',FIN_007:'الإعدام وتوزيع الخسارة',FIN_008:'ضبط الرصيد والائتمان الترويجي',FIN_009:'الاعتمادات المالية',
+  SUP_001:'تشغيل الدعم',SUP_003:'أولوية الشكوى',SUP_004:'التحقيق في الشكوى',SUP_005:'التظلّمات والتصعيد',
+  RISK_001:'الاحتيال وإساءة الاستخدام',RISK_003:'تقييد الحساب',RISK_004:'المراجعة البشرية وتصحيح الإنذار الكاذب',
+  LEGAL_002:'العمل والقوى العاملة',LEGAL_003:'حماية المستهلك',LEGAL_004:'المدفوعات والرصيد المخزَّن',LEGAL_005:'الخصوصية — الجانب القانوني',LEGAL_006:'الصيدلة — الجانب القانوني',
+  DATA_001:'الوصول إلى البيانات',DATA_002:'تشغيل الخصوصية',DATA_003:'المصادقة وأمان الحساب',DATA_004:'حوادث الأمن',DATA_005:'حفظ السجلات والاحتفاظ',DATA_006:'سجلات التدقيق',
+  GOV_001:'السلطة والتفويض',GOV_002:'استثناءات السياسة',GOV_003:'ضبط تغيير السياسات',GOV_004:'ضبط الوثائق والمعرّفات',GOV_005:'التحقيق الداخلي',
+  'CH59':'الفصل 59 — التغطية والمناطق والعناوين','CH109':'الفصل 109 — مبادئ التسعير','CH110':'الفصل 110 — رسوم التوصيل والمناطق','CH112':'الفصل 112 — رسوم الخدمة والعمولة','CH114':'الفصل 114 — التسويق وما لا يُقال فيه',
+  'FDR-0001':'قرار: مصير البضاعة والفلوس عند فشل التسليم','FDR-0002':'قرار: تعويض الكابتن عن رحلة فاشلة','FDR-0003':'قرار: نموذج التزام التاجر','FDR-0004':'قرار فوري: شرط القبول في اتفاقية الكابتن','FDR-0005':'قرار: فرق النقد','FDR-0006':'قرار: قيم التسوية والغرامة','FDR-0007':'قرار: فئات التجربة','FDR-0008':'قرار: تغطية الدعم','FDR-0009':'قرار: الصيدلة','FDR-0010':'قرار: رصيد العميل','FDR-0011':'قرار: سلّم تقييد العميل','FDR-0012':'قرار: توزيع الصلاحيات'
+};
+
+var STEPS=[
+{id:1,name:'فتح التطبيق',
+ what:'أحمد شاف بوست في جروب «أهالي سمالوط» ونزّل التطبيق. كتب رقم موبايله عشان يعمل حساب، والتطبيق قاله «هيوصلك كود».',
+ who:'التقنية (التسجيل والرسائل) + الدعم (مكالمة التحقق المؤقتة المقترحة)',
+ pol:['DATA_003','DATA_002','CUSTOMER_001','CH114'],
+ data:'رقم الموبايل — الاسم — الموافقة على الشروط وسياسة الخصوصية (الملف ما وضحش إذا كانت صفحة الخصوصية موجودة)',
+ sees:{c:'شاشة التسجيل وانتظار الكود',m:'ولا حاجة',k:'ولا حاجة',s:'حساب جديد (ومستني مكالمة تحقق لو اتطبق الاقتراح)'},
+ money:'في جيب أحمد — مفيش أي مبلغ اتحرك.',
+ problems:['الكود ما بيوصلش: مزوّد الرسائل «صوري» في الكود (CFL-0011 — حرج)','حد ينتحل صفة وصلي ويطلب الكود من العميل (نصب)','حسابات بأرقام وهمية تعمل أوردرات كاش وترفضها'],
+ solution:'مؤقتًا (اقتراح): الدعم يتصل بالعميل الجديد ويتحقق من رقمه قبل أول أوردر كاش. قبل الإطلاق: مزوّد رسائل حقيقي يتجرب من سمالوط نفسها. وجملة ثابتة في كل مكان: «وصلي عمرها ما هتطلب منك كود».',
+ esc:'الدعم ← التقنية ← المؤسس — وأي شك في اختراق حساب: تعليق فوري كإجراء حماية مش عقوبة',
+ decision:'مش من الـ12 قرار، بس محتاج قرار تقني: إمتى يتربط مزوّد رسائل حقيقي؟ والسؤال الميداني LDG-0009: مين يقدر يسجل فعلًا النهارده؟',
+ st:['system','notbuilt','proposed'],links:['tech']},
+{id:2,name:'اختيار العنوان',
+ what:'أحمد كتب «شارع المحطة — جنب صيدلية النور — الدور التالت» وحدد اللوكيشن على الخريطة.',
+ who:'العميل (يدي عنوان صح) + العمليات (حدود المناطق)',
+ pol:['CH59','CH110','CUSTOMER_001'],
+ data:'العنوان المكتوب — اللوكيشن — معلم قريب — الدور والشقة',
+ sees:{c:'الخريطة ورسوم التوصيل للمنطقة',m:'—',k:'—',s:'—'},
+ money:'في جيب أحمد.',
+ problems:['اللوكيشن ممكن يقع على بعد مئات الأمتار','عنوان برّه المنطقة المعلنة','شوارع من غير أسماء واضحة'],
+ solution:'«لا يُقبل طلب خارج» المنطقة المعلنة (من الملف). واقتراح: خانة «معلم قريب» إجبارية + اختبار 20 عنوان حقيقي قبل التجربة.',
+ esc:'الكابتن ← العمليات',decision:null,st:['system','proposed'],links:['wrong_address']},
+{id:3,name:'اختيار المتجر',
+ what:'أحمد لقى «مطعم الشيف رضا» مفتوح.',
+ who:'علاقات التجار (الضم والتوفّر)',
+ pol:['MERCHANT_001','MERCHANT_002','FDR-0007'],
+ data:'حالة المطعم (مفتوح / مشغول / مقفول) — الفئة — وقت التحضير المتوقع',
+ sees:{c:'المطاعم المتاحة',m:'زرار «مشغول» (وضع الانشغال)',k:'—',s:'قايمة التجار النشطين'},
+ money:'في جيب أحمد.',
+ problems:['مطعم «مفتوح» في التطبيق ومقفول في الحقيقة','فئات برّه التجربة ظاهرة (بقالة، تورت، ورد)'],
+ solution:'«وضع الانشغال» بدل ما الطلبات تستنى. وتوصية الملف للتجربة: الأكل الجاهز بس (FDR-0007 — الخيار أ).',
+ esc:'الدعم ← علاقات التجار',decision:'FDR-0007 — الفئات المسموحة في التجربة',st:['system','decision']},
+{id:4,name:'المنتجات',
+ what:'اختار وجبتين مشويات + سلطات + عيش = 300 جنيه (مثال).',
+ who:'التاجر (دقة المنيو والأسعار)',
+ pol:['CH109','MERCHANT_006'],
+ data:'الأصناف والأسعار المعروضة — الإضافات',
+ sees:{c:'المنيو والأسعار',m:'المنيو اللي هو مسؤول يحدّثه',k:'—',s:'—'},
+ money:'في جيب أحمد.',
+ problems:['سعر في التطبيق غير سعر المحل (INC-0027)','صنف خلص وما اتشالش من المنيو'],
+ solution:'«السعر المعروض هو الملزم» — ولو اختلف، الفرق يرجع للعميل فورًا (MSG-M-005).',
+ esc:'الدعم ← علاقات التجار',decision:null,st:['system']},
+{id:5,name:'السلة',
+ what:'الشاشة بتعرض: أكل 300 — توصيل 25 — رسوم خدمة 0 — الإجمالي 325.',
+ who:'المنصة (التسعير)',
+ pol:['CH109','CH110','CH112'],
+ data:'مكونات السعر مفصولة — منطقة التوصيل',
+ sees:{c:'فاتورة مفصلة قبل التأكيد',m:'—',k:'—',s:'—'},
+ money:'في جيب أحمد. والعمولة (ع%) ما بتظهرش للعميل — دي بين وصلي والمطعم.',
+ problems:['قيم شغالة في الكود من غير قرار: رسوم الخدمة صفر (PAR-0023) وحصة الكابتن 70% (PAR-0010)'],
+ solution:'«الشفافية قبل التأكيد: تُعرض المكوّنات مفصولة». والقيم تتعتمد أو تتغير بقرار مكتوب قبل التجربة.',
+ esc:'—',decision:'اعتماد القيم القائمة (رسوم الخدمة وحصة الكابتن) — لسه «قيمة قائمة غير معتمدة»',st:['system','decision']},
+{id:6,name:'الدفع (اختيار الطريقة)',
+ what:'أحمد اختار «كاش عند الاستلام».',
+ who:'المالية والضبط',
+ pol:['FIN_001','LEGAL_004'],
+ data:'طريقة الدفع — واقتراح: سؤال «هتدفع بورقة كام؟» عشان الفكة',
+ sees:{c:'كاش عند الاستلام — الدفع الإلكتروني مش شغال',m:'—',k:'—',s:'—'},
+ money:'في جيب أحمد.',
+ problems:['«لا يوجد مسار دفع مسبق يعمل من طرفه إلى طرفه» (من الملف)','مشاكل الفكة بعدين عند الباب'],
+ solution:'كاش بس في التجربة. واقتراح: سؤال الفكة + «عهدة فكة» صغيرة مع كل كابتن أول الوردية.',
+ esc:'—',decision:null,st:['current','notbuilt'],links:['payment_failed']},
+{id:7,name:'إنشاء الطلب',
+ what:'أحمد ضغط «أكّد الطلب». الطلب اتسجل بالأصناف والعنوان والسعر المعروض، والسعر اتثبت.',
+ who:'النظام (دورة حياة الطلب)',
+ pol:['OPS_001','CH110'],
+ data:'الأصناف — العنوان — السعر المعروض — وقت الإنشاء',
+ sees:{c:'«طلبك اتبعت للمطعم»',m:'طلب جديد بيرن',k:'—',s:'طلب جديد في لوحة التحكم'},
+ money:'في جيب أحمد — «ولا جنيه مستحق قبل التسليم».',
+ problems:['طلب مكرر (INC-0018)'],
+ solution:'«يُثبَّت السعر عند التأكيد» (110-2). والطلب المكرر يتوقف قبل التحضير.',
+ esc:'الدعم',decision:null,st:['system']},
+{id:8,name:'التاجر (القبول)',
+ what:'تابلت المطعم رن، والعامل ضغط «قبول» بعد دقيقتين.',
+ who:'التاجر — والدعم لو ما ردش',
+ pol:['MERCHANT_003','FDR-0003'],
+ data:'وقت القبول — أو سبب الرفض',
+ sees:{c:'«المطعم قبل طلبك»',m:'قبول / رفض',k:'—',s:'حالة الطلب «مقبول»'},
+ money:'في جيب أحمد.',
+ problems:['المطعم ما ردش (INC-0022)','المطعم رفض بعد ما العميل اتطمن'],
+ solution:'مكالمة للتاجر قبل الإلغاء التلقائي (MSG-M-001). واقتراح: مهلة قبول قصيرة يتفق عليها مع التجار (سيناريو للنقاش: 3–5 دقايق).',
+ esc:'الدعم ← علاقات التجار',decision:'FDR-0003 — نموذج التزام التاجر (المطبّق حاليًا: تأكيد صريح)',st:['system','decision'],links:['tech']},
+{id:9,name:'التحضير',
+ what:'المطبخ بيجهز الأكل، والتطبيق بيقول لأحمد «بيتجهز».',
+ who:'التاجر',
+ pol:['MERCHANT_004','MERCHANT_005'],
+ data:'وقت الجاهزية',
+ sees:{c:'«بيتجهز»',m:'الطلب في المطبخ',k:'—',s:'وقت التحضير'},
+ money:'في جيب أحمد. والمطعم بيصرف على الأكل من جيبه دلوقتي — لحد التسوية.',
+ problems:['تأخير التحضير','صنف خلص بعد القبول (INC-0023)'],
+ solution:'رسالة صادقة من غير ميعاد مش مؤكد (MSG-C-001). والصنف الخالص: العميل يختار — بديل أو قيمته أو إلغاء (MSG-C-010).',
+ esc:'الدعم ← العمليات',decision:'حد «التأخير الجسيم» مش محدد في الملف',st:['system','decision'],links:['merchant_late','out_of_stock']},
+{id:10,name:'الكابتن',
+ what:'النظام عرض الطلب على الكابتن محمد، ووافق.',
+ who:'عمليات الكباتن',
+ pol:['CAPTAIN_003','CAPTAIN_001','FDR-0004'],
+ data:'الكابتن المسنَد — وقت القبول',
+ sees:{c:'اسم الكابتن',m:'كابتن جاي',k:'عرض فيه المطعم والمنطقة — يقبل أو يرفض',s:'مين مسنَد'},
+ money:'في جيب أحمد.',
+ problems:['مفيش كابتن متاح في الذروة','الكابتن ألغى بعد القبول (INC-0029)'],
+ solution:'«الرفض ليس مخالفة»، و«معدل قبول العروض لا يُقاس» (من الملف). ولو انسحب: إعادة إسناد فورًا ثم السؤال.',
+ esc:'العمليات',decision:'FDR-0004 (فوري) — شرط القبول 80% في اتفاقية الكابتن',st:['system','blocked','decision'],links:['captain_cancel']},
+{id:11,name:'الاستلام من المطعم',
+ what:'محمد وصل المطعم، استلم الكيس، وضغط «استلمت».',
+ who:'الكابتن + التاجر',
+ pol:['CAPTAIN_005','MERCHANT_004'],
+ data:'وقت الاستلام بس — من غير قايمة أصناف (فجوة في الملف)',
+ sees:{c:'«الكابتن استلم»',m:'الطلب خرج',k:'عنوان العميل',s:'وقت الاستلام'},
+ money:'في جيب أحمد.',
+ problems:['صنف ناقص ومحدش عارف نقص فين','التاجر رفض يسلّم الكابتن (INC-0024)'],
+ solution:'اقتراح للتجربة: فاتورة المطعم = قايمة الأصناف، والكيس مقفول، وصورة للكيس المقفول بس.',
+ esc:'العمليات',decision:null,st:['system','proposed']},
+{id:12,name:'في الطريق',
+ what:'محمد ماشي بالموتوسيكل، والتطبيق بيوري أحمد «في الطريق».',
+ who:'الكابتن',
+ pol:['CAPTAIN_007','CAPTAIN_008','CUSTOMER_008'],
+ data:'اللوكيشن أثناء الرحلة',
+ sees:{c:'«في الطريق»',m:'—',k:'الخريطة',s:'مكان الكابتن'},
+ money:'في جيب أحمد.',
+ problems:['تأخير في الطريق','حادثة للكابتن (INC-0030)','مطر أو ظرف عام (INC-0050)'],
+ solution:'السلامة قبل السرعة — و«زمن الرحلة» يتقاس «بحذر». في الحادثة: الاطمئنان قبل أي سؤال عن الطلب (MSG-K-004).',
+ esc:'أي حد ← المؤسس فورًا في أي حادث سلامة',decision:null,st:['system'],links:['captain_late']},
+{id:13,name:'الوصول',
+ what:'محمد وصل تحت البيت واتصل بأحمد. أحمد: «نازلك».',
+ who:'الكابتن + العميل (مسؤولية إنه يكون متاح)',
+ pol:['CUSTOMER_001','CUSTOMER_003','CAPTAIN_005'],
+ data:'وقت الوصول — محاولات الاتصال — مدة الانتظار',
+ sees:{c:'«الكابتن وصل»',m:'—',k:'رقم العميل للتواصل',s:'وقت الوصول'},
+ money:'في جيب أحمد.',
+ problems:['العميل مش بيرد (INC-0002)','العنوان غلط (INC-0003)'],
+ solution:'محاولات اتصال متسجلة ← انتظار محدد ← العمليات تتصل من رقم تاني (MSG-C-003).',
+ esc:'الكابتن ← العمليات',decision:'مدة الانتظار وتعويضها (PAR-0002 و PAR-0003) مش محددين',st:['current','decision'],links:['no_answer','wrong_address']},
+{id:14,name:'التسليم',
+ what:'أحمد استلم الكيس.',
+ who:'الكابتن + المستلم',
+ pol:['CAPTAIN_005','OPS_001','CUSTOMER_007'],
+ data:'وقت التسليم — رمز التسليم',
+ sees:{c:'رمز التسليم',m:'—',k:'خانة رمز التسليم',s:'«اتسلم»'},
+ money:'في جيب أحمد لحظة الاستلام — وبعدها بثواني بيدفع.',
+ problems:['العميل رفض الاستلام (INC-0001)','المستلم مش هو المشتري ورفض (INC-0004)','لو رمز التسليم بيوصل برسالة SMS هيقع في نفس مشكلة الرسائل'],
+ solution:'رفض ← العمليات تتواصل قبل أي قرار. مستلم مختلف ← الاتصال بالمشتري. ولا مطالبة بفلوس ما اتدفعتش.',
+ esc:'الكابتن ← العمليات',decision:'FDR-0001 — مصير الأكل والفلوس عند فشل التسليم',st:['system','decision'],links:['refused','other_recipient']},
+{id:15,name:'الدفع عند التسليم',
+ what:'أحمد ادّى محمد 400 جنيه، والباقي 75.',
+ who:'الكابتن (عهدة) + المالية',
+ pol:['CAPTAIN_006','FIN_001','LEGAL_004'],
+ data:'المبلغ المحصل — الباقي — وقت التحصيل',
+ sees:{c:'الإجمالي 325',m:'—',k:'المبلغ المطلوب تحصيله',s:'عهدة الكابتن بتزيد'},
+ money:'325 انتقلت للكابتن كعهدة لوصلي — «مملوك للمنصّة... وهو ليس رصيدًا له ولا دَينًا عليه».',
+ problems:['مفيش فكة (INC-0009)','ورقة مزيفة (INC-0010)','العهدة عدّت الحد (1,500 — قيمة غير معتمدة)'],
+ solution:'مشكلة الفكة «مسؤولية المنصّة» (MSG-K-002). والباقي ممنوع يتحول «رصيد» في حساب العميل (LEGAL_004).',
+ esc:'الكابتن ← العمليات',decision:'حد العهدة 1,500 — قيمة قائمة غير معتمدة',st:['current','decision'],links:['cash_short']},
+{id:16,name:'إثبات التسليم',
+ what:'الطلب اتقفل «اتسلم» في سجل الانتقالات.',
+ who:'النظام + الكابتن',
+ pol:['DATA_006','CAPTAIN_005','DATA_002'],
+ data:'سجل الانتقالات (مين وإمتى) — رمز التسليم',
+ sees:{c:'«اتسلم»',m:'«اتسلم»',k:'الرحلة خلصت',s:'السجل'},
+ money:'325 مع الكابتن كعهدة.',
+ problems:['نزاع «ما وصلنيش» (INC-0033)','صور التسليم مقفولة لحد ضابط خصوصية مكتوب'],
+ solution:'سجل الانتقالات هو «أقوى دليل». وعند تعادل الأدلة: الخسارة «على المنصّة» — مع ميل للعميل في أول واقعة.',
+ esc:'الدعم ← العمليات',decision:null,st:['system','blocked']},
+{id:17,name:'التقييم',
+ what:'التطبيق سأل أحمد يقيّم. ادّى 5 نجوم للكابتن و4 للأكل.',
+ who:'العميل',
+ pol:['CAPTAIN_009'],
+ data:'التقييم',
+ sees:{c:'شاشة التقييم (الملف ما وضحش إذا كانت موجودة)',m:'—',k:'—',s:'—'},
+ money:'325 مع الكابتن كعهدة.',
+ problems:['التقييم «يتأثر بأمور خارج سيطرة الكابتن»'],
+ solution:'يتقاس «بحذر» — وما يبقاش لوحده أساس لأي عقاب.',
+ esc:'—',decision:'الملف ما حسمش النقطة دي: التقييم موجود؟ وبيتستخدم في إيه؟',st:['decision']},
+{id:18,name:'ما بعد الطلب',
+ what:'آخر الوردية محمد ورّد الكاش واتعملت مطابقة. بعد 48 ساعة (قيمة غير معتمدة) المطعم قبض. وبعد يومين أحمد اشتكى إن صنف كان ناقص (15 جنيه).',
+ who:'المالية + الدعم',
+ pol:['FIN_006','FIN_003','FIN_004','MERCHANT_007','SUP_001','CUSTOMER_004','LEGAL_003'],
+ data:'كشف المطابقة — كشف التسوية — رقم الشكوى',
+ sees:{c:'رد الدعم',m:'كشف تسوية مفصل',k:'كشف أرباحه',s:'الشكوى والمطابقة'},
+ money:'وصلي 52.50 (7.50 توصيل + 45 عمولة لو ع=15%) — المطعم 255 — الكابتن 17.50. واسترداد الـ15 يرجع كاش مش قسيمة.',
+ problems:['فرق في العهدة (INC-0032)','النظام بيقفل الشكوى تلقائي بعد 24 ساعة — أقصر من حق العيب المحتمل (30 يوم)','الكود بيحوّل استرداد الكاش لقسيمة (CFL-0002 — حرج)'],
+ solution:'«فرق مش عجز». العلاج أولًا (MSG-C-009). ممنوع جملة «المهلة خلصت». والرد كاش.',
+ esc:'الدعم ← المالية ← المؤسس',decision:'FDR-0005 (فروق الكاش) + FDR-0006 (قيم التسوية) + FDR-0010 (الرصيد)',st:['current','system','decision'],links:['cash_short','damaged']}
+];
+
+var JOURNEYS=[
+{id:'normal',name:'رحلة عادية',persona:'أحمد — 27 سنة — شارع المحطة، سمالوط',order:'أكل 300 + توصيل 25 = 325 جنيه — كاش عند الاستلام',
+ note:'كل حاجة ماشية صح. ركّز على العلامات: هتلاقي خطوات «قرار مطلوب» و«غير مبني» حتى في أحسن سيناريو.',ov:{}},
+{id:'problems',name:'رحلة بمشاكل',persona:'أحمد — نفس الطلب',order:'أكل 300 + توصيل 25 = 325 جنيه — كاش',
+ note:'7 مشاكل ورا بعض في طلب واحد — في الحقيقة مش هيحصلوا مع بعض، بس ده بيوريك كل واحدة بتتحل إزاي.',
+ ov:{
+  9:{story:'عدى 35 دقيقة والأكل ما خرجش (المتوقع 20). وبعدين المطعم اكتشف إن السلطة الخضرا خلصت واقترح سلطة طحينة بنفس السعر. الدعم سأل أحمد، ووافق على البديل صراحةً.',links:['merchant_late','out_of_stock']},
+  10:{story:'الكابتن مصطفى قبل الطلب، وبعد 10 دقايق قال الموتوسيكل عطل. العمليات أسندت الطلب للكابتن محمد فورًا، وبعدين سألت مصطفى عن السبب — من غير أي خصم تلقائي.',links:['captain_cancel']},
+  12:{story:'الطريق زحمة والطلب اتأخر 20 دقيقة زيادة. أحمد وصلته رسالة صادقة ومعاها حق الإلغاء من غير رسوم — وكمّل.',links:['captain_late']},
+  13:{story:'اللوكيشن وقع على بعد 800 متر. الكابتن اتصل ياخد وصف «جنب صيدلية النور». وبعدين أحمد ما ردش 7 دقايق (كان في الحمام) — العمليات اتصلت من رقم تاني، ورد ونزل.',links:['wrong_address','no_answer']},
+  15:{story:'أحمد ادّى 500 والكابتن معاه 100 فكة بس — والباقي 175. العمليات اتدخلت: «مشكلة الفكة مسؤولية المنصّة». الـ75 الناقصين يرجعوله كاش — ممنوع يتحولوا رصيد.',links:['cash_short']},
+  18:{story:'أحمد اشتكى بعد 26 ساعة إن صنف كان ناقص. الرد الصح: العلاج أولًا والرد كاش — وممنوع «المهلة خلصت».',links:['damaged']}
+ }},
+{id:'other',name:'طلب لحد تاني',persona:'أحمد في القاهرة ← أمه الحاجة سعاد (65 سنة) في سمالوط — من غير تطبيق',order:'أكل 220 + توصيل 25 = 245 جنيه — الحاجة سعاد تدفع كاش',
+ note:'المشتري بيقرر، والمستلم بيستلم أو يمتنع وبس — وأي قرار تاني بيرجع للمشتري (CUSTOMER_007).',
+ ov:{
+  1:{story:'أحمد بيستخدم التطبيق من القاهرة. الحاجة سعاد مش محتاجة تطبيق.'},
+  2:{what:'أحمد كتب عنوان أمه واسمها ورقمها كمستلمة.',story:'الملف بيقول إن دعم النظام لخانة «مستلم» منفصلة «غير محقَّق». واقتراح الدليل: التطبيق يسأل المشتري صراحةً «مين هيدفع عند الاستلام؟».',st:['system','proposed']},
+  6:{what:'طريقين: أحمد يدفع إلكتروني من القاهرة — ده مش شغال النهارده. أو الحاجة سعاد تدفع كاش عند الباب — ده الشغال.',money:'الـ245 في جيب الحاجة سعاد — مش أحمد.',story:'لو هدية وأحمد عايز يخبي السعر: إزاي نخبيه وهي اللي هتدفعه؟ الملف ما حلّش التناقض ده في طلبات الكاش.',st:['current','notbuilt']},
+  7:{story:'اقتراح: الدعم يتصل بأحمد يأكد مين المستلم، ومين يدفع، وهل السعر سر — قبل ما المطعم يحضّر.',st:['system','proposed']},
+  13:{story:'الكابتن سيد يتصل بالحاجة سعاد قبل ما يوصل بدقايق — بصبر، ومن غير ما يدخل البيت.'},
+  14:{story:'الحاجة سعاد قالت «أنا ما طلبتش حاجة». ده مش إلغاء من أحمد: العمليات تتصل بأحمد قبل أي قرار. أحمد كلم أمه ووافقت.',links:['other_recipient']},
+  15:{what:'الحاجة سعاد دفعت 245.',money:'245 انتقلت من الحاجة سعاد للكابتن (عهدة لوصلي). ولو ما معهاش فلوس: نرجع لأحمد — ممنوع نطالبها أو نحرجها.'},
+  17:{story:'مين يقيّم؟ أحمد صاحب الحساب — والحاجة سعاد مالهاش حساب.'},
+  18:{story:'لو صنف ناقص: الفلوس ترجع للي دفع — هنا الحاجة سعاد (كاش). ولو أحمد كان دفع إلكتروني (مستقبلًا) ترجع لأحمد. «الرد لغير الدافع ينشئ نزاعًا بين شخصين».'}
+ }},
+{id:'cash',name:'الكاش خطوة بخطوة',persona:'أحمد — نفس الطلب العادي',order:'325 جنيه كاش — تابع كل جنيه فين',
+ note:'نفس الطلب العادي، بس التركيز على مكان الفلوس ومين شايلها في كل لحظة. كل الأرقام مثال توضيحي.',
+ ov:{
+  6:{money:'أحمد اختار كاش. اقتراح: سؤال «هتدفع بورقة كام؟» عشان الكابتن يجهز الفكة.'},
+  7:{money:'325 في جيب أحمد. والعمولة والحصص لسه «ما اتولدتش» — والإيراد اللي ما اتولدش مش خسارة.'},
+  9:{money:'المطعم بيصرف على الأكل من جيبه (تكلفته تقريبًا 150–180 — مثال). ده «خطر» على المطعم لحد التسليم.'},
+  10:{money:'الكابتن طالع بـ«عهدة فكة» (اقتراح) — مثلًا 200 جنيه من وصلي أول الوردية، تتحسب لوحدها.'},
+  15:{money:'325 مع الكابتن = «عهدة»: فلوس وصلي في إيد الكابتن — مش رصيد له ولا دين عليه. حد العهدة 1,500 (قيمة غير معتمدة) ≈ 4 طلبات بالحجم ده.'},
+  16:{money:'لو فيه نزاع «ما وصلنيش»: سجل الانتقالات هو الدليل — مش كلام حد.'},
+  18:{money:'آخر الوردية: توريد + مطابقة (المتوقع قصاد الفعلي). أي فرق = «فرق مش عجز». بعد التسوية: المطعم 255 — الكابتن 17.50 — وصلي 52.50 (لو ع=15%).',story:'شوف تبويب «الفلوس راحت فين؟» عشان تشوف الأرصدة لحظة بلحظة.'}
+ }},
+{id:'multi',name:'3 محلات',tag:'محجوب',allBlocked:true,persona:'منى — مفاجأة لجوزها كريم',order:'تورتة 250 (حلواني السعادة) + ورد 200 (ورد جوري) + هدية 400 (هدايا الياسمين) — كل الأسماء افتراضية',
+ note:'مستقبلي ومحجوب: الطلب متعدد المتاجر (OPS_003) دعمه في النظام «غير محقَّق» وهو «محجوب تشغيليًا». ده شرح لإزاي كان هيمشي لو اتبني — مش وصف لحاجة موجودة.',
+ ov:{
+  3:{what:'منى اختارت 3 محلات في سلة واحدة.',story:'حتى لو اتفتح: التورتة والورد مش ضمن فئات التجربة لو اخترت «الأكل الجاهز بس» (FDR-0007).'},
+  5:{what:'السلة فيها 3 طلبات فرعية.',decision:'رسوم التوصيل: رسوم واحدة ولا لكل محل؟ الملف ما حسمش النقطة دي.',st:['decision']},
+  7:{what:'طلب «أب» + 3 طلبات فرعية.',story:'«بنية الطلبات الفرعية» مش متحقق منها في الكود.',st:['notbuilt']},
+  8:{story:'الحلواني والورد قبلوا، والهدايا رفض بعدهم (SCN-046): «إبلاغ العميل قبل أن يكتشف، وعرض خيار الاستمرار جزئيًا أو الإلغاء الكامل».',decision:'فترة التنسيق قبل بدء التحضير (PAR-0019) غير محسومة',st:['decision']},
+  9:{story:'الحلواني جاهز والورد متأخر 25 دقيقة (SCN-047): «قرار الانتظار أم التسليم على دفعتين يُتخذ بالتواصل مع العميل لا نيابةً عنه».',st:['decision']},
+  10:{story:'المحلات بعيدة عن بعض ← كابتنين (SCN-049): «الاحتساب في الكود دالة واحدة لطلب واحد وكابتن واحد».',st:['notbuilt']},
+  14:{story:'كريم رفض عند الباب (SCN-048): «كل جزء بقاعدة فئته» — والمصير «غير محسوم ومركّب».',st:['decision']},
+  18:{story:'منى عايزة تلغي الورد بعد ما بدأ (SCN-050): «كل طلب فرعي بحالته هو». ومصير رسوم التوصيل في الإلغاء الجزئي غير محسوم.',st:['decision']}
+ }},
+{id:'scheduled',name:'طلب مجدول',tag:'محجوب',allBlocked:true,persona:'منى — تورتة عيد ميلاد كريم',order:'تورتة 280 مكتوب عليها اسم — تتسلم يوم 10 الساعة 8:00 بالليل — محجوزة من يوم 3',
+ note:'مستقبلي ومحجوب: الطلب المجدول (OPS_004) «غير محقَّق» في النظام و«محجوب تشغيليًا». مبني على حالات الملف SCN-051 لـSCN-055.',
+ ov:{
+  5:{what:'منى حجزت يوم 3 للتسليم يوم 10 الساعة 8 بالليل.',story:'«السعر المعروض وقت الحجز هو الملزم» (SCN-052). ولو السعر زاد 20% قبل التنفيذ، مين يتحمل الفرق: «غير محسوم بين التاجر والمنصّة».',st:['decision']},
+  6:{what:'التورتة المكتوب عليها اسم «أقوى مرشح لاشتراط الدفع المسبق لو توفّر مسار دفع صالح» — والدفع المسبق مش شغال.',st:['notbuilt']},
+  8:{story:'«الطاقة تُحجز عند القبول لا عند التنفيذ — وإلا فالقبول وعد بلا غطاء» (SCN-055). ومفيش مفهوم «طاقة استيعابية» في النظام.',st:['notbuilt']},
+  9:{story:'يوم 10 الساعة 5: الحلواني المفروض يبدأ. سيناريو الفشل: نسي الحجز لحد 7 بالليل.',links:['merchant_late']},
+  12:{story:'لو باين إن التورتة هتتأخر: «إبلاغ المشتري فور معرفة الخطر لا بعد الفشل. الإبلاغ المبكر هو العلاج الوحيد الفعّال هنا» (SCN-051).'},
+  13:{story:'كريم (المستلم) مش في البيت: «الاتصال بالمشتري لا بالمستلم — فالمفاجأة قد تُكشف» (SCN-053).'},
+  14:{story:'رسالة تتبع وصلت لكريم وكشفت المفاجأة (SCN-054) — الخطأ «على المنصّة»: رسايل التتبع لطلب الهدية تروح للمشتري بس.',st:['decision']},
+  18:{story:'لو التورتة وصلت الساعة 10 والحفلة خلصت: «استرداد كامل. والتعويض التقديري قرار منفصل». والتعويض كرصيد ممنوع لحد FDR-0010 — يبقى كاش لو اتقرر.',st:['decision']}
+ }}
+];
+
+var PROBLEMS=[
+{id:'no_answer',name:'العميل لا يرد',step:13,inc:'INC-0002',set:'no',
+ ex:'الكابتن محمد وصل الساعة 8:40، اتصل بأحمد 3 مرات ومفيش رد — الموبايل كان صامت.',
+ flow:[['normal','الخطوات 1 لـ12 ماشية عادي'],['problem','الوصول: العميل مش بيرد'],['action','محاولات اتصال متسجلة بوقتها (عددها لسه ما اتحددش)'],['action','انتظار محدد عند الباب (المدة غير محسومة — PAR-0002)'],['action','العمليات تتصل من رقم تاني + رسالة MSG-C-003'],['decision','العميل رد؟'],['outcome','رد ← التسليم يكمل عادي'],['undecided','ما ردش ← «فشل تسليم» — مفيش حالة ليه في النظام (تتسجل في الدفتر، مش «إلغاء»)'],['undecided','الأكل يروح فين؟ ومين يدفع تمنه؟ (FDR-0001)'],['undecided','الكابتن ياخد حاجة عن المشوار؟ (FDR-0002)'],['outcome','رسالة للعميل (MSG-C-004): «مفيش أي مبلغ مستحق عليك»']],
+ steps:['سجّل كل محاولة اتصال بوقتها.','استنى المدة المحددة (لما تتحدد).','بلّغ العمليات — هي تحاول من رقم تاني وتبعت MSG-C-003.','الكابتن يفضل شايل الأكل لحد تعليمات العمليات (MSG-K-001) — ما ياكلوش وما يديهوش لحد.','لو مفيش رد: تتسجل «فشل تسليم» مش «إلغاء» (المرحلة صفر 152-3).','مصير الأكل وتعويض الكابتن: حسب قرارك في FDR-0001 وFDR-0002 — لسه ما اتاخدش.'],
+ who:'الكابتن ← العمليات',msg:['MSG-C-003','الكابتن واصل عندك من [كام] دقيقة وبيحاول يوصلك. كل حاجة تمام؟ لو فيه أي ظرف، قولي وهحلها معاك.'],
+ money:{temp:'المنصّة',fin:'غير محسوم — رهن FDR-0001. و«الهاتف المغلق ليس دليلًا على سلوك متعمد».',ex:'أكل بـ300 (تكلفته على المطعم تقريبًا 150–180) + بنزين الكابتن ≈ 3 جنيه + وقته — مثال توضيحي'},
+ fdr:['FDR-0001','FDR-0002'],pol:['CUSTOMER_003','OPS_002','CAPTAIN_005'],dont:['«ده حصل بسببك» أو أي لوم','«لو اتكرر هنقفل حسابك» — تهديد','تسجيلها «إلغاء»']},
+{id:'refused',name:'العميل رفض',step:14,inc:'INC-0001',set:'no',
+ ex:'أحمد فتح الباب وقال «مش عايزه، اتأخر» ورفض يستلم أكل جاهز بـ300 جنيه.',
+ flow:[['normal','الخطوات 1 لـ13 ماشية عادي'],['problem','التسليم: العميل رفض صراحةً'],['action','الكابتن يستخدم مسار «تعذّر التسليم» — من غير نقاش'],['action','العمليات تتواصل مع العميل قبل أي قرار وتفهم السبب'],['decision','السبب تأخير جسيم أو غلط من ناحيتنا؟'],['outcome','آه ← الرفض مفهوم ومفيش أي أثر على العميل'],['outcome','لأ ← واقعة تتسجل بكود سبب — ولا مطالبة بفلوس ما اتدفعتش'],['undecided','الأكل الجاهز «لا يُعاد ولا يُباع» — مين يتحمل تمنه؟ (FDR-0001)'],['undecided','لو اتكرر من نفس العميل: سلّم التقييد (FDR-0011 — قبل الإطلاق)']],
+ steps:['الكابتن يبلّغ العمليات ويستنى تعليمات (MSG-K-001).','العمليات تكلم العميل تفهم السبب بهدوء.','لو السبب تأخير أو غلط من ناحيتنا: اعتذار، ومفيش أي أثر.','الأكل يرجع للمطعم ويتوثق — الأكل الجاهز ما يتباعش تاني.','الواقعة تتسجل في دفتر فشل التسليم.','التحميل النهائي حسب FDR-0001 — لسه مش محسوم.'],
+ who:'الكابتن ← العمليات ← المؤسس (في التحميل)',msg:['MSG-C-004','مقدرناش نوصّل الطلب النهارده. عايز أطمّنك على حاجة مهمة: مفيش أي مبلغ مستحق عليك ولا هيتخصم منك حاجة في أي طلب جاي.'],
+ money:{temp:'المنصّة',fin:'غير محسوم — رهن FDR-0001؛ «الطعام المحضَّر لا يُعاد ولا يُباع».',ex:'مفيش فلوس اتدفعت. الخسارة: أكل اتعمل + مشوار الكابتن.'},
+ fdr:['FDR-0001','FDR-0011'],pol:['CUSTOMER_003','OPS_002','FIN_007'],dont:['مطالبة العميل بتمن أكل ما استلموش','إن الكابتن «يتصرف» في الأكل','تسجيلها «إلغاء»']},
+{id:'wrong_address',name:'العنوان غلط',step:13,inc:'INC-0003',set:'partial',
+ ex:'اللوكيشن وقع على بعد 800 متر من البيت الحقيقي.',
+ flow:[['normal','الخطوات 1 لـ12 ماشية عادي'],['problem','الوصول: العنوان غلط أو مش موجود'],['action','الكابتن يتصل بالعميل ياخد وصف بمعلم معروف («جنب صيدلية النور»)'],['decision','وصل للعنوان الصح؟'],['outcome','آه ← التسليم يكمل — والمسافة الزيادة على وصلي، مش على العميل ولا الكابتن (110.1)'],['outcome','لأ والعميل مش بيرد ← نفس مسار «العميل لا يرد»'],['action','تصحيح العنوان في حساب العميل'],['undecided','تعويض الكابتن عن المسافة الزيادة: «فرق تتحمله المنصّة» — بس بكام؟ مش محدد']],
+ steps:['الاتصال بالعميل قبل إعلان أي فشل.','وصف بمعلم معروف.','تصحيح العنوان في الحساب.','لو الفشل اتكرر في منطقة: مراجعة حدود المنطقة نفسها (110-4).'],
+ who:'الكابتن ← العمليات',msg:['—','(مكالمة — صياغة مقترحة) «أنا الكابتن من وصلي، اللوكيشن وداني عند [مكان]. ممكن توصفلي البيت جنب إيه؟» — من غير لوم.'],
+ money:{temp:'المنصّة',fin:'«لا يجوز تحميل العميل قبل إثبات أن نظام العناوين نفسه صالح للاستخدام».',ex:'بنزين المسافة الزيادة ≈ 1 جنيه + وقت — مثال توضيحي'},
+ fdr:[],pol:['CH59','OPS_002','CUSTOMER_001'],dont:['«العنوان غلط منك» قبل ما نتأكد']},
+{id:'merchant_late',name:'التاجر تأخر',step:9,inc:'INC-0011',set:'partial',
+ ex:'عدى 35 دقيقة والأكل لسه ما خرجش — والمتوقع كان 20.',
+ flow:[['normal','الخطوات 1 لـ8 ماشية عادي'],['problem','التحضير: المطعم اتأخر'],['action','الدعم يتصل بالمطعم يعرف الوضع الحقيقي'],['action','رسالة صادقة للعميل من غير لوم لحد (MSG-C-001)'],['decision','التأخير «جسيم»؟'],['undecided','حد التأخير الجسيم مش محدد في الملف'],['outcome','لأ ← يكمل عادي'],['outcome','آه ← العميل يلغي من غير رسوم لو حب (MSG-C-002)'],['action','التأخير يتسجل على مصدره من سجل الانتقالات']],
+ steps:['اتصال بالمطعم.','رسالة للعميل بالوضع الحقيقي — من غير ميعاد مش مؤكد.','لو جسيم: حق الإلغاء من غير رسوم.','لو اتكرر من نفس المطعم: كلام معاه يبدأ بالفهم مش بالإنذار (MSG-M-009).'],
+ who:'الدعم ← علاقات التجار',msg:['MSG-C-001','أنا آسف على التأخير. الطلب لسه في المطبخ. مش هقولك ميعاد مش متأكد منه — هراجع دلوقتي وأكلمك خلال [كام] دقيقة بالوضع الحقيقي.'],
+ money:{temp:'المنصّة',fin:'«على الطرف المتسبب في التأخير بعد إثباته».',ex:'لو العميل ألغى بعد ما الأكل اتعمل: على المطعم لأن التأخير منه — بعد الإثبات'},
+ fdr:[],pol:['MERCHANT_005','CUSTOMER_002'],dont:['«المطعم هو اللي غلط» قدام العميل قبل الإثبات','ميعاد مش مؤكد']},
+{id:'out_of_stock',name:'الصنف خلص',step:9,inc:'INC-0023',set:'yes',
+ ex:'السلطة الخضرا خلصت بعد ما المطعم قبل الطلب.',
+ flow:[['normal','الخطوات 1 لـ8 ماشية عادي'],['problem','التحضير: صنف خلص'],['action','المطعم يبلغ الدعم — مش العميل مباشرة (رقم العميل مش ظاهر للتاجر)'],['action','الدعم يسأل العميل: بديل؟ ولا قيمته؟ ولا نلغي كله؟ (MSG-C-010)'],['decision','العميل اختار إيه؟'],['outcome','بديل — بموافقة صريحة'],['outcome','يشيل الصنف — ويدفع أقل عند التسليم'],['outcome','إلغاء كامل — ولا مطالبة']],
+ steps:['المطعم يبلّغ الدعم فورًا.','الدعم يعرض التلات اختيارات على العميل.','يتنفذ اختيار العميل — «البديل لا يُفرض».','لو المطعم بيتكرر معاه: مراجعة المنيو قبل الذروة.'],
+ who:'الدعم',msg:['MSG-C-010','الصنف ده خلص عندهم. قدامك تلات اختيارات وأنا هعمل اللي تقوله: بديل، أو أرجّعلك قيمته، أو نلغي الطلب كله.'],
+ money:{temp:'المنصّة',fin:'على التاجر لو اتكرر (قابلة تعاقديًا).',ex:'لو شال صنف بـ15: الطلب 285 + 25 = 310 كاش — مفيش استرداد أصلًا لأنه لسه ما دفعش'},
+ fdr:[],pol:['MERCHANT_004','CUSTOMER_004','CUSTOMER_007'],dont:['فرض بديل من غير موافقة']},
+{id:'captain_late',name:'الكابتن تأخر',step:12,inc:'INC-0011',set:'partial',
+ ex:'الطريق زحمة جنب المحطة، والكابتن اتأخر 20 دقيقة عن المتوقع.',
+ flow:[['normal','الخطوات 1 لـ11 ماشية عادي'],['problem','الطريق: الكابتن اتأخر'],['action','العمليات تعرف مصدر التأخير (سجل الانتقالات + اللوكيشن)'],['action','رسالة صادقة للعميل'],['decision','التأخير جسيم؟'],['outcome','لأ ← يكمل'],['outcome','آه ← العميل يلغي من غير رسوم لو حب'],['action','مفيش ضغط على الكابتن يسرع — السلامة قبل السرعة']],
+ steps:['تحديد مصدر التأخير قبل أي كلام عن مسؤولية.','رسالة صادقة للعميل.','لو جسيم: حق الإلغاء من غير رسوم.','لو الأكل وصل بايظ بسبب التأخير: يتعامل كمشكلة جودة (العلاج أولًا).'],
+ who:'العمليات',msg:['MSG-C-002','الطلب اتأخر عن الميعاد اللي قلنالك عليه، وده تقصير مننا مش منك. من حقك تلغي دلوقتي من غير ما تدفع أي حاجة.'],
+ money:{temp:'المنصّة',fin:'على المتسبب بعد الإثبات — والمنصّة لو السبب منها أو خارجي.',ex:'لو العميل ألغى والأكل اتعمل: الخسارة على حسب المتسبب'},
+ fdr:[],pol:['CAPTAIN_007','CUSTOMER_002','OPS_001'],dont:['«الكابتن أخّر» قدام العميل','الضغط على الكابتن يسرع']},
+{id:'captain_cancel',name:'الكابتن ألغى',step:10,inc:'INC-0029',set:'partial',
+ ex:'الكابتن مصطفى قبل الطلب، وبعد 10 دقايق قال «الموتوسيكل عطل».',
+ flow:[['normal','الخطوات 1 لـ9 ماشية عادي'],['problem','الكابتن: انسحب بعد القبول'],['action','إعادة الإسناد فورًا — وبعدين سؤال الكابتن عن السبب (بالترتيب ده)'],['action','إبلاغ العميل بصدق بالتأخير وحقه في الإلغاء'],['outcome','كابتن تاني يكمل الطلب'],['undecided','التحميل النهائي «غير محسوم» — ولا جزاء مالي تلقائي على الانسحاب']],
+ steps:['إعادة إسناد فورًا.','سؤال الكابتن عن السبب بعدها.','رسالة صادقة للعميل.','ولا خصم تلقائي — «الرفض حق تعاقدي».'],
+ who:'العمليات',msg:['—','(صياغة مقترحة) «حصل ظرف مع الكابتن وبنبعتلك كابتن تاني دلوقتي. الطلب ممكن يتأخر [كام] دقيقة، ومن حقك تلغي من غير رسوم لو حابب.»'],
+ money:{temp:'المنصّة',fin:'غير محسوم — «ولا يُفرض جزاء مالي تلقائي على الانسحاب».',ex:'الأكل ممكن يبرد — ولو العميل رفضه، بقت مشكلة جودة'},
+ fdr:[],pol:['CAPTAIN_004','CAPTAIN_010'],dont:['«الرفض ده هيأثر عليك» للكابتن','خصم تلقائي']},
+{id:'tech',name:'العطل التقني',step:8,inc:'INC-0046',set:'yes',
+ ex:'النظام وقع 40 دقيقة الساعة 8 بالليل، وفيه 11 طلب شغال (SCN-068).',
+ flow:[['normal','أي خطوة — هنا بعد إنشاء الطلب'],['problem','النظام وقع'],['action','تشغيل القناة البديلة: التليفون'],['action','الاتصال بكل التجار والكباتن اللي عندهم طلبات (MSG-M-012)'],['action','رسالة صادقة للعملاء (MSG-C-014)'],['decision','الطلب اتنفذ؟'],['outcome','آه ← يتسجل يدويًا'],['outcome','لأ ← استرداد كامل لو كان مدفوع — والتاجر اللي حضّر يتسوّاله']],
+ steps:['ورقة فيها أرقام كل التجار والكباتن جاهزة قبلها.','مكالمات فورية لكل طلب شغال.','رسالة صادقة للعملاء.','تسجيل يدوي لكل طلب لحد ما النظام يرجع.'],
+ who:'العمليات + التقنية',msg:['MSG-C-014','فيه عطل عندنا دلوقتي وإحنا بنشتغل عليه. طلبك رقم [رقم] وضعه [الحالة]. مش هسيبك من غير رد.'],
+ money:{temp:'المنصّة',fin:'المنصّة بالكامل — «والتاجر الذي حضّر يُسوّى له».',ex:'لو 5 طلبات اتحضرت وما اتسلمتش: وصلي تدفع تكلفتها للتجار — مثال'},
+ fdr:[],pol:['OPS_006','OPS_007'],dont:['«محدش عنده حل»']},
+{id:'payment_failed',name:'الدفع فشل',step:6,inc:'INC-0036',set:'yes',future:true,
+ ex:'في المستقبل: أحمد دفع بالكارت والعملية علّقت — اتخصم ولا لأ؟ (الدفع الإلكتروني مش شغال النهارده.)',
+ flow:[['normal','الخطوات 1 لـ5 ماشية عادي'],['problem','الدفع: البوابة فشلت'],['action','ما يتعملش طلب مؤكد قبل تأكيد الدفع'],['action','إبلاغ العميل بالحقيقة المؤكدة بس'],['decision','اتخصم مبلغ؟'],['outcome','آه ← استرداد بنفس الوسيلة'],['outcome','لأ ← يجرب تاني أو يختار كاش']],
+ steps:['وقف إنشاء الطلب.','مراجعة سجل الدفع قبل أي وعد.','الرد بنفس وسيلة الدفع.','ما تقولش «تم» قبل ما الفلوس توصل فعلًا.'],
+ who:'المالية + التقنية',msg:['MSG-C-008','شايف العملية وبراجعها دلوقتي. مش هقولك حاجة قبل ما أتأكد. هرجعلك خلال [كام] ساعة برد مؤكد، ولو المبلغ اتخصم فعلًا هيرجعلك بنفس طريقة الدفع.'],
+ money:{temp:'المنصّة',fin:'المنصّة ما لم يُثبت خطأ المزوّد — «والعميل لا يتحمل فشلًا تقنيًا بأي حال».',ex:'325 محجوزة ترجع بنفس الوسيلة'},
+ fdr:[],pol:['FIN_002','LEGAL_004'],dont:['«تم الاسترداد» قبل ما يوصل']},
+{id:'cash_short',name:'الكاش ناقص',step:15,inc:'INC-0032',set:'no',
+ ex:'آخر الوردية: عهدة الكابتن سيد المفروض 1,300 — لقيناها 1,270. (ونفس الباب: خلاف على الفكة عند الباب INC-0009.)',
+ flow:[['normal','الخطوات 1 لـ14 ماشية عادي'],['problem','التوريد: فرق 30 جنيه في الكاش'],['action','توثيق الفرق وسؤال الكابتن قبل أي وصف'],['action','لغة محايدة: «فرق مش عجز» (MSG-K-006)'],['undecided','الفرق تحت حد الإعدام؟ (الحد PAR-0021 مش محدد)'],['outcome','تحت الحد ← يتعدم بقرار + مراجعة النمط شهريًا (توصية FDR-0005 أ)'],['outcome','فوق الحد ← تحقيق (GOV_005) — ولا خصم قبل رأي المحامي في المقاصة (VAL-0011)']],
+ steps:['عد الكاش قدام الكابتن وتوثيق الفرق.','سؤال الكابتن: تفتكر حصل إيه؟','ولا خصم ولا اتهام.','تسجيل في «تقرير فرق نقدي» (النموذج 137.1).','القرار في الحد والإعدام: FDR-0005 — لسه ما اتاخدش.'],
+ who:'المالية ← المؤسس',msg:['MSG-K-006','فيه فرق في حساب النهارده — وأنا بقول فرق مش عجز، لأننا لسه معرفناش سببه. مش هيتخصم منك حاجة دلوقتي. تفتكر ممكن يكون حصل إيه؟'],
+ money:{temp:'المنصّة',fin:'«إعدام تحت الحد بقرار، وتحقيق فوقه». و«الفرق أو الشكوى ليست إثباتًا لدين».',ex:'30 جنيه — ما تتخصمش من الكابتن'},
+ fdr:['FDR-0005'],pol:['FIN_006','CAPTAIN_006','FIN_001'],dont:['«هنخصم منك»','كلمة «عجز»','أي اتهام بالسرقة']},
+{id:'other_recipient',name:'المستلم مختلف',step:14,inc:'INC-0004',set:'partial',
+ ex:'أحمد طلب لأمه الحاجة سعاد. فتحت وقالت «أنا ما طلبتش حاجة ومش هدفع».',
+ flow:[['normal','الخطوات 1 لـ13 ماشية عادي'],['problem','التسليم: المستلم رفض — ومش هو المشتري'],['action','ده مش إلغاء من المشتري — الكابتن يبلّغ العمليات'],['action','العمليات تتصل بالمشتري قبل أي قرار — من غير ما تكشف للمستلم تفاصيل مش لازمة'],['decision','المشتري قال إيه؟'],['outcome','أكد إنها مفاجأة ← كلم أمه ← التسليم يكمل'],['undecided','قال رجّعوه ← «فشل تسليم» ← مصير الأكل (FDR-0001)'],['outcome','المستلم ما معهوش فلوس ← نرجع للمشتري — ممنوع نطالبها أو نحرجها']],
+ steps:['الكابتن ما يعتبرهاش رفض ويمشي.','العمليات تكلم المشتري الأول.','المستلم يستلم أو يمتنع — وبس.','أي فلوس ترجع للي دفع.'],
+ who:'الكابتن ← العمليات',msg:['—','(للمشتري — صياغة مقترحة) «أنا من وصلي. الحاجة سعاد مستغربة الطلب ومش عارفة إنه منك. تحب تكلمها ولا نعمل إيه؟»'],
+ money:{temp:'المنصّة',fin:'غير محسوم — رهن FDR-0001.',ex:'طلب 245 كاش — ما نطالبش بيه غير اللي وافق يدفع'},
+ fdr:['FDR-0001'],pol:['CUSTOMER_007'],dont:['نعتبرها «رفض متعمد» من المشتري','نكشف سعر الهدية لو المشتري طلب إخفاءه']},
+{id:'damaged',name:'المنتج تالف',step:18,inc:'INC-0014',set:'yes',
+ ex:'أحمد فتح الكيس لقى الشوربة مدلوقة والعيش مبلول.',
+ flow:[['normal','الخطوات 1 لـ17 ماشية عادي'],['problem','بعد التسليم: المنتج تالف'],['action','العلاج أولًا: رد القيمة أو استبدال — العميل يختار — من غير تكلفة إضافية'],['action','مسار منفصل: التلف من التحضير ولا من النقل؟'],['decision','اتعرف المتسبب؟'],['outcome','آه ← يتحمل بعد الإثبات'],['outcome','لأ ← على وصلي'],['action','الرد كاش مش قسيمة (LEGAL_004 — CFL-0002)']],
+ steps:['اعتذار ورد القيمة أو إعادة إرسال — اللي يريح العميل.','من غير رسوم توصيل على البديل (VAL-0002 سؤال مفتوح للمحامي — والأحوط: من غير رسوم).','تحقيق منفصل في مصدر التلف.','لو فيه أعراض تسمم: MSG-C-012 وإيقاف الصنف فورًا.'],
+ who:'الدعم ← العمليات',msg:['MSG-C-009','آسف جدًا. هرجّعلك قيمة الصنف دلوقتي، أو أبعتهولك تاني لو تحب — اللي يريحك. مش محتاج منك أي إثبات تاني.'],
+ money:{temp:'المنصّة',fin:'«على المتسبب بعد إثباته».',ex:'شوربة بـ40: ترجع 40 كاش أو شوربة جديدة من غير رسوم — مثال'},
+ fdr:[],pol:['CUSTOMER_004','LEGAL_003','MERCHANT_006'],dont:['«المهلة خلصت»','قسيمة بدل الفلوس','«الكابتن أكيد هو السبب»']}
+];
+
+var MONEY=[
+{id:'normal',name:'طلب كاش عادي',st:'current',
+ receipt:{title:'مطعم الشيف رضا',sub:'فاتورة طلب — مثال افتراضي',lines:[['وجبتين مشويات + سلطات + عيش','300.00'],['رسوم التوصيل','25.00'],['رسوم الخدمة (قيمة غير معتمدة)','0.00']],total:['الإجمالي','325.00'],pay:'كاش عند الاستلام',foot:'عمولة وصلي «ع%» بين وصلي والمطعم ومش على الفاتورة. لو ع=15% تبقى 45.00.'},
+ moments:[
+  {n:'قبل التسليم',p:{c:['325','في جيبه — لسه ما دفعش'],k:['0','شايل الأكل بس'],w:['0','«ولا جنيه مستحق قبل التسليم»'],m:['0','صرف على الأكل من جيبه ومستني']}},
+  {n:'لحظة التسليم',p:{c:['0','دفع 325 واستلم أكله'],k:['325','عهدة لوصلي — مش رصيد له ولا دين عليه'],w:['0','الـ325 بتاعتها بس لسه في إيد الكابتن'],m:['0','استحق 255 لما الطلب اتسلم',"255"]}},
+  {n:'آخر الوردية',p:{c:['0','خلص'],k:['0','ورّد الكاش — مستني حصته','17.50'],w:['325','في الخزنة — وعليها 255 للمطعم و17.50 للكابتن'],m:['0','مستني التسوية (48 ساعة — قيمة غير معتمدة)','255']}},
+  {n:'بعد التسوية',p:{c:['0','خلص'],k:['17.50','قبض حصته (70% من التوصيل — قيمة غير معتمدة). دورة الدفع مش محددة في الملف'],w:['52.50','7.50 توصيل + 45 عمولة — قبل أي مصاريف'],m:['255','300 − 45 عمولة']}}
+ ],
+ table:[['العميل','325 عند التسليم','الأكل','لحد التسليم','—','لأ — إلا لو هو المتسبب، بقرار ودليل'],['الكابتن','—','17.50','من التسليم لحد التوريد','17.50 لحد ما يقبض','لا يُحمَّل إلا بقرار منفصل على دليل'],['وصلي','255 + 17.50','325','من التوريد','—','التمويل المؤقت دايمًا عليها'],['التاجر','تكلفة الأكل مقدمًا','255','لأ','255 لحد التسوية','لو المشكلة منه — بعد الإثبات']]},
+{id:'refused',name:'العميل رفض الاستلام',st:'decision',
+ receipt:{title:'مطعم الشيف رضا',sub:'نفس الطلب — اترفض عند الباب',lines:[['قيمة الطلب','300.00'],['رسوم التوصيل','25.00']],total:['اللي اتدفع فعلًا','0.00'],pay:'ما اتحصلش حاجة',foot:'الأكل الجاهز «لا يُعاد ولا يُباع». مين يتحمل؟ غير محسوم (FDR-0001 وFDR-0002).'},
+ moments:[
+  {n:'قبل التسليم',p:{c:['325','في جيبه'],k:['0','شايل الأكل'],w:['0','—'],m:['0','صرف على الأكل']}},
+  {n:'عند الباب — رفض',p:{c:['325','ما دفعش — ومش مطالب بحاجة'],k:['−3','بنزين ≈ 3 جنيه + وقته — مثال'],w:['0','مفيش عمولة — «ما لم ينشأ ليس خسارة»'],m:['−165','تكلفة أكل اتعمل (150–180 — مثال)']}},
+  {n:'لو اتطبق اقتراح الدليل',p:{c:['325','مفيش مطالبة'],k:['+7','مبلغ ثابت مؤقت ≈ 10 ناقص البنزين 3 (اقتراح — مش قرار)'],w:['−175','تدفع للمطعم تكلفة الأكل ≈ 165 + للكابتن ≈ 10'],m:['0','اتعوّض عن التكلفة — مش سعر البيع']}}
+ ],
+ table:[['العميل','—','—','—','—','لأ في أول واقعة — وتكرار الرفض له سلّم (FDR-0011)'],['الكابتن','بنزين ووقت','غير محسوم','—','غير محسوم (FDR-0002)','ما يتحملش — «الكابتن لا يُحمَّل» من غير قرار ودليل'],['وصلي','التمويل المؤقت','—','—','—','غير محسوم (FDR-0001)'],['التاجر','تكلفة الأكل','غير محسوم','—','غير محسوم','غير محسوم — حسب جدول الفئات اللي يتفق عليه']]},
+{id:'missing',name:'صنف ناقص (15 جنيه)',st:'current',
+ receipt:{title:'مطعم الشيف رضا',sub:'شكوى بعد التسليم',lines:[['الطلب المدفوع','325.00'],['صنف ناقص (سلطة)','−15.00']],total:['يرجع للعميل كاش','15.00'],pay:'كاش — مش قسيمة',foot:'«العلاج أولًا، وتحديد المسؤول مسار منفصل». والرد بنفس وسيلة الدفع.'},
+ moments:[
+  {n:'بعد التسوية العادية',p:{c:['0','دفع 325'],k:['17.50','قبض حصته'],w:['52.50','إيرادها من الطلب'],m:['255','قبض']}},
+  {n:'الشكوى — العلاج أولًا',p:{c:['+15','رجعوله 15 كاش (MSG-C-009)'],k:['17.50','مش متهم — التحقيق منفصل'],w:['37.50','دفعت الـ15 الأول'],m:['255','لسه']}},
+  {n:'لو اتثبت إن النقص من المطعم',p:{c:['+15','خلص'],k:['17.50','—'],w:['52.50','رجعت الـ15 من تسوية المطعم'],m:['240','خصم 15 بعد الإخطار والدليل (MSG-M-007)']}}
+ ],
+ table:[['العميل','325','الأكل + 15 رد','—','—','لأ'],['الكابتن','—','17.50','—','—','لأ — إلا بقرار منفصل على دليل'],['وصلي','15 الأول','—','—','—','لو المتسبب مش معروف'],['التاجر','—','255 (أو 240)','—','—','لو اتثبت إن النقص منه']]},
+{id:'short',name:'فرق في العهدة (30 جنيه)',st:'decision',
+ receipt:{title:'كشف توريد الكابتن سيد',sub:'آخر الوردية — مثال افتراضي',lines:[['4 طلبات كاش','1,300.00'],['اتورّد فعلًا','1,270.00']],total:['الفرق','30.00'],pay:'«فرق مش عجز»',foot:'ولا خصم من الكابتن قبل رأي المحامي في المقاصة (VAL-0011). والحد اللي يتعدم تحته مش محدد (PAR-0021).'},
+ moments:[
+  {n:'التوريد',p:{c:['—','مش طرف'],k:['0','ورّد 1,270 من 1,300'],w:['1,270','ناقص 30 عن المتوقع'],m:['—','مش طرف']}},
+  {n:'القرار (توصية FDR-0005 أ)',p:{c:['—','مش طرف'],k:['0','ما يتخصمش منه حاجة'],w:['−30','يتعدم بقرار لو تحت الحد + مراجعة النمط شهريًا'],m:['—','مش طرف']}}
+ ],
+ table:[['العميل','—','—','—','—','لأ'],['الكابتن','—','—','كان شايل 1,300','—','لأ — «الفرق وحده لا يُثبت سرقة ولا دينًا»'],['وصلي','—','1,270','—','—','تحت الحد: هي (بقرار). فوقه: تحقيق'],['التاجر','—','—','—','—','لأ']]},
+{id:'online',name:'دفع إلكتروني',st:'notbuilt',
+ receipt:{title:'مطعم الشيف رضا',sub:'سيناريو مستقبلي — غير مبني',lines:[['أكل','300.00'],['رسوم التوصيل','25.00']],total:['اتدفع قبل التحضير','325.00'],pay:'دفع إلكتروني (غير مبني)',foot:'«لا يوجد مسار دفع مسبق يعمل من طرفه إلى طرفه». والاسترداد يرجع بنفس الوسيلة.'},
+ moments:[
+  {n:'قبل التحضير',p:{c:['0','دفع 325 مقدمًا'],k:['0','مفيش كاش معاه'],w:['325','محجوزة (عبر مزوّد الدفع)'],m:['0','يحضّر وهو مطمن']}},
+  {n:'لو الطلب فشل',p:{c:['325','يرجعله بنفس الوسيلة'],k:['0','—'],w:['0','رجعت المبلغ'],m:['0','حسب جدول الفئات']}}
+ ],
+ table:[['العميل','325 مقدمًا','الأكل','—','الاسترداد لو فشل','لأ — «لا يتحمل فشلًا تقنيًا»'],['الكابتن','—','17.50','لأ','17.50','لأ'],['وصلي','—','325','—','—','لو الفشل تقني'],['التاجر','—','255','—','255','لو المشكلة منه']]}
+];
+
+var DECISIONS=[
+{n:1,code:'FDR-0004',title:'شرط نسبة القبول في اتفاقية الكابتن',urg:'now',rev:'الرجوع عنه مكلف',
+ problem:'الاتفاقية الموقّعة فيها ضمان شهري 5,000 جنيه بشرط 8 ساعات يوميًا و6 أيام أسبوعيًا ونسبة قبول 80%. الشروط دي شكل «موظف» — وممكن تخلي العلاقة «علاقة عمل». والشرط «ملزم تعاقديًا وغير قابل للقياس تقنيًا» (CFL-0005).',
+ why:'«شرط قائم في اتفاقية موقَّعة، ويمسّ تصنيف العلاقة نفسه». والنافذة لحلّه بأقل كلفة «تُغلق فور بناء آلية القياس».',
+ opts:[{k:'أ',name:'حذف الشرط الآن',pros:'يشيل الخطر من جذره',cons:'الضمان المرتبط بيه يتأثر',cost:'محامي + إعادة توقيع',risk:'قليل',c:'مفيش فرق',m:'مفيش فرق',k2:'حرية أكتر',w:'خطر قانوني أقل'},
+       {k:'ب',name:'إبقاؤه + بناء تتبع القبول',pros:'تحكم في توفر الكباتن',cons:'يقوّي «علاقة العمل» ويبني اللي الملف بيمنعه',cost:'برمجة + محامي',risk:'عالي جدًا',c:'مفيش فرق',m:'مفيش فرق',k2:'ضغط ورقابة',w:'تعرض كبير'},
+       {k:'ج',name:'يفضل ساكن',pros:'صفر مجهود',cons:'بند متناقض موقّع يفضل موجود',cost:'صفر الآن',risk:'عالي',c:'مفيش فرق',m:'مفيش فرق',k2:'غموض',w:'قنبلة موقوتة'},
+       {k:'د',name:'استبداله بتوقع توفر غير مالي',pros:'تخطيط للتوفر من غير ربط بالفلوس',cons:'الكابتن ممكن ما يلتزمش',cost:'محامي + إعادة توقيع',risk:'قليل لمتوسط',c:'مفيش فرق',m:'مفيش فرق',k2:'حرية مع توقعات واضحة',w:'خطر أقل + تخطيط'}],
+ rec:'أ أو د — الآن، قبل بناء أي تتبّع للقبول',conf:'مرتفعة',
+ mine:'د (أو أ) الأسبوع ده. ولحد تعديل العقد: ولا قياس ولا محاسبة على القبول.',
+ ifnot:'أي كابتن يختلف معاك بعد شهور ممكن يستخدم الاتفاقية نفسها كدليل إنه «عامل».',
+ pol:['CAPTAIN_001','CAPTAIN_003','CAPTAIN_009','CAPTAIN_010','LEGAL_002'],needs:'تعديل تعاقدي + مراجعة قانونية لأثره على التصنيف (VAL-0006، VAL-0007)'},
+{n:2,code:'FDR-0001',title:'مصير الطلب والبضاعة والفلوس عند فشل التسليم',urg:'pilot',rev:'الرجوع عنه مكلف',
+ problem:'«ماذا يحدث بالضبط للطلب، وللبضاعة، وللمال، حين يرفض عميل الدفع عند الاستلام أو يتعذّر تسليمه عند الباب؟» — «لا توجد حالة لذلك في النظام، ولا قاعدة في أي مكان».',
+ why:'أكتر موقف هيتكرر في بلد أغلبه كاش. ومن غيره «أكثر من نصف الحالات» في الملف محجوبة.',
+ opts:[{k:'أ',name:'البضاعة ترجع للتاجر ووصلي تتحمل التوصيل',pros:'بسيط',cons:'الأكل الجاهز ما ينفعش يرجع',cost:'متوسطة',risk:'متوسط',c:'مفيش مطالبة',m:'يخسر الأكل الجاهز',k2:'—',w:'خسارة التوصيل'},
+       {k:'ب',name:'وصلي تشتري البضاعة وتتحمل الخسارة كلها',pros:'التاجر مطمّن تمامًا',cons:'أغلى حل',cost:'عالية',risk:'مالي عالي',c:'مفيش مطالبة',m:'ممتاز',k2:'—',w:'خسارة كاملة'},
+       {k:'ج',name:'حسب الفئة بجدول متفق عليه مع كل تاجر',pros:'عادل ومرن',cons:'محتاج جدول لكل تاجر',cost:'متوسطة',risk:'قليل',c:'مفيش مطالبة',m:'واضح ومتفق عليه',k2:'—',w:'خسارة محسوبة'},
+       {k:'د',name:'إلغاء بواسطة العمليات (الوضع الحالي)',pros:'صفر مجهود',cons:'العمولة والتسوية والتقارير تتلخبط',cost:'مخفية وكبيرة',risk:'عالي',c:'غموض',m:'ما يعرفش هيتعوض ولا لأ',k2:'ما يعرفش يعمل إيه بالأكل',w:'فوضى'}],
+ rec:'ج — يُحسم لكل فئة قبل أول طلب، بجدول يتفق عليه مع كل تاجر. «وصراحةً ليس الخيار د»',conf:'متوسطة',
+ mine:'ج — ومع «الأكل الجاهز بس» في التجربة: وصلي تدفع للمطعم تكلفة الأكل المتفق عليها إلا لو الفشل سببه تأخير جسيم من المطعم. (مثال توضيحي: ≈ 5 جنيه للطلب في المتوسط لو الفشل 3%.)',
+ ifnot:'أول أوردر يترفض: المطعم يطالب، والكابتن متلخبط، والعمليات «تلغي» — والأرقام كلها تتلخبط.',
+ pol:['CUSTOMER_003','OPS_002','MERCHANT_007','FIN_007','CAPTAIN_005'],needs:'حالة «فشل تسليم» في النظام + سجل مصير بضاعة + جدول فئات مع التجار'},
+{n:3,code:'FDR-0002',title:'تعويض الكابتن عن رحلة انتهت بفشل تسليم',urg:'pilot',rev:'الرجوع عنه مكلف',
+ problem:'الكابتن بيستحق «عند التسليم بس». لو راح وما لقاش حد، ما بياخدش ولا جنيه — رغم إنه صرف بنزين ووقت (CFL-0008).',
+ why:'«يمسّ دخل طرف، ويغيّر سلوكه عند الباب». الكابتن اللي ما بياخدش حاجة لو فشل هيضغط على العميل.',
+ opts:[{k:'أ',name:'ولا حاجة (زي النهارده)',pros:'صفر تكلفة',cons:'ضغط على العملاء وكباتن تمشي',cost:'صفر',risk:'عالي',c:'ضغط محتمل',m:'—',k2:'ظلم',w:'مشاكل سمعة'},
+       {k:'ب',name:'مبلغ ثابت',pros:'بسيط وعادل',cons:'لازم الرقم يتحدد',cost:'≈ 5–17.50 للرحلة الفاشلة',risk:'قليل',c:'معاملة أهدى',m:'—',k2:'عدل معقول',w:'تكلفة صغيرة'},
+       {k:'ج',name:'الحصة كاملة',pros:'الكابتن مرتاح جدًا',cons:'ممكن يتستغل',cost:'17.50 للرحلة الفاشلة',risk:'متوسط',c:'معاملة أهدى',m:'—',k2:'ممتاز',w:'تكلفة أعلى'},
+       {k:'د',name:'حسب المسافة المقطوعة',pros:'الأدق',cons:'صعب يدويًا',cost:'متغيرة',risk:'قليل',c:'معاملة أهدى',m:'—',k2:'عدل',w:'تعقيد'}],
+ rec:'ب — بقيمة تُحدَّد من اقتصاديات الرحلة المحلية بعد التجربة. «ولا يُعتمد الخيار أ كسياسة مستقرة لمجرد أنه السلوك الحالي»',conf:'متوسطة',
+ mine:'ب بمبلغ مؤقت من أول يوم في التجربة (مش صفر)، يتراجع بعد 4 أسابيع من البيانات. (مثال: لو الفشل 3% والمبلغ 10 ← ≈ 0.30 جنيه للطلب في المتوسط.)',
+ ifnot:'الكابتن يفضل يخبط على الباب 15 دقيقة لحد ما الجيران يشتكوا — لأنه لو مشي «هيخسر المشوار».',
+ pol:['CAPTAIN_005','CAPTAIN_009','FIN_004','FIN_007'],needs:'بيانات رحلات من التجربة (LDG-0004) + حالة فشل تسليم'},
+{n:4,code:'FDR-0007',title:'الفئات المسموحة في التجربة',urg:'pilot',rev:'يسهل الرجوع عنه',
+ problem:'إيه الفئات اللي تدخل التجربة — مع إن «ماذا نفعل بالبضاعة عند فشل التسليم» إجابته مختلفة لكل فئة؟',
+ why:'«يحدد حجم الخسارة المحتملة وطبيعة الالتزام القانوني معًا». كل فئة زيادة = قاعدة مصير جديدة ومخاطر جديدة.',
+ opts:[{k:'أ',name:'أكل جاهز بس',pros:'أبسط تجربة',cons:'عملاء أقل',cost:'قليلة',risk:'قليل',c:'اختيارات أقل',m:'مطاعم بس',k2:'بسيط',w:'تتعلم بأمان'},
+       {k:'ب',name:'أكل + بقالة',pros:'طلبات أكتر',cons:'قواعد فرز البقالة',cost:'متوسطة',risk:'متوسط',c:'أكتر',m:'+ سوبر ماركت',k2:'شنط تقيلة',w:'تعقيد متوسط'},
+       {k:'ج',name:'+ مخبوزات وتورت وورد',pros:'مناسبات',cons:'منتجات مخصصة ومشكلة الرفض',cost:'متوسطة لعالية',risk:'متوسط لعالي',c:'أكتر',m:'+ حلواني وورد',k2:'منتجات حساسة',w:'تعقيد'},
+       {k:'د',name:'كل حاجة + صيدلة',pros:'أكبر سوق',cons:'الصيدلة محجوبة قانونيًا',cost:'عالية جدًا',risk:'عالي جدًا',c:'أكتر — بخطر',m:'+ صيدليات',k2:'مسؤولية دوا',w:'خطر قانوني'}],
+ rec:'أ للتجربة. ولا تُضاف ب إلا بعد تطبيق قاعدة المصير على طلبات حقيقية. ولا صيدلة قبل اتضاح الوضع القانوني',conf:'مرتفعة',
+ mine:'أ — والبقالة بعد ما قاعدة المصير تشتغل على أكل حقيقي لفترة كافية.',
+ ifnot:'مطعم وسوبر ماركت وحلواني وورد من أول يوم — وكل واحد ليه مشكلة رفض مختلفة ومفيش ولا قاعدة.',
+ pol:['CUSTOMER_003','OPS_002','MERCHANT_001'],needs:'قاعدة مصير لكل صنف + جدول فئات مع التجار'},
+{n:5,code:'FDR-0005',title:'فرق النقد في المطابقة اليومية',urg:'pilot',rev:'الرجوع عنه مكلف',
+ problem:'«ماذا يحدث لفرق نقدي غير صفري عند المطابقة اليومية، وبأي سند يجوز حجز أي مبلغ عن كابتن؟» — مثال: متوقع 1,300 ولقينا 1,270.',
+ why:'«يمسّ مال شخص بغير حكم، وقد يُنشئ ذمّة لا سند لها».',
+ opts:[{k:'أ',name:'يتسجل ويتعدم في حد معتمد، ونراجع النمط',pros:'عادل وبيكشف الأنماط',cons:'وصلي بتتحمل الفروق الصغيرة',cost:'صغيرة (حسب الحد)',risk:'قليل',c:'—',m:'—',k2:'عدل',w:'ثقة الكباتن'},
+       {k:'ب',name:'يتحجز من فلوس الكابتن لحد ما نعرف السبب',pros:'بيحمي وصلي مؤقتًا',cons:'حجز فلوس من غير حكم',cost:'صفر',risk:'عالي (المقاصة سؤال مفتوح)',c:'—',m:'—',k2:'ظلم محتمل',w:'خطر قانوني'},
+       {k:'ج',name:'يتخصم من الكابتن مباشرةً',pros:'بسيط',cons:'اتهام من غير دليل',cost:'صفر',risk:'عالي جدًا',c:'—',m:'—',k2:'ظلم محتمل',w:'خطر قانوني وكباتن تمشي'}],
+ rec:'أ — بحد إعدام (PAR-0021)، وبقاعدة صريحة إن «الفرق وحده لا يُثبت سرقة ولا دينًا ولا حقًّا في المقاصّة»',conf:'مرتفعة',
+ mine:'أ بحد إعدام صغير للواقعة (سيناريو للنقاش ≈ 50 جنيه — مش رقم معتمد) + مراجعة شهرية للنمط + اللي عدّ الفلوس ما يقررش الإعدام.',
+ ifnot:'كل آخر يوم خناقة على 20 و30 جنيه، والكابتن الكويس يسيب الشغل لأنه حاسس إنه متهم.',
+ pol:['FIN_001','FIN_006','CAPTAIN_006','RISK_001','GOV_005'],needs:'رأي المحامي في جواز المقاصة أصلًا (VAL-0011)'},
+{n:6,code:'FDR-0010',title:'رصيد للعميل قبل حسم «النقود الإلكترونية»',urg:'pilot',rev:'يسهل الرجوع عنه',
+ problem:'هل وصلي تصدر أي رصيد للعميل (قسيمة استرداد، رصيد حسن نية، رصيد ترويجي) قبل ما سؤال «النقود الإلكترونية» يتجاوب؟ — والسلوك «قائم في النظام اليوم».',
+ why:'«قد يقع تحت تنظيم مدفوعات». وهل القسيمة المغلقة داخلة؟ ده سؤال VAL-0008 لمتخصص مدفوعات.',
+ opts:[{k:'أ',name:'وقف أي رصيد + الكاش يرجع كاش',pros:'أقل تعرض',cons:'مشاوير رد كاش',cost:'قليلة (مثال ≈ 200 جنيه/شهر)',risk:'قليل',c:'فلوسه في إيده',m:'—',k2:'مشوار زيادة أحيانًا',w:'أمان'},
+       {k:'ب',name:'القسيمة + بديل كاش يختاره العميل صراحةً',pros:'مرونة',cons:'لسه فيه رصيد',cost:'قليلة',risk:'متوسط',c:'يختار',m:'—',k2:'—',w:'نص أمان'},
+       {k:'ج',name:'زي النهارده',pros:'صفر مجهود',cons:'مخالفة محتملة شغالة',cost:'صفر لحد المشكلة',risk:'عالي',c:'ممكن يتظلم',m:'—',k2:'—',w:'خطر'}],
+ rec:'أ للتجربة — «الرد النقدي على حجم طلبات صغير أمر تشغيلي بسيط بينما التعرّض ليس بسيطًا». ويُعاد النظر في ب بعد المحامي',conf:'متوسطة',
+ mine:'أ — والعروض تبقى «خصم مباشر» على نفس الطلب بدل رصيد، وجرد أي قسايم قديمة وردها كاش.',
+ ifnot:'عرض «30 جنيه رصيد» نجح مع 2,000 عميل — وبقى عندك 60,000 جنيه التزام غامض قانونيًا.',
+ pol:['CUSTOMER_004','FIN_002','FIN_008','LEGAL_004'],needs:'إجابة متخصص مدفوعات (VAL-0008)'},
+{n:7,code:'FDR-0009',title:'دخول الصيدلة أصلًا',urg:'pilot',rev:'يسهل الرجوع عنه',
+ problem:'هل الصيدلة تدخل النطاق قبل ما الوضع القانوني المصري لبيع الدوا والترويج له إلكترونيًا يتحدد؟',
+ why:'«فئة منظَّمة، والخطأ فيها يمسّ صحة الناس ومسؤولية الشركة معًا».',
+ opts:[{k:'أ',name:'استبعاد لحد رأي المحامي',pros:'صفر خطر',cons:'فرصة مؤجلة',cost:'صفر',risk:'قليل',c:'يروح بنفسه',m:'مفيش',k2:'مفيش',w:'أمان'},
+       {k:'ب',name:'اللي من غير روشتة بس',pros:'سوق مطلوب',cons:'لسه من غير إطار',cost:'متوسطة',risk:'متوسط لعالي',c:'مريح',m:'مبيعات',k2:'مسؤولية نقل',w:'خطر'},
+       {k:'ج',name:'صيدلة كاملة',pros:'أكبر سوق',cons:'خطر كبير جدًا',cost:'عالية',risk:'عالي جدًا',c:'مريح',m:'مبيعات',k2:'مسؤولية كبيرة',w:'خطر كبير'}],
+ rec:'أ حتى يشير المحامي، ثم يُعاد تقييم ب. «ولا يُعرض على صيدلية عرض تجاري قبل ذلك»',conf:'مرتفعة',
+ mine:'أ — ومتابعة أي تشريع جاي لتطبيقات بيع الدوا (خبر منشور — ثقة منخفضة).',
+ ifnot:'صيدلية بتضغط، والكباتن بيوصلوا دوا «ودّي»، وأول غلطة ممكن تبقى صحة إنسان.',
+ pol:['PHARM_001','PHARM_002','PHARM_003','LEGAL_006'],needs:'رأي محامي + رأي صيدلي مرخّص (VAL-0010)'},
+{n:8,code:'FDR-0012',title:'توزيع الصلاحيات في فريق من شخص أو اتنين',urg:'pilot',rev:'يسهل الرجوع عنه',
+ problem:'«من يحمل كل وظيفة صلاحية بينما الشركة عمليًا شخص أو شخصان؟ وأي الأنشطة تُحظر بالتالي بدل أن تبقى بلا رقابة؟»',
+ why:'«فصل المهام غير قائم فعلًا، وادعاؤه أخطر من الاعتراف بغيابه» (CFL-0009). وده بيأثر على أي وعد بمراجعة مستقلة (CFL-0012).',
+ opts:[{k:'أ',name:'انت كل حاجة + تسجيل التعارض',pros:'صفر تكلفة',cons:'مفيش حد يشوف غلطك',cost:'صفر',risk:'متوسط لعالي',c:'—',m:'ثقة أقل في التسوية',k2:'ثقة أقل',w:'سهل وخطر'},
+       {k:'ب',name:'شخص تاني يراجع الكاش والاسترداد والإنفاذ',pros:'فصل مهام حقيقي',cons:'تكلفة',cost:'مرتب',risk:'قليل',c:'تظلّم حقيقي',m:'ثقة',k2:'ثقة',w:'صح بس مكلف'},
+       {k:'ج',name:'منع أنشطة معينة لحد ما يبقى فيه شخص تاني',pros:'صريح وآمن',cons:'أنشطة تقف',cost:'صفر (خسارة مرونة)',risk:'قليل',c:'بعض الحلول أبطأ',m:'تسوية ممكن تتأخر',k2:'إعدام الفروق يقف',w:'آمن بس بطيء'},
+       {k:'د',name:'مراجع خارجي بعض الوقت (مقترح من الدليل — مش من الملف)',pros:'فصل مهام بتكلفة أقل',cons:'مش يومي',cost:'أتعاب',risk:'قليل',c:'تظلّم أقرب للمستقل',m:'ثقة',k2:'ثقة',w:'توازن'}],
+ rec:'ج للأنشطة اللي فيها شخص واحد بينفّذ ويعتمد إجراء مالي أو إنفاذي ما يترجعش فيه؛ وأ مع تسجيل التعارض في الباقي. «ولا يُدَّعى فصل مهام غير قائم إطلاقًا»',conf:'مرتفعة',
+ mine:'ج + د + أ: قايمة صفحة واحدة بالأنشطة الممنوعة، ومراجع خارجي (محاسب مثلًا) يبقى «الشخص التاني» في التسويات والاستردادات الكبيرة.',
+ ifnot:'تاجر يتهمك في التسوية بعد 4 شهور — ومفيش ولا توقيع تاني على أي كشف.',
+ pol:['GOV_001','FIN_009','GOV_005','EMP_003'],needs:'قايمة الأنشطة الممنوعة صراحةً'},
+{n:9,code:'FDR-0003',title:'نموذج التزام التاجر بالطلب',urg:'pilot',rev:'يسهل الرجوع عنه',
+ problem:'لما عميل يطلب من مطعم «مفتوح»: الطلب ملزم للمطعم تلقائيًا؟ ولا لازم المطعم «يقبل» الأول؟ — وفرضية الالتزام التلقائي بتناقض المطبّق (CFL-0006).',
+ why:'«يحدد تجربة العميل وعلاقة التاجر معًا، ويصعب تغييره بعد الإعلان».',
+ opts:[{k:'أ',name:'التزام تلقائي',pros:'سريع للعميل',cons:'وعد بدقة مخزون محدش قاسها',cost:'إلغاءات محرجة',risk:'عالي',c:'سريع بس ممكن يتلغي',m:'ضغط',k2:'—',w:'سمعة في خطر'},
+       {k:'ب',name:'تأكيد صريح (المطبّق حاليًا)',pros:'مطابق للمبني وواقعي',cons:'خطوة زيادة ووقت انتظار',cost:'قليلة',risk:'قليل',c:'انتظار دقايق',m:'تحكم',k2:'—',w:'آمن'},
+       {k:'ج',name:'تلقائي + استثناءات رفض ضيقة',pros:'الأحسن للعميل على المدى',cons:'محتاج قياس موثوقية',cost:'متوسطة',risk:'متوسط',c:'ممتاز',m:'التزام أكبر',k2:'—',w:'أحسن تجربة'},
+       {k:'د',name:'حسب موثوقية كل تاجر',pros:'عادل جدًا',cons:'محتاج بيانات مش موجودة',cost:'عالية',risk:'غير متاح دلوقتي',c:'ممتاز',m:'حسب أدائه',k2:'—',w:'معقد'}],
+ rec:'ب للتجربة — «لأنه يطابق المبني فعلًا ولا يَعِد بدقة مخزون لم يقسها أحد»، وج هي الوجهة لما الموثوقية تتقاس',conf:'متوسطة',
+ mine:'ب + مهلة قبول قصيرة يتفق عليها مع التجار (سيناريو للنقاش: 3–5 دقايق) + مكالمة قبل الإلغاء التلقائي. وبعد التجربة ← ج.',
+ ifnot:'التطبيق يقول للعميل «طلبك اتأكد» وهو لسه مستني المطعم — والمطعم قافل.',
+ pol:['MERCHANT_003','MERCHANT_002','OPS_001','CUSTOMER_002'],needs:'قدرة على قياس موثوقية التاجر (للانتقال لـج)'},
+{n:10,code:'FDR-0008',title:'تغطية الدعم والطلب خارجها',urg:'pilot',rev:'يسهل الرجوع عنه',
+ problem:'«ما التغطية التي تلتزم بها وصّلي للدعم، وما القاعدة حين يُنشأ طلب خارجها؟»',
+ why:'«وعد خدمة معلن، ويحدد ما يحدث لعميل في مشكلة ليلًا».',
+ opts:[{k:'أ',name:'طلبات داخل ساعات الدعم بس',pros:'أبسط وأأمن',cons:'خدمة أقل',cost:'قليلة',risk:'قليل',c:'محدود',m:'محدود',k2:'آمن',w:'أمان'},
+       {k:'ب',name:'أي وقت + قاعدة رد معلنة',pros:'خدمة أوسع',cons:'وعد لازم يتنفذ',cost:'متوسطة',risk:'وعد مكسور',c:'ممتاز لو اتنفذ',m:'طلبات أكتر',k2:'ضغط بالليل',w:'خطر'},
+       {k:'ج',name:'أي وقت + مسار طوارئ بس',pros:'واقعي',cons:'المشاكل العادية تستنى',cost:'متوسطة',risk:'قليل',c:'كويس',m:'طلبات أكتر',k2:'آمن نسبيًا',w:'توازن'}],
+ rec:'ج — مع نافذة تغطية من توقيتات طلبات التجربة، و«حادث السلامة لا يُؤجَّل لساعات العمل أبدًا»',conf:'متوسطة',
+ mine:'أ في أول أسبوعين، وبعدين ج بساعات مبنية على البيانات — أضيق شوية من توصية الملف لأن في الأول مش هتعرف حجم المشاكل.',
+ ifnot:'الساعة 2 بالليل كابتن اتسرق، وعميل مستني من ساعة — ومحدش بيرد.',
+ pol:['SUP_001','OPS_006','OPS_007'],needs:'بيانات توقيت الطلبات من التجربة'},
+{n:11,code:'FDR-0011',title:'سلّم تقييد العميل عند تكرار فشل التسليم',urg:'launch',rev:'الرجوع عنه مكلف',
+ problem:'هل وصلي تعمل أي «سلّم تقييد» للعميل اللي بيتكرر معاه فشل التسليم في الكاش؟ وإيه أول درجة؟ — مثال: عميل رفض 3 أوردرات في شهر.',
+ why:'«يمسّ حق عميل في الخدمة، وقد يُبنى على معدل أساس غير موجود».',
+ opts:[{k:'أ',name:'لا تقييد — توعية بس',pros:'صفر ظلم',cons:'المسيء يكمل',cost:'خسائر رفض',risk:'متوسط (مالي)',c:'مريح',m:'خسائر أكتر',k2:'مشاوير فاشلة',w:'خسارة مالية'},
+       {k:'ب',name:'توعية ← تنبيه ← مراجعة بشرية',pros:'متدرج وعادل',cons:'بطيء شوية',cost:'وقت موظف',risk:'قليل',c:'عادل',m:'حماية معقولة',k2:'أقل',w:'توازن'},
+       {k:'ج',name:'+ تقييد مؤقت للكاش (دفع مقدم)',pros:'بيحمي من المسيء',cons:'محتاج دفع مسبق مش شغال',cost:'برمجة دفع',risk:'متوسط',c:'ممكن يتقيد بالغلط',m:'حماية أكبر',k2:'أقل',w:'حماية بشرط الدفع'},
+       {k:'د',name:'تقييد الحساب',pros:'حاسم',cons:'ظلم للناس اللي عندهم ظروف',cost:'خسارة عملاء',risk:'عالي (ظلم وسمعة)',c:'ظلم محتمل',m:'حماية أكبر',k2:'أقل',w:'خطر سمعة'}],
+ rec:'ب قبل أي تجربة. وج فقط بعد مسار دفع مسبق شغال + إجراء لتصحيح الإنذار الكاذب',conf:'متوسطة',
+ mine:'ب — وممنوع إن الكباتن يرفضوا عروض عميل معين «بشكل جماعي» من غير بلاغ سلامة (تقييد في الخفا).',
+ ifnot:'حساب الحاجة سعاد يتقفل «عشان رفضت مرتين» — ويطلع إنها كانت في المستشفى.',
+ pol:['CUSTOMER_006','RISK_003','RISK_004','CUSTOMER_003'],needs:'معدل أساس من التجربة + دفع مسبق شغال + مسار تصحيح'},
+{n:12,code:'FDR-0006',title:'قيم التسوية والغرامة اللي في الكود',urg:'launch',rev:'يسهل الرجوع عنه',
+ problem:'الكود بيحسب قيم «شغالة في الإنتاج بلا قرار موثق»: مهلة تسوية التاجر 48 ساعة، وغرامة تأخير 0.5% في اليوم، و3 أيام سماح، وحد أقصى 5% — ووثائق القرار فيها «تعارض في المعرّفات» (CFL-0007). والغرامة هنا على وصلي لو اتأخرت في تسوية التاجر.',
+ why:'«قيم تعمل الآن في الإنتاج بلا قرار موثَّق، وتعارض المعرّفات عيب حوكمة يُنتج مراجع خاطئة».',
+ opts:[{k:'أ',name:'القيم الأربع تبقى قرارات رسمية + ترقيم موحد',pros:'وضوح والتزام قدام التجار',cons:'لازم تقدر تلتزم بـ48 ساعة',cost:'غرامة لو اتأخرت (مثال: 0.5% × 3 أيام بعد السماح على 5,000 = 75)',risk:'قليل لو ملتزم',c:'—',m:'حماية وثقة',k2:'—',w:'انضباط'},
+       {k:'ب',name:'تعليق حساب الغرامة لحد التأكيد',pros:'صفر خطر مالي مؤقتًا',cons:'التاجر مالوش حماية من تأخيرك',cost:'صفر',risk:'ثقة التجار',c:'—',m:'أقل حماية',k2:'—',w:'مريح مؤقتًا'},
+       {k:'ج',name:'المهلة تبقى قرار رسمي + حسابات الغرامة تتراجع',pros:'مرونة',cons:'تأجيل',cost:'صفر مؤقتًا',risk:'متوسط',c:'—',m:'غموض',k2:'—',w:'غموض'}],
+ rec:'أ — مقترنًا بحل تعارض المعرّفات',conf:'متوسطة',
+ mine:'أ — بس بعد ما تتأكد إنك تقدر فعلًا تسوّي خلال 48 ساعة في التجربة. لو مش متأكد، الأصدق مهلة أطول تقدر تلتزم بيها (مثلًا 72 ساعة).',
+ ifnot:'«لا تُطالَب أي جهة بغرامة بناءً على هذه القيم قبل اعتمادها» — يعني الكود شغال بقيم محدش يقدر يستند عليها.',
+ pol:['MERCHANT_007','FIN_003','GOV_003','GOV_004'],needs:'حصر الأماكن اللي بتستخدم القيم في الكود'}
+];
+
+/* ------------------------------------------------------------------ helpers */
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function st(k){var s=STATUS[k];return s?'<span class="st '+s.cls+'">'+s.label+'</span>':'';}
+function pol(code){var name=POL[code];var label=/^CH\d+$/.test(code)?'':code;if(!name)return '<span class="pcode"><b>'+esc(code)+'</b></span>';return '<span class="pcode">'+(label?'<b>'+esc(label)+'</b>':'')+'<span>'+esc(name)+'</span></span>';}
+var store={get:function(k){try{return window.localStorage.getItem('wasaly-sim:'+k);}catch(e){return null;}},set:function(k,v){try{window.localStorage.setItem('wasaly-sim:'+k,v);}catch(e){}}};
+function byId(arr,id){for(var i=0;i<arr.length;i++){if(arr[i].id===id)return arr[i];}return arr[0];}
+function uniq(a){var o=[];a.forEach(function(x){if(o.indexOf(x)<0)o.push(x);});return o;}
+
+var state={tab:'journey',journey:'normal',step:1,problem:'no_answer',money:'normal',moment:0,dfilter:'all',open:{},opt:{}};
+(function restore(){
+  var t=store.get('tab');if(t&&['journey','problems','money','founder'].indexOf(t)>=0)state.tab=t;
+  var j=store.get('journey');if(j&&JOURNEYS.some(function(x){return x.id===j;}))state.journey=j;
+  var h=(location.hash||'').replace('#','');if(['journey','problems','money','founder'].indexOf(h)>=0)state.tab=h;
+})();
+
+/* ------------------------------------------------------------------ journey */
+function stepData(j,id){
+  var b=STEPS[id-1],o=(j.ov&&j.ov[id])||{},s={};
+  for(var k in b)s[k]=b[k];
+  ['what','who','money','decision'].forEach(function(k){if(o[k]!=null)s[k]=o[k];});
+  var stt=(o.st?uniq(b.st.concat(o.st)):b.st.slice());
+  if(j.allBlocked&&stt.indexOf('blocked')<0)stt.unshift('blocked');
+  if(o.story&&stt.indexOf('example')<0)stt.push('example');
+  s.st=stt;s.story=o.story||null;s.links=uniq((o.links||[]).concat(b.links||[]));
+  return s;
+}
+function renderJourney(){
+  var j=byId(JOURNEYS,state.journey);
+  var counts={};
+  for(var i=1;i<=18;i++){stepData(j,i).st.forEach(function(k){counts[k]=(counts[k]||0)+1;});}
+  var html='';
+  html+='<div class="legend" aria-label="علامات الحالة">علامات الحالة: '+Object.keys(STATUS).map(st).join('')+'</div>';
+  html+='<div class="sel" role="group" aria-label="اختار الرحلة" style="margin-top:12px">'+JOURNEYS.map(function(x){return '<button class="chipbtn" data-journey="'+x.id+'" aria-pressed="'+(x.id===j.id)+'">'+esc(x.name)+(x.tag?' <span class="tag">'+esc(x.tag)+'</span>':'')+'</button>';}).join('')+'</div>';
+  html+='<div class="card jhead"><div><h2>'+esc(j.name)+'</h2><p class="persona">'+esc(j.persona)+'</p><p class="order">'+esc(j.order)+'</p><p class="jnote">'+esc(j.note)+'</p></div>';
+  html+='<div class="counts" aria-label="عدد الخطوات حسب الحالة">'+Object.keys(STATUS).filter(function(k){return counts[k];}).map(function(k){return '<span class="st '+STATUS[k].cls+'">'+STATUS[k].label+' · <span class="mono">'+counts[k]+'</span></span>';}).join('')+'</div></div>';
+  if(j.allBlocked)html+='<div class="banner blocked"><b>الرحلة دي محجوبة.</b> مش موجودة النهارده، وما ينفعش تتشغل قبل شروطها. اللي تحت شرح نظري مبني على حالات الملف.</div>';
+  html+='<div class="jgrid"><ol class="rail" aria-label="خطوات الرحلة">';
+  for(var n=1;n<=18;n++){
+    var s=stepData(j,n);
+    html+='<li><button class="stepbtn" data-step="'+n+'"'+(n===state.step?' aria-current="step"':'')+'><span class="num">'+n+'</span><span class="nm">'+esc(s.name)+'</span><span class="dots" aria-hidden="true">'+(s.story?'<span class="flag"></span>':'')+s.st.map(function(k){return '<span class="dot '+k+'"></span>';}).join('')+'</span></button></li>';
+  }
+  html+='</ol>'+renderStep(j)+'</div>';
+  $('#p-journey').innerHTML=html;
+}
+function renderStep(j){
+  var s=stepData(j,state.step);
+  var h='<article class="card detail" aria-live="polite"><div class="dtop"><div><div class="k">الخطوة <span class="mono">'+s.id+'</span> من <span class="mono">18</span> · '+esc(j.name)+'</div><h2>'+esc(s.name)+'</h2><div class="chips" style="margin-top:6px">'+s.st.map(st).join('')+'</div></div>';
+  h+='<div class="nav"><button class="navbtn" data-nav="-1"'+(s.id===1?' disabled':'')+'>السابق</button><button class="navbtn" data-nav="1"'+(s.id===18?' disabled':'')+'>التالي</button></div></div><div class="secs">';
+  if(s.story)h+='<div class="story"><div class="lbl">'+st('example')+' في الرحلة دي</div><p>'+esc(s.story)+'</p></div>';
+  h+='<div class="sec"><h3>بيحصل إيه؟</h3><p>'+esc(s.what)+'</p></div>';
+  h+='<div class="two"><div class="sec"><h3>مين المسؤول؟</h3><p>'+esc(s.who)+'</p></div><div class="sec"><h3>البيانات المطلوبة</h3><p>'+esc(s.data)+'</p></div></div>';
+  h+='<div class="sec"><h3>السياسة اللي بتحكمها</h3><div class="chips">'+s.pol.map(pol).join('')+'</div></div>';
+  h+='<div class="sec"><h3>مين شايف إيه؟</h3><div class="sees"><div class="see"><div class="who">العميل</div><p>'+esc(s.sees.c)+'</p></div><div class="see"><div class="who">التاجر</div><p>'+esc(s.sees.m)+'</p></div><div class="see"><div class="who">الكابتن</div><p>'+esc(s.sees.k)+'</p></div><div class="see"><div class="who">موظف وصلي</div><p>'+esc(s.sees.s)+'</p></div></div></div>';
+  h+='<div class="money"><div class="lbl">الفلوس فين؟ (مثال توضيحي)</div><p>'+esc(s.money)+'</p></div>';
+  h+='<div class="two"><div class="sec"><h3>مشاكل ممكنة</h3><ul>'+s.problems.map(function(p){return '<li>'+esc(p)+'</li>';}).join('')+'</ul></div><div class="sec"><h3>الحل</h3><p>'+esc(s.solution)+'</p><h3 style="margin-top:10px">التصعيد</h3><p>'+esc(s.esc)+'</p></div></div>';
+  if(s.links.length)h+='<div class="golinks">'+s.links.map(function(id){var p=byId(PROBLEMS,id);return '<button class="golink" data-goto-problem="'+id+'">جرّب مشكلة «'+esc(p.name)+'» في المحاكي</button>';}).join('')+'</div>';
+  if(s.decision)h+='<div class="decide"><div class="lbl">'+st('decision')+' محتاج قرار منك</div><p style="margin:4px 0 0">'+esc(s.decision)+'</p></div>';
+  h+='</div></article>';
+  return h;
+}
+
+/* ------------------------------------------------------------------ problems */
+var SET={yes:['محسوم','yes'],partial:['محسوم جزئيًا','partial'],no:['غير محسوم — قرار مطلوب','no']};
+function renderProblems(){
+  var p=byId(PROBLEMS,state.problem);
+  var h='<div class="banner learn">اختار مشكلة وشوف الطريق بيتغير إزاي. المعيّن الأحمر المتقطع معناه إن الملف <b>ما حسمش</b> النقطة دي — والقرار فيها بتاعك انت.</div>';
+  h+='<div class="pgrid" role="group" aria-label="المشاكل">'+PROBLEMS.map(function(x){return '<button class="pbtn" data-problem="'+x.id+'" aria-pressed="'+(x.id===p.id)+'"><span class="t">'+esc(x.name)+'</span><span class="m"><span class="mono">خطوة '+x.step+'</span><span class="set '+SET[x.set][1]+'">'+SET[x.set][0]+'</span>'+(x.future?'<span class="st st-notbuilt">غير مبني</span>':'')+'</span></button>';}).join('')+'</div>';
+  var step=STEPS[p.step-1];
+  h+='<div class="pview"><div class="card flowcard"><h3>الطريق اتغير كده</h3><p class="note" style="margin:-4px 0 10px">المشكلة بتحصل عند خطوة <span class="mono">'+p.step+'</span> — «'+esc(step.name)+'» · '+'<span class="code">'+esc(p.inc)+'</span></p><ol class="flow">'+p.flow.map(function(n){var t=n[0];return '<li class="'+t+'"><div class="box">'+esc(n[1])+(t==='undecided'?'<span class="u">غير محسوم</span>':'')+'</div></li>';}).join('')+'</ol></div>';
+  h+='<div class="card explain"><div class="secs">';
+  h+='<div class="sec"><h3>اللي حصل '+st('example')+'</h3><p>'+esc(p.ex)+'</p></div>';
+  h+='<div class="sec"><h3>الحل خطوة بخطوة</h3><ol class="steps">'+p.steps.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol></div>';
+  h+='<div class="two"><div class="sec"><h3>مين المسؤول؟</h3><p>'+esc(p.who)+'</p></div><div class="sec"><h3>محسوم؟</h3><p><span class="set '+SET[p.set][1]+'" style="font-size:13px">'+SET[p.set][0]+'</span></p>'+(p.fdr.length?'<div class="golinks">'+p.fdr.map(function(c){return '<button class="golink" data-goto-decision="'+c+'">افتح '+esc(c)+'</button>';}).join('')+'</div>':'')+'</div></div>';
+  h+='<div class="sec"><h3>الرسالة للعميل (أو للطرف المعني)</h3><div class="bubble">'+(p.msg[0]!=='—'?'<span class="code">'+esc(p.msg[0])+'</span><br>':'')+esc(p.msg[1])+'</div></div>';
+  h+='<div class="money"><div class="lbl">الفلوس</div><dl class="kv" style="margin:4px 0 0"><dt>مين يدفع مؤقتًا</dt><dd>'+esc(p.money.temp)+'</dd><dt>مين يتحمل في الآخر</dt><dd>'+esc(p.money.fin)+'</dd><dt>مثال</dt><dd>'+esc(p.money.ex)+'</dd></dl></div>';
+  h+='<div class="sec"><h3>السياسات</h3><div class="chips">'+p.pol.map(pol).join('')+'</div></div>';
+  h+='<div class="sec"><h3>ما يتقالش</h3><ul class="dont">'+p.dont.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';
+  h+='<div class="golinks"><button class="golink" data-goto-step="'+p.step+'">شوف الخطوة '+p.step+' في الرحلة العادية</button></div>';
+  h+='</div></div></div>';
+  $('#p-problems').innerHTML=h;
+}
+
+/* ------------------------------------------------------------------ money */
+var PARTY=[['c','العميل'],['k','الكابتن'],['w','وصلي'],['m','التاجر']];
+function renderMoney(){
+  var sc=byId(MONEY,state.money);
+  if(state.moment>=sc.moments.length)state.moment=0;
+  var mo=sc.moments[state.moment];
+  var h='<div class="banner learn">كل الأرقام هنا <b>مثال توضيحي</b> مبني على طلب أحمد (300 + 25). العمولة «ع%» افترضناها 15% للتوضيح بس. وحصة الكابتن 70% «قيمة قائمة غير معتمدة».</div>';
+  h+='<div class="sel" role="group" aria-label="السيناريو">'+MONEY.map(function(x){return '<button class="chipbtn" data-money="'+x.id+'" aria-pressed="'+(x.id===sc.id)+'">'+esc(x.name)+(x.st==='notbuilt'?' <span class="tag">غير مبني</span>':'')+(x.st==='decision'?' <span class="tag">غير محسوم</span>':'')+'</button>';}).join('')+'</div>';
+  h+='<div class="mgrid" style="margin-top:8px"><div><div class="moments" role="group" aria-label="اللحظة">'+sc.moments.map(function(m,i){return '<button class="moment" data-moment="'+i+'" aria-pressed="'+(i===state.moment)+'">'+esc(m.n)+'</button>';}).join('')+'</div>';
+  h+='<div class="parties">'+PARTY.map(function(pp){var v=mo.p[pp[0]];return '<div class="party"><span class="pn">'+pp[1]+'</span><span class="amt">'+esc(v[0])+(v[0]!=='—'?'<small>ج.م</small>':'')+'</span>'+(v[2]?'<span class="owed">ليه عند وصلي: <span class="mono">'+esc(v[2])+'</span></span>':'')+'<p>'+esc(v[1])+'</p></div>';}).join('')+'</div>';
+  h+='<p class="note" style="margin:8px 0 0">الرقم الكبير = اللي في إيد الطرف ده (أو اللي كسبه/خسره) في اللحظة دي.</p></div>';
+  var r=sc.receipt;
+  h+='<div><div class="receipt"><h3>'+esc(r.title)+'</h3><p class="rsub">'+esc(r.sub)+'</p>'+r.lines.map(function(l){return '<div class="rline"><span>'+esc(l[0])+'</span><span class="v">'+esc(l[1])+'</span></div>';}).join('')+'<div class="rsep"></div><div class="rline rtotal"><span>'+esc(r.total[0])+'</span><span class="v">'+esc(r.total[1])+'</span></div><div class="stamp">'+esc(r.pay)+'</div><p class="rfoot">'+esc(r.foot)+'</p></div></div></div>';
+  h+='<div class="tblwrap"><table><thead><tr><th>الطرف</th><th>دفع</th><th>استلم</th><th>شايل الكاش إمتى</th><th>ليه فلوس (مستحق)</th><th>يتحمل الخسارة لو حصلت؟</th></tr></thead><tbody>'+sc.table.map(function(row){return '<tr>'+row.map(function(c){return '<td>'+esc(c)+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div>';
+  $('#p-money').innerHTML=h;
+}
+
+/* ------------------------------------------------------------------ founder */
+var URG={now:['فوري','now'],pilot:['قبل التجربة','pilot'],launch:['قبل الإطلاق','launch']};
+function renderFounder(){
+  var h='<div class="banner learn"><b>الصفحة دي للتعلم بس.</b> مفيش هنا زرار «اعتماد»، والضغط على أي خيار مش قرار — بيفتح شرحه بس. القرار بيكون مكتوب وصريح منك بتاريخ وتوقيع (الملف: «لا اعتماد بالصمت ولا بعدم الاعتراض ولا بقبول نتيجة بحث»). عدد القرارات المعتمدة النهارده: <b class="mono">0</b> من <b class="mono">12</b>.</div>';
+  h+='<div class="dfilters" role="group" aria-label="فلتر الإلحاح">'+[['all','الكل'],['now','فوري'],['pilot','قبل التجربة'],['launch','قبل الإطلاق']].map(function(f){return '<button class="chipbtn" data-dfilter="'+f[0]+'" aria-pressed="'+(state.dfilter===f[0])+'">'+f[1]+'</button>';}).join('')+'</div>';
+  h+='<div class="dgrid">';
+  DECISIONS.filter(function(d){return state.dfilter==='all'||d.urg===state.dfilter;}).forEach(function(d){
+    var open=!!state.open[d.code];
+    h+='<article class="card dcard" id="d-'+d.code+'"><div class="dhead"><div class="dnum">'+d.n+'</div><div class="dtitle"><h3>'+esc(d.title)+'</h3><div class="dmeta"><span class="code">'+esc(d.code)+'</span><span class="urg '+URG[d.urg][1]+'">'+URG[d.urg][0]+'</span><span>'+esc(d.rev)+'</span><span class="st st-decision">لم يُعتمد</span></div></div><button class="dtoggle" data-dtoggle="'+d.code+'" aria-expanded="'+open+'" aria-controls="db-'+d.code+'">'+(open?'اقفل':'افتح التفاصيل')+'</button></div>';
+    h+='<p class="dsum">'+esc(d.problem)+'</p>';
+    if(open){
+      var ok=state.opt[d.code]||d.opts[0].k;var o=d.opts.filter(function(x){return x.k===ok;})[0]||d.opts[0];
+      h+='<div class="dbody" id="db-'+d.code+'"><div class="sec"><h3>ليه مهم؟</h3><p>'+esc(d.why)+'</p></div>';
+      h+='<div class="sec"><h3>الخيارات (اضغط عشان تشوف تفاصيل الخيار — ده مش اختيار)</h3><div class="opts" role="group" aria-label="الخيارات">'+d.opts.map(function(x){return '<button class="optbtn" data-dopt="'+d.code+'|'+x.k+'" aria-pressed="'+(x.k===o.k)+'"><span class="k">'+x.k+'</span>'+esc(x.name)+'</button>';}).join('')+'</div></div>';
+      h+='<div class="optgrid">'+[['الميزة',o.pros],['العيب',o.cons],['التكلفة',o.cost],['الخطر',o.risk],['على العميل',o.c],['على التاجر',o.m],['على الكابتن',o.k2],['على وصلي',o.w]].map(function(x){return '<div class="opti"><div class="h">'+x[0]+'</div><p>'+esc(x[1])+'</p></div>';}).join('')+'</div>';
+      h+='<div class="tblwrap" style="margin-top:0"><table><thead><tr><th>مقارنة</th>'+d.opts.map(function(x){return '<th>'+x.k+': '+esc(x.name)+'</th>';}).join('')+'</tr></thead><tbody>'+[['الميزة','pros'],['العيب','cons'],['التكلفة','cost'],['الخطر','risk'],['العميل','c'],['التاجر','m'],['الكابتن','k2'],['وصلي','w']].map(function(r){return '<tr><td>'+r[0]+'</td>'+d.opts.map(function(x){return '<td>'+esc(x[r[1]])+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div>';
+      h+='<div class="rec"><div class="box file"><div class="h">توصية البحث في الملف <span class="st st-current">ثقة '+esc(d.conf)+'</span></div><p>'+esc(d.rec)+'</p><p class="note">«التوصية مُدخَل للقرار وليست القرار».</p></div><div class="box mine"><div class="h">أنا أميل إلى '+st('proposed')+'</div><p>'+esc(d.mine)+'</p><p class="note">رأي في الدليل المبسط — مش قرار.</p></div></div>';
+      h+='<div class="two"><div class="sec"><h3>لو ما اتقررش</h3><p>'+esc(d.ifnot)+'</p></div><div class="sec"><h3>محتاج قبله</h3><p>'+esc(d.needs)+'</p></div></div>';
+      h+='<div class="sec"><h3>السياسات اللي بتتحرك</h3><div class="chips">'+d.pol.map(pol).join('')+'</div></div></div>';
+    }
+    h+='</article>';
+  });
+  h+='</div>';
+  $('#p-founder').innerHTML=h;
+}
+
+/* ------------------------------------------------------------------ shell */
+function $(s){return document.querySelector(s);}
+function showTab(t,focus){
+  state.tab=t;store.set('tab',t);
+  ['journey','problems','money','founder'].forEach(function(k){
+    var b=document.getElementById('t-'+k),p=document.getElementById('p-'+k);
+    var on=k===t;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;p.hidden=!on;
+  });
+  render();
+  if(focus)document.getElementById('t-'+t).focus();
+  try{history.replaceState(null,'','#'+t);}catch(e){}
+}
+function render(){
+  if(state.tab==='journey')renderJourney();
+  else if(state.tab==='problems')renderProblems();
+  else if(state.tab==='money')renderMoney();
+  else renderFounder();
+}
+document.addEventListener('click',function(e){
+  var el=e.target.closest('button');if(!el)return;
+  var d=el.dataset;
+  if(d.tab){showTab(d.tab);return;}
+  if(d.journey){state.journey=d.journey;store.set('journey',d.journey);renderJourney();return;}
+  if(d.step){state.step=+d.step;renderJourney();var det=document.querySelector('.detail');if(det&&window.innerWidth<900)det.scrollIntoView({block:'start',behavior:'smooth'});return;}
+  if(d.nav){state.step=Math.min(18,Math.max(1,state.step+(+d.nav)));renderJourney();return;}
+  if(d.problem){state.problem=d.problem;renderProblems();return;}
+  if(d.gotoProblem){state.problem=d.gotoProblem;showTab('problems');window.scrollTo({top:0,behavior:'smooth'});return;}
+  if(d.gotoStep){state.journey='normal';state.step=+d.gotoStep;showTab('journey');window.scrollTo({top:0,behavior:'smooth'});return;}
+  if(d.gotoDecision){state.dfilter='all';state.open[d.gotoDecision]=true;showTab('founder');var c=document.getElementById('d-'+d.gotoDecision);if(c)c.scrollIntoView({block:'start',behavior:'smooth'});return;}
+  if(d.money){state.money=d.money;state.moment=0;renderMoney();return;}
+  if(d.moment!=null&&d.moment!==''){state.moment=+d.moment;renderMoney();return;}
+  if(d.dfilter){state.dfilter=d.dfilter;renderFounder();return;}
+  if(d.dtoggle){state.open[d.dtoggle]=!state.open[d.dtoggle];renderFounder();var b=document.querySelector('[data-dtoggle="'+d.dtoggle+'"]');if(b)b.focus();return;}
+  if(d.dopt){var p=d.dopt.split('|');state.opt[p[0]]=p[1];renderFounder();var ob=document.querySelector('[data-dopt="'+d.dopt+'"]');if(ob)ob.focus();return;}
+});
+document.querySelector('.tabs').addEventListener('keydown',function(e){
+  var order=['journey','problems','money','founder'],i=order.indexOf(state.tab);
+  if(e.key==='ArrowLeft'){e.preventDefault();showTab(order[(i+1)%4],true);}
+  else if(e.key==='ArrowRight'){e.preventDefault();showTab(order[(i+3)%4],true);}
+  else if(e.key==='Home'){e.preventDefault();showTab(order[0],true);}
+  else if(e.key==='End'){e.preventDefault();showTab(order[3],true);}
+});
+document.getElementById('legend').innerHTML='علامات الحالة: '+Object.keys(STATUS).map(st).join('');
+showTab(state.tab);
+})();
+</script>
