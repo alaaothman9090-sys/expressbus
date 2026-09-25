@@ -1,0 +1,22 @@
+const { skipOnboarding } = require('./lib');
+module.exports = async (h) => {
+  const tag = h.W >= 1180 ? 'w' : h.W >= 820 ? 'm' : 'n';
+  await h.load(); await skipOnboarding(h);
+  const snap = async (name) => { await h.shot(`rv-${tag}-${name}`, { wait: 380 }); const o = await h.overflow(); if (o.length) h.log(name, 'OVERFLOW', o.slice(0, 6)); };
+  await h.act('review'); await snap('home-review');
+  const n = await h.ev(() => document.querySelectorAll('.anno').length); h.log('markers on home', n);
+  await h.click('.anno'); await snap('anno-sheet');
+  const fields = await h.ev(() => Array.from(document.querySelectorAll('#overlays [role="dialog"] dt, #overlays [role="dialog"] .af-k, #overlays [role="dialog"] h3')).map((x) => x.textContent.trim()).slice(0, 40));
+  h.log('anno fields', fields.join(' | '));
+  await h.click('[data-act="anno-close"]:not(.scrim)');
+  await h.act('rc-open'); await snap('rc');
+  await h.act('rc-group', { v: 'role' }, { soft: true }); await snap('rc-by-role');
+  await h.act('rc-filter', { v: 'decision' }, { soft: true }); await snap('rc-decisions');
+  await h.click('[data-act="rc-close"]:not(.scrim)');
+  await h.act('policy', {}, { soft: true }); await snap('policy-drawer');
+  await h.click('[data-act="policy-close"]:not(.scrim)', { soft: true });
+  await h.ev(() => { window.__W.ACT['inject-open'](); }); await snap('inject');
+  await h.ev(() => { window.__W.ACT['inject-close'](); });
+  await h.ev(() => { window.__W.S.set.theme = 'dark'; window.__W.requestRender(); }); await snap('home-review-dark');
+  await h.act('rc-open'); await snap('rc-dark'); await h.click('[data-act="rc-close"]:not(.scrim)');
+};

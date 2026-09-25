@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Wasaly design tokens
+   Layer 1 primitives  -> Layer 2 semantic  -> Layer 3 component
+   Palette names come from the Upper-Egypt world the product lives in:
+   nila (indigo dye), karkadeh (hibiscus), qasab (sugarcane), shams (noon sun),
+   neel (Nile blue), toob (mudbrick red for errors), geer (whitewash stone).
+   ========================================================================== */
+:root {
+  /* ---------- primitives: colour ---------- */
+  --nila-50:#EEF1FB; --nila-100:#DDE3F7; --nila-200:#BAC6EE; --nila-300:#8FA2E0; --nila-400:#6680D2;
+  --nila-500:#4661BE; --nila-600:#33499F; --nila-700:#283A80; --nila-800:#1E2C62; --nila-900:#151F45; --nila-950:#0C132B;
+  --karkadeh-50:#FDEEF3; --karkadeh-100:#FAD7E3; --karkadeh-200:#F3AEC6; --karkadeh-300:#EA7FA4; --karkadeh-400:#DD4F80;
+  --karkadeh-500:#C92A62; --karkadeh-600:#AA1D51; --karkadeh-700:#871641; --karkadeh-800:#651132;
+  --qasab-50:#EAF6EE; --qasab-100:#CFEBD8; --qasab-300:#7CC495; --qasab-500:#2F8C52; --qasab-600:#237343; --qasab-700:#1B5A35;
+  --shams-50:#FEF6E7; --shams-100:#FCE8C0; --shams-300:#F6C665; --shams-400:#EFB03F; --shams-500:#D9931E; --shams-700:#8A5A06; --shams-800:#6B4505;
+  --neel-50:#EAF4FB; --neel-100:#CDE5F5; --neel-400:#3F95CF; --neel-500:#2379B5; --neel-600:#1B6397; --neel-700:#164F78;
+  --toob-50:#FDEEEB; --toob-100:#F9D5CE; --toob-400:#E4664F; --toob-500:#CF4830; --toob-600:#B23A24; --toob-700:#8E2E1C;
+  --geer-0:#FFFFFF; --geer-25:#FBFBFC; --geer-50:#F3F4F7; --geer-100:#E9EBF0; --geer-150:#DFE2E9; --geer-200:#D3D7E0;
+  --geer-300:#B9BFCC; --geer-400:#959DAE; --geer-500:#6F788B; --geer-600:#535B6D; --geer-700:#3D4455; --geer-800:#282D3A;
+  --geer-900:#171A24; --geer-950:#0D0F16;
+
+  /* ---------- primitives: type ---------- */
+  --font-brand: 'Reem Kufi', 'Readex Pro', 'Noto Kufi Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --font-display: 'Readex Pro', 'IBM Plex Sans Arabic', 'Noto Sans Arabic', 'Segoe UI', Tahoma, system-ui, sans-serif;
+  --font-body: 'Readex Pro', 'IBM Plex Sans Arabic', 'Noto Sans Arabic', 'Segoe UI', Tahoma, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --fs-caption: 12px; --fs-meta: 13px; --fs-sm: 14px; --fs-body: 15.5px; --fs-md: 17px;
+  --fs-title-sm: 18px; --fs-title: 21px; --fs-headline: 25px; --fs-display: 31px;
+  --lh-tight: 1.25; --lh-snug: 1.4; --lh-body: 1.6;
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+
+  /* ---------- primitives: space / radius / size ---------- */
+  --sp-0:0; --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-7:28px; --sp-8:32px; --sp-10:40px; --sp-12:48px;
+  --r-xs:6px; --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:28px; --r-pill:999px;
+  --ic-xs:14px; --ic-sm:16px; --ic-md:20px; --ic-lg:24px; --ic-xl:32px;
+  --tap: 44px; --tap-lg: 52px;
+
+  /* ---------- primitives: motion ---------- */
+  --dur-feedback: 140ms; --dur-standard: 210ms; --dur-sheet: 260ms; --dur-page: 300ms; --dur-slow: 420ms;
+  --ease-out: cubic-bezier(.2,.8,.2,1); --ease-in: cubic-bezier(.4,0,1,1); --ease-standard: cubic-bezier(.4,0,.2,1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+
+  /* ---------- primitives: layers ---------- */
+  --z-base:0; --z-sticky:10; --z-nav:20; --z-fab:30; --z-sheet:40; --z-toast:50; --z-overlay:60; --z-review:70; --z-dialog:80;
+
+  /* ---------- semantic: light ---------- */
+  color-scheme: light;
+  --bg: var(--geer-50);
+  --bg-shell: #E6E9F2;
+  --surface: var(--geer-0);
+  --surface-2: var(--geer-25);
+  --surface-sunken: var(--geer-100);
+  --surface-raised: var(--geer-0);
+  --surface-inverse: var(--nila-900);
+  --border: var(--geer-150);
+  --border-strong: var(--geer-300);
+  --divider: var(--geer-100);
+  --text: var(--geer-900);
+  --text-2: var(--geer-600);
+  --text-3: #5F687B;
+  --text-inverse: #FFFFFF;
+  --text-brand: var(--nila-800);
+  --primary: var(--nila-600);
+  --primary-hover: var(--nila-700);
+  --primary-press: var(--nila-800);
+  --on-primary: #FFFFFF;
+  --primary-soft: var(--nila-50);
+  --on-primary-soft: var(--nila-700);
+  --brand: var(--karkadeh-600);
+  --brand-strong: var(--karkadeh-700);
+  --on-brand: #FFFFFF;
+  --brand-soft: var(--karkadeh-50);
+  --on-brand-soft: var(--karkadeh-700);
+  --success: var(--qasab-600); --success-soft: var(--qasab-50); --on-success-soft: var(--qasab-700);
+  --warning: var(--shams-500); --warning-soft: var(--shams-50); --on-warning-soft: var(--shams-800);
+  --danger: var(--toob-600); --danger-soft: var(--toob-50); --on-danger-soft: var(--toob-700);
+  --info: var(--neel-600); --info-soft: var(--neel-50); --on-info-soft: var(--neel-700);
+  --focus: var(--nila-500);
+  --scrim: rgba(12,19,43,.52);
+  --thread: var(--karkadeh-500);
+  --thread-idle: var(--geer-300);
+  --map-land: #EDEFE6; --map-block: #E1E4DA; --map-block-2: #D9DDD1; --map-road: #FFFFFF; --map-road-edge: #CDD1C6;
+  --map-main: #FFF6DE; --map-main-edge: #E3CF9A; --map-water: #BFD9EA; --map-green: #CFE3C5; --map-label: #6F788B;
+  --shadow-1: 0 1px 2px rgba(21,31,69,.06), 0 1px 1px rgba(21,31,69,.04);
+  --shadow-2: 0 2px 6px rgba(21,31,69,.07), 0 10px 24px rgba(21,31,69,.07);
+  --shadow-3: 0 10px 30px rgba(21,31,69,.16), 0 2px 8px rgba(21,31,69,.08);
+  --shadow-device: 0 30px 80px rgba(12,19,43,.28), 0 8px 24px rgba(12,19,43,.18);
+
+  /* truth-classification statuses (review layer). soft bg / strong fg pairs */
+  --st-current: #1D6B3E;  --st-current-bg: #E3F4E9;
+  --st-draft: #44506A;    --st-draft-bg: #E9EDF4;
+  --st-proposal: #8A5A06; --st-proposal-bg: #FDF1D6;
+  --st-problem: #B0301C;  --st-problem-bg: #FCE6E1;
+  --st-solution: #0F6E6A; --st-solution-bg: #DDF3F1;
+  --st-decision: #6B2FA0; --st-decision-bg: #F1E6FA;
+  --st-legal: #283A80;    --st-legal-bg: #E4E9F8;
+  --st-finance: #7A4B12;  --st-finance-bg: #F6EADB;
+  --st-pilot: #155E86;    --st-pilot-bg: #DDEFF8;
+  --st-notbuilt: #9A3F12; --st-notbuilt-bg: #FBE7DA;
+  --st-sim: #A2195B;      --st-sim-bg: #FBE4EF;
+  --st-unknown: #535B6D;  --st-unknown-bg: #ECEEF2;
+}
+
+/* ---------- semantic: dark (system preference unless the viewer forced light) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0C1020; --bg-shell: #070A15; --surface: #141A2D; --surface-2: #182038; --surface-sunken: #0F1426; --surface-raised: #1B2440;
+    --surface-inverse: #E9ECF4;
+    --border: #262F49; --border-strong: #37425F; --divider: #1E2740;
+    --text: #EDF0F7; --text-2: #B3BACB; --text-3: #8D95AA; --text-inverse: #0C1020; --text-brand: #C9D3F5;
+    --primary: #5873D6; --primary-hover: #6A83DC; --primary-press: #4A63C4; --on-primary: #FFFFFF;
+    --primary-soft: #1C2649; --on-primary-soft: #BCC8F2;
+    --brand: #E0507F; --brand-strong: #EC6F98; --on-brand: #1A0710; --brand-soft: #3A1426; --on-brand-soft: #F6B9CE;
+    --success: #4DB477; --success-soft: #11291C; --on-success-soft: #9ADBB2;
+    --warning: #F2B64A; --warning-soft: #2E2310; --on-warning-soft: #F6D38E;
+    --danger: #F07A63; --danger-soft: #34150F; --on-danger-soft: #F7B4A6;
+    --info: #5AAAE0; --info-soft: #0F2233; --on-info-soft: #A9D3F0;
+    --focus: #8FA2E0; --scrim: rgba(3,5,12,.66); --thread: #E0507F; --thread-idle: #3A4562;
+    --map-land: #151B2B; --map-block: #1C2438; --map-block-2: #20293F; --map-road: #2A344F; --map-road-edge: #11172A;
+    --map-main: #3A3526; --map-main-edge: #1A1810; --map-water: #10283B; --map-green: #16271E; --map-label: #8D95AA;
+    --shadow-1: 0 1px 2px rgba(0,0,0,.4);
+    --shadow-2: 0 2px 8px rgba(0,0,0,.35), 0 12px 28px rgba(0,0,0,.3);
+    --shadow-3: 0 14px 40px rgba(0,0,0,.55), 0 2px 10px rgba(0,0,0,.4);
+    --shadow-device: 0 30px 90px rgba(0,0,0,.6), 0 8px 24px rgba(0,0,0,.45);
+    --st-current: #8CD9A8;  --st-current-bg: #122A1C;
+    --st-draft: #B7C1D6;    --st-draft-bg: #1D2436;
+    --st-proposal: #F4CD7C; --st-proposal-bg: #2D2410;
+    --st-problem: #F59A86;  --st-problem-bg: #361712;
+    --st-solution: #7FD8D1; --st-solution-bg: #0F2C2B;
+    --st-decision: #D2A8F3; --st-decision-bg: #2A1B3C;
+    --st-legal: #AFC0F2;    --st-legal-bg: #1B2345;
+    --st-finance: #E9C08E;  --st-finance-bg: #2E2113;
+    --st-pilot: #8CCBEE;    --st-pilot-bg: #0F2636;
+    --st-notbuilt: #F3AE85; --st-notbuilt-bg: #33190C;
+    --st-sim: #F59BC6;      --st-sim-bg: #36122A;
+    --st-unknown: #BAC1D0;  --st-unknown-bg: #20263A;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0C1020; --bg-shell: #070A15; --surface: #141A2D; --surface-2: #182038; --surface-sunken: #0F1426; --surface-raised: #1B2440;
+  --surface-inverse: #E9ECF4;
+  --border: #262F49; --border-strong: #37425F; --divider: #1E2740;
+  --text: #EDF0F7; --text-2: #B3BACB; --text-3: #8D95AA; --text-inverse: #0C1020; --text-brand: #C9D3F5;
+  --primary: #5873D6; --primary-hover: #6A83DC; --primary-press: #4A63C4; --on-primary: #FFFFFF;
+  --primary-soft: #1C2649; --on-primary-soft: #BCC8F2;
+  --brand: #E0507F; --brand-strong: #EC6F98; --on-brand: #1A0710; --brand-soft: #3A1426; --on-brand-soft: #F6B9CE;
+  --success: #4DB477; --success-soft: #11291C; --on-success-soft: #9ADBB2;
+  --warning: #F2B64A; --warning-soft: #2E2310; --on-warning-soft: #F6D38E;
+  --danger: #F07A63; --danger-soft: #34150F; --on-danger-soft: #F7B4A6;
+  --info: #5AAAE0; --info-soft: #0F2233; --on-info-soft: #A9D3F0;
+  --focus: #8FA2E0; --scrim: rgba(3,5,12,.66); --thread: #E0507F; --thread-idle: #3A4562;
+  --map-land: #151B2B; --map-block: #1C2438; --map-block-2: #20293F; --map-road: #2A344F; --map-road-edge: #11172A;
+  --map-main: #3A3526; --map-main-edge: #1A1810; --map-water: #10283B; --map-green: #16271E; --map-label: #8D95AA;
+  --shadow-1: 0 1px 2px rgba(0,0,0,.4);
+  --shadow-2: 0 2px 8px rgba(0,0,0,.35), 0 12px 28px rgba(0,0,0,.3);
+  --shadow-3: 0 14px 40px rgba(0,0,0,.55), 0 2px 10px rgba(0,0,0,.4);
+  --shadow-device: 0 30px 90px rgba(0,0,0,.6), 0 8px 24px rgba(0,0,0,.45);
+  --st-current: #8CD9A8;  --st-current-bg: #122A1C;
+  --st-draft: #B7C1D6;    --st-draft-bg: #1D2436;
+  --st-proposal: #F4CD7C; --st-proposal-bg: #2D2410;
+  --st-problem: #F59A86;  --st-problem-bg: #361712;
+  --st-solution: #7FD8D1; --st-solution-bg: #0F2C2B;
+  --st-decision: #D2A8F3; --st-decision-bg: #2A1B3C;
+  --st-legal: #AFC0F2;    --st-legal-bg: #1B2345;
+  --st-finance: #E9C08E;  --st-finance-bg: #2E2113;
+  --st-pilot: #8CCBEE;    --st-pilot-bg: #0F2636;
+  --st-notbuilt: #F3AE85; --st-notbuilt-bg: #33190C;
+  --st-sim: #F59BC6;      --st-sim-bg: #36122A;
+  --st-unknown: #BAC1D0;  --st-unknown-bg: #20263A;
+}
+
+/* ---------- component tokens ---------- */
+:root {
+  --btn-h: 48px; --btn-h-sm: 38px; --btn-radius: var(--r-md); --btn-px: 18px;
+  --card-radius: var(--r-lg); --card-pad: var(--sp-4);
+  --chip-h: 36px; --chip-radius: var(--r-pill);
+  --input-h: 50px; --input-radius: var(--r-md);
+  --sheet-radius: 26px;
+  --nav-h: 64px;
+  --app-gutter: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-feedback: 1ms; --dur-standard: 1ms; --dur-sheet: 1ms; --dur-page: 1ms; --dur-slow: 1ms; }
+}
